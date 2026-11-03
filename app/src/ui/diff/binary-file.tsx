@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import * as Path from 'path'
 
@@ -25,11 +26,9 @@ export class BinaryFile extends React.Component<IBinaryFileProps, {}> {
   public render() {
     return (
       <div className="panel binary" id="diff">
-        <div className="image-header">This binary file has changed.</div>
+        <div className="image-header">{t('diff.binary')}</div>
         <div className="image-header">
-          <LinkButton onClick={this.open}>
-            Open file in external program.
-          </LinkButton>
+          <LinkButton onClick={this.open}>{t('diff.openExternal')}</LinkButton>
         </div>
       </div>
     )

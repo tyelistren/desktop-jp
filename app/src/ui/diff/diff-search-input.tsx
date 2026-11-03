@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import { TextBox } from '../lib/text-box'
 
@@ -32,7 +33,7 @@ export class DiffSearchInput extends React.Component<
     return (
       <div className="diff-search">
         <TextBox
-          placeholder="Search…"
+          placeholder={t('diff.search')}
           displayClearButton={true}
           autoFocus={true}
           onValueChanged={this.onChange}
