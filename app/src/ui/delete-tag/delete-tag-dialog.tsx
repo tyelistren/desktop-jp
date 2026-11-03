@@ -1,9 +1,9 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 
 import { Dispatcher } from '../dispatcher'
 import { Repository } from '../../models/repository'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
-import { Ref } from '../lib/ref'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 interface IDeleteTagProps {
@@ -33,7 +33,7 @@ export class DeleteTag extends React.Component<
     return (
       <Dialog
         id="delete-tag"
-        title={__DARWIN__ ? 'Delete Tag' : 'Delete tag'}
+        title={__DARWIN__ ? t('tag.deleteMac') : t('tag.delete')}
         type="warning"
         onSubmit={this.DeleteTag}
         onDismissed={this.props.onDismissed}
@@ -44,12 +44,14 @@ export class DeleteTag extends React.Component<
       >
         <DialogContent>
           <p id="delete-tag-confirmation">
-            Are you sure you want to delete the tag{' '}
-            <Ref>{this.props.tagName}</Ref>?
+            {t('tag.deleteQuestion', { tag: this.props.tagName })}
           </p>
         </DialogContent>
         <DialogFooter>
-          <OkCancelButtonGroup destructive={true} okButtonText="Delete" />
+          <OkCancelButtonGroup
+            destructive={true}
+            okButtonText={t('action.delete')}
+          />
         </DialogFooter>
       </Dialog>
     )

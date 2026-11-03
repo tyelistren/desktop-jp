@@ -117,3 +117,26 @@ test('translated templates preserve the English placeholder names', () => {
   for (const key of Object.keys(en))
     assert.deepEqual(placeholders(ja[key]), placeholders(en[key]), key)
 })
+
+test('discard line labels cover every range type, count and confirmation suffix', () => {
+  for (const lang of ['en', 'ja']) {
+    const dictionary = JSON.parse(
+      readFileSync(
+        new URL(`../../app/src/lib/localization/${lang}.json`, import.meta.url),
+        'utf8'
+      )
+    )
+    for (const type of ['Additions', 'Deletions', 'Mixed']) {
+      for (const count of [1, 3]) {
+        const key = `diff.discard${type}${count > 1 ? 'Many' : 'One'}`
+        assert.ok(dictionary[key], `${lang}: ${key}`)
+        for (const suffix of ['', '…']) {
+          const label = formatTranslation(dictionary[key], { count, suffix })
+          assert.ok(label.includes(String(count)))
+          assert.equal(label.endsWith('…'), suffix === '…')
+          assert.doesNotMatch(label, /\{(?:count|suffix)\}/)
+        }
+      }
+    }
+  }
+})

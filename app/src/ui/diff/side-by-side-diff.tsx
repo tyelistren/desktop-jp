@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 
 import {
@@ -1380,7 +1381,7 @@ export class SideBySideDiff extends React.Component<
     this.expandHunk(diff.hunks[hunkIndex], kind)
 
     this.ariaLiveChangeSignal = !this.ariaLiveChangeSignal
-    this.setState({ ariaLiveMessage: 'Expanded' })
+    this.setState({ ariaLiveMessage: t('diff.expanded') })
   }
 
   private onClickHunk = (hunkStartLine: number, select: boolean) => {
@@ -1419,13 +1420,13 @@ export class SideBySideDiff extends React.Component<
 
     const items: IMenuItem[] = [
       {
-        label: 'Copy',
+        label: t('diff.copy'),
         // When using role="copy", the enabled attribute is not taken into account.
         role: selectionLength > 0 ? 'copy' : undefined,
         enabled: selectionLength > 0,
       },
       {
-        label: __DARWIN__ ? 'Select All' : 'Select all',
+        label: __DARWIN__ ? t('diff.selectAllMac') : t('diff.selectAll'),
         action: () => this.onSelectAll(),
       },
     ]
@@ -1480,7 +1481,7 @@ export class SideBySideDiff extends React.Component<
 
     return this.diffToRestore === null
       ? {
-          label: __DARWIN__ ? 'Expand Whole File' : 'Expand whole file',
+          label: __DARWIN__ ? t('diff.expandMac') : t('diff.expand'),
           action: this.onExpandWholeFile,
           // If there is only one hunk that can't be expanded, disable this item
           enabled:
@@ -1488,9 +1489,7 @@ export class SideBySideDiff extends React.Component<
             diff.hunks[0].expansionType !== DiffHunkExpansionType.None,
         }
       : {
-          label: __DARWIN__
-            ? 'Collapse Expanded Lines'
-            : 'Collapse expanded lines',
+          label: __DARWIN__ ? t('diff.collapseMac') : t('diff.collapse'),
           action: this.onCollapseExpandedLines,
         }
   }
@@ -1514,7 +1513,7 @@ export class SideBySideDiff extends React.Component<
     this.ariaLiveChangeSignal = !this.ariaLiveChangeSignal
     this.setState({
       diff: updatedDiff,
-      ariaLiveMessage: 'Expanded',
+      ariaLiveMessage: t('diff.expanded'),
     })
   }
 
@@ -1569,22 +1568,21 @@ export class SideBySideDiff extends React.Component<
 
   private getDiscardLabel(rangeType: DiffRangeType, numLines: number): string {
     const suffix = this.props.askForConfirmationOnDiscardChanges ? '…' : ''
-    let type = ''
+    let key: string
 
     if (rangeType === DiffRangeType.Additions) {
-      type = __DARWIN__ ? 'Added' : 'added'
+      key =
+        numLines > 1 ? 'diff.discardAdditionsMany' : 'diff.discardAdditionsOne'
     } else if (rangeType === DiffRangeType.Deletions) {
-      type = __DARWIN__ ? 'Removed' : 'removed'
+      key =
+        numLines > 1 ? 'diff.discardDeletionsMany' : 'diff.discardDeletionsOne'
     } else if (rangeType === DiffRangeType.Mixed) {
-      type = __DARWIN__ ? 'Modified' : 'modified'
+      key = numLines > 1 ? 'diff.discardMixedMany' : 'diff.discardMixedOne'
     } else {
-      assertNever(rangeType, `Invalid range type: ${rangeType}`)
+      return assertNever(rangeType, `Invalid range type: ${rangeType}`)
     }
 
-    const plural = numLines > 1 ? 's' : ''
-    return __DARWIN__
-      ? `Discard ${type} Line${plural}${suffix}`
-      : `Discard ${type} line${plural}${suffix}`
+    return t(key, { count: numLines, suffix })
   }
 
   private onDiscardChanges(startLine: number, endLine: number = startLine) {

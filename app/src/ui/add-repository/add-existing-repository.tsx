@@ -185,19 +185,18 @@ export class AddExistingRepository extends React.Component<
 
     const displayedMessage = (
       <>
-        <p>This directory does not appear to be a Git repository.</p>
+        <p>{t('repo.notGit')}</p>
         <p>
-          Would you like to{' '}
+          {t('repo.createHereBefore')}{' '}
           <LinkButton onClick={this.onCreateRepositoryClicked}>
-            create a repository
+            {t('repo.createHereLink')}
           </LinkButton>{' '}
-          here instead?
+          {t('repo.createHereAfter')}
         </p>
       </>
     )
 
-    const screenReaderMessage =
-      'This directory does not appear to be a Git repository. Would you like to create a repository here instead?'
+    const screenReaderMessage = t('repo.notGitReader')
 
     return { screenReaderMessage, displayedMessage }
   }
