@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import { IMenuItem } from '../../lib/menu-item'
 import { writeClipboardText } from '../main-process-proxy'
 import { Branch, BranchType } from '../../models/branch'
@@ -26,36 +27,34 @@ export function generateBranchContextMenuItems(
 
   if (onRenameBranch !== undefined) {
     items.push({
-      label: 'Rename…',
+      label: t('branch.renameMenu'),
       action: () => onRenameBranch(branch.name),
       enabled: branch.type === BranchType.Local,
     })
   }
 
   items.push({
-    label: __DARWIN__ ? 'Copy Branch Name' : 'Copy branch name',
+    label: __DARWIN__ ? t('branch.copyMac') : t('branch.copy'),
     action: () => writeClipboardText(branch.name),
   })
 
   if (onViewBranchOnGitHub !== undefined) {
     items.push({
-      label: 'View Branch on GitHub',
+      label: t('branch.view'),
       action: () => onViewBranchOnGitHub(),
     })
   }
 
   if (onViewPullRequestOnGitHub !== undefined) {
     items.push({
-      label: 'View Pull Request on GitHub',
+      label: t('branch.viewPR'),
       action: () => onViewPullRequestOnGitHub(),
     })
   }
 
   if (onCheckoutInNewWorktree !== undefined) {
     items.push({
-      label: __DARWIN__
-        ? 'Checkout in New Worktree…'
-        : 'Checkout in new worktree…',
+      label: __DARWIN__ ? t('branch.worktreeMac') : t('branch.worktree'),
       action: () => onCheckoutInNewWorktree(branch),
     })
   }
@@ -64,7 +63,7 @@ export function generateBranchContextMenuItems(
 
   if (onDeleteBranch !== undefined) {
     items.push({
-      label: 'Delete…',
+      label: t('branch.deleteMenu'),
       action: () => onDeleteBranch(branch.name),
     })
   }

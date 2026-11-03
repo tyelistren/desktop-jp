@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 
 import { Account } from '../../models/account'
@@ -120,11 +121,13 @@ export class CloneGithubRepository extends React.PureComponent<ICloneGithubRepos
         <Row className="local-path-field">
           <TextBox
             value={this.props.path}
-            label={__DARWIN__ ? 'Local Path' : 'Local path'}
-            placeholder="repository path"
+            label={__DARWIN__ ? t('repo.localPathMac') : t('repo.localPath')}
+            placeholder={t('repo.path')}
             onValueChanged={this.props.onPathChanged}
           />
-          <Button onClick={this.props.onChooseDirectory}>Choose…</Button>
+          <Button onClick={this.props.onChooseDirectory}>
+            {t('repo.choose')}
+          </Button>
         </Row>
       </DialogContent>
     )

@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import * as Path from 'path'
 
@@ -164,12 +165,10 @@ export class RepositoryPath extends React.Component<
       <InputWarning
         id="repo-sanitized-name-warning"
         trackedUserInput={this.state.name}
-        ariaLiveMessage={`Will be created as ${sanitizedName}. Invalid characters have been replaced by hyphens.`}
+        ariaLiveMessage={t('repo.sanitized', { name: sanitizedName })}
       >
-        <p>Will be created as {sanitizedName}</p>
-        <span className="sr-only">
-          Invalid characters have been replaced by hyphens.
-        </span>
+        <p>{t('repo.sanitizedShort', { name: sanitizedName })}</p>
+        <span className="sr-only">{t('repo.invalidCharacters')}</span>
       </InputWarning>
     )
   }
@@ -182,8 +181,8 @@ export class RepositoryPath extends React.Component<
         <Row>
           <TextBox
             value={this.state.name}
-            label={this.props.nameLabel ?? 'Name'}
-            placeholder={this.props.namePlaceholder ?? 'name'}
+            label={this.props.nameLabel ?? t('repo.nameLabel')}
+            placeholder={this.props.namePlaceholder ?? t('repo.nameLabel')}
             onValueChanged={this.onNameChanged}
             ariaDescribedBy={this.props.nameAriaDescribedBy}
           />
@@ -195,15 +194,16 @@ export class RepositoryPath extends React.Component<
           <TextBox
             value={this.state.path ?? ''}
             label={
-              this.props.pathLabel ?? (__DARWIN__ ? 'Local Path' : 'Local path')
+              this.props.pathLabel ??
+              (__DARWIN__ ? t('repo.localPathMac') : t('repo.localPath'))
             }
-            placeholder={this.props.pathPlaceholder ?? 'path'}
+            placeholder={this.props.pathPlaceholder ?? t('repo.path')}
             onValueChanged={this.onPathChanged}
             disabled={loadingPath}
             ariaDescribedBy={this.props.pathAriaDescribedBy}
           />
           <Button onClick={this.showFilePicker} disabled={loadingPath}>
-            Choose…
+            {t('repo.choose')}
           </Button>
         </Row>
       </>

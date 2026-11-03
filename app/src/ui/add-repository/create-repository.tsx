@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import * as Path from 'path'
 
@@ -424,13 +425,13 @@ export class CreateRepository extends React.Component<
     return (
       <Row>
         <Select
-          label={__DARWIN__ ? 'Git Ignore' : 'Git ignore'}
+          label={__DARWIN__ ? t('repo.ignoreMac') : t('repo.ignore')}
           value={this.state.gitIgnore}
           onChange={this.onGitIgnoreChange}
         >
           {options.map(n => (
             <option key={n} value={n}>
-              {n}
+              {n === NoGitIgnoreValue ? t('repo.none') : n}
             </option>
           ))}
         </Select>
@@ -449,19 +450,19 @@ export class CreateRepository extends React.Component<
     return (
       <Row>
         <Select
-          label="License"
+          label={t('repo.license')}
           value={this.state.license}
           onChange={this.onLicenseChange}
         >
           {featuredLicenses.map(l => (
             <option key={l.name} value={l.name}>
-              {l.name}
+              {l.name === NoLicenseValue.name ? t('repo.none') : l.name}
             </option>
           ))}
           <option disabled={true}>────────────────────</option>
           {nonFeaturedLicenses.map(l => (
             <option key={l.name} value={l.name}>
-              {l.name}
+              {l.name === NoLicenseValue.name ? t('repo.none') : l.name}
             </option>
           ))}
         </Select>
@@ -477,12 +478,7 @@ export class CreateRepository extends React.Component<
       return null
     }
 
-    return (
-      <DialogError>
-        Directory could not be created at this path. You may not have
-        permissions to create a directory here.
-      </DialogError>
-    )
+    return <DialogError>{t('repo.createPathError')}</DialogError>
   }
 
   private renderGitRepositoryError() {
@@ -551,11 +547,9 @@ export class CreateRepository extends React.Component<
         <InputWarning
           id="readme-overwrite-warning"
           trackedUserInput={this.state.createWithReadme}
-          ariaLiveMessage="This directory contains a README.md file already. Checking
-          this box will result in the existing file being overwritten."
+          ariaLiveMessage={t('repo.readmeWarning')}
         >
-          This directory contains a <Ref>README.md</Ref> file already. Checking
-          this box will result in the existing file being overwritten.
+          {t('repo.readmeWarning')}
         </InputWarning>
       </Row>
     )
@@ -570,7 +564,7 @@ export class CreateRepository extends React.Component<
 
     return (
       <div id="create-repo-path-msg">
-        The repository will be created at <Ref>{fullPath}</Ref>.
+        {t('repo.createAt')} <Ref>{fullPath}</Ref>
       </div>
     )
   }
@@ -597,9 +591,7 @@ export class CreateRepository extends React.Component<
     return (
       <Dialog
         id="create-repository"
-        title={
-          __DARWIN__ ? 'Create a New Repository' : 'Create a new repository'
-        }
+        title={__DARWIN__ ? t('repo.createTitleMac') : t('repo.createTitle')}
         loading={this.state.creating}
         onSubmit={this.createRepository}
         onDismissed={this.props.onDismissed}
@@ -621,8 +613,8 @@ export class CreateRepository extends React.Component<
             onFullPathChanged={this.onFullPathChanged}
             onNameChanged={this.onNameChanged}
             onPathChanged={this.onPathChanged}
-            namePlaceholder="repository name"
-            pathPlaceholder="repository path"
+            namePlaceholder={t('repo.name')}
+            pathPlaceholder={t('repo.path')}
             nameAriaDescribedBy="existing-repository-path-error repo-sanitized-name-warning"
             pathAriaDescribedBy="existing-repository-path-error path-is-subfolder-of-repository"
           />
@@ -630,7 +622,7 @@ export class CreateRepository extends React.Component<
           <Row>
             <TextBox
               value={this.state.description}
-              label="Description"
+              label={t('repo.description')}
               onValueChanged={this.onDescriptionChanged}
             />
           </Row>
@@ -640,7 +632,7 @@ export class CreateRepository extends React.Component<
 
           <Row>
             <Checkbox
-              label="Initialize this repository with a README"
+              label={t('repo.readme')}
               value={
                 this.state.createWithReadme
                   ? CheckboxValue.On
@@ -659,9 +651,7 @@ export class CreateRepository extends React.Component<
         <DialogFooter>
           {this.renderPathMessage()}
           <OkCancelButtonGroup
-            okButtonText={
-              __DARWIN__ ? 'Create Repository' : 'Create repository'
-            }
+            okButtonText={__DARWIN__ ? t('repo.createMac') : t('repo.create')}
             okButtonDisabled={disabled}
             okButtonAriaDescribedBy="create-repo-path-msg"
           />

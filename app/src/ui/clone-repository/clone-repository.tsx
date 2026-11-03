@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as Path from 'path'
 import * as React from 'react'
 import { Dispatcher } from '../dispatcher'
@@ -265,7 +266,7 @@ export class CloneRepository extends React.Component<
     return (
       <Dialog
         className="clone-repository"
-        title={__DARWIN__ ? 'Clone a Repository' : 'Clone a repository'}
+        title={__DARWIN__ ? t('repo.cloneTitleMac') : t('repo.cloneTitle')}
         onSubmit={this.clone}
         onDismissed={this.props.onDismissed}
         loading={this.state.loading}
@@ -326,7 +327,10 @@ export class CloneRepository extends React.Component<
 
     return (
       <DialogFooter>
-        <OkCancelButtonGroup okButtonText="Clone" okButtonDisabled={disabled} />
+        <OkCancelButtonGroup
+          okButtonText={t('repo.clone')}
+          okButtonDisabled={disabled}
+        />
       </DialogFooter>
     )
   }
@@ -630,7 +634,7 @@ export class CloneRepository extends React.Component<
 
     const path = await showSaveDialog({
       buttonLabel: 'Select',
-      nameFieldLabel: 'Clone As:',
+      nameFieldLabel: t('repo.cloneAs'),
       showsTagField: false,
       defaultPath: tabState.path ?? '',
       properties: ['createDirectory'],
@@ -686,18 +690,14 @@ export class CloneRepository extends React.Component<
   /** Validate the destination before cloning can create files in it. */
   private async validateClonePath(path: string | null): Promise<null | Error> {
     if (path === null) {
-      return new Error(
-        'Unable to read path on disk. Please check the path and try again.'
-      )
+      return new Error(t('repo.unreadable'))
     }
 
     if (
       __DARWIN__ &&
       Path.basename(Path.resolve(path)).toLowerCase().endsWith('.app')
     ) {
-      return new Error(
-        'The local path cannot end in .app on macOS. Choose a different folder name to avoid creating an application bundle.'
-      )
+      return new Error(t('repo.appPath'))
     }
 
     try {
@@ -706,16 +706,12 @@ export class CloneRepository extends React.Component<
       if (directoryFiles.length === 0) {
         return null
       } else {
-        return new Error(
-          'This folder contains files. Git can only clone to empty folders.'
-        )
+        return new Error(t('repo.nonempty'))
       }
     } catch (error) {
       if (error.code === 'ENOTDIR') {
         // path refers to a file or other file system entry
-        return new Error(
-          'There is already a file with this name. Git can only clone to a folder.'
-        )
+        return new Error(t('repo.fileExists'))
       }
 
       if (error.code === 'ENOENT') {
@@ -726,9 +722,7 @@ export class CloneRepository extends React.Component<
       log.error(
         'CloneRepository: Path validation failed. Error: ' + error.message
       )
-      return new Error(
-        'Unable to read path on disk. Please check the path and try again.'
-      )
+      return new Error(t('repo.unreadable'))
     }
   }
 
