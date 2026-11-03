@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import {
   Account,
@@ -57,7 +58,7 @@ export class Accounts extends React.Component<IAccountsProps, {}> {
           this.renderSignIn(SignInType.Enterprise)
         ) : (
           <Button onClick={this.props.onEnterpriseSignIn}>
-            Add GitHub Enterprise account
+            {t('accounts.addEnterprise')}
           </Button>
         )}
       </>
@@ -100,7 +101,7 @@ export class Accounts extends React.Component<IAccountsProps, {}> {
           </div>
         </div>
         <Button onClick={this.logout(account)} className={className}>
-          {__DARWIN__ ? 'Sign Out' : 'Sign out'}
+          {__DARWIN__ ? t('accounts.signOutMac') : t('accounts.signOut')}
         </Button>
       </Row>
     )
@@ -115,33 +116,27 @@ export class Accounts extends React.Component<IAccountsProps, {}> {
   }
 
   private renderSignIn(type: SignInType) {
-    const signInTitle = __DARWIN__ ? 'Sign Into' : 'Sign into'
     switch (type) {
       case SignInType.DotCom: {
         return (
           <CallToAction
-            actionTitle={signInTitle + ' GitHub.com'}
+            actionTitle={t('accounts.signInGithub')}
             onAction={this.onDotComSignIn}
             // The DotCom account is shown first, so its sign in/out button should be
             // focused initially when the dialog is opened.
             buttonClassName={DialogPreferredFocusClassName}
           >
-            <div>
-              Sign in to your GitHub.com account to access your repositories.
-            </div>
+            <div>{t('accounts.githubHelp')}</div>
           </CallToAction>
         )
       }
       case SignInType.Enterprise:
         return (
           <CallToAction
-            actionTitle={signInTitle + ' GitHub Enterprise'}
+            actionTitle={t('accounts.signInEnterprise')}
             onAction={this.onEnterpriseSignIn}
           >
-            <div>
-              If you are using GitHub Enterprise at work, sign in to it to get
-              access to your repositories.
-            </div>
+            <div>{t('accounts.enterpriseHelp')}</div>
           </CallToAction>
         )
       default:

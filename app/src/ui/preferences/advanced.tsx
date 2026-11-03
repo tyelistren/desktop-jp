@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import { DialogContent } from '../dialog'
 import { Checkbox, CheckboxValue } from '../lib/checkbox'
@@ -77,8 +78,8 @@ export class Advanced extends React.Component<
   private reportDesktopUsageLabel() {
     return (
       <span>
-        Help GitHub Desktop improve by submitting{' '}
-        <LinkButton uri={SamplesURL}>usage stats</LinkButton>
+        {t('advanced.usageHelp')}{' '}
+        <LinkButton uri={SamplesURL}>{t('advanced.usageDetails')}</LinkButton>
       </span>
     )
   }
@@ -87,9 +88,9 @@ export class Advanced extends React.Component<
     return (
       <DialogContent>
         <div className="advanced-section">
-          <h2>Background updates</h2>
+          <h2>{t('advanced.background')}</h2>
           <Checkbox
-            label="Show status icons in the repository list"
+            label={t('advanced.indicators')}
             value={
               this.props.repositoryIndicatorsEnabled
                 ? CheckboxValue.On
@@ -99,20 +100,12 @@ export class Advanced extends React.Component<
             ariaDescribedBy="periodic-fetch-description"
           />
           <div id="periodic-fetch-description" className="settings-description">
-            <p>
-              These icons indicate which repositories have local or remote
-              changes, and require the periodic fetching of repositories that
-              are not currently selected.
-            </p>
-            <p>
-              Turning this off will not stop the periodic fetching of your
-              currently selected repository, but may improve overall app
-              performance for users with many repositories.
-            </p>
+            <p>{t('advanced.indicatorsHelp')}</p>
+            <p>{t('advanced.performance')}</p>
           </div>
         </div>
         <div className="advanced-section">
-          <h2>Usage</h2>
+          <h2>{t('advanced.usage')}</h2>
           <Checkbox
             label={this.reportDesktopUsageLabel()}
             value={
@@ -123,11 +116,11 @@ export class Advanced extends React.Component<
             onChange={this.onReportingOptOutChanged}
           />
         </div>
-        <h2>Network and credentials</h2>
+        <h2>{t('advanced.network')}</h2>
         {this.renderSSHSettings()}
         <div className="advanced-section">
           <Checkbox
-            label={'Use Git Credential Manager'}
+            label={t('advanced.credential')}
             value={
               this.state.useExternalCredentialHelper
                 ? CheckboxValue.On
@@ -141,12 +134,10 @@ export class Advanced extends React.Component<
             className="settings-description"
           >
             <p>
-              Use{' '}
+              {t('advanced.credentialHelp')}{' '}
               <LinkButton uri="https://gh.io/gcm">
-                Git Credential Manager{' '}
-              </LinkButton>{' '}
-              for private repositories outside of GitHub.com. This feature is
-              experimental and subject to change.
+                Git Credential Manager
+              </LinkButton>
             </p>
           </div>
         </div>
@@ -162,7 +153,7 @@ export class Advanced extends React.Component<
     return (
       <div className="advanced-section">
         <Checkbox
-          label="Use system OpenSSH (recommended)"
+          label={t('advanced.ssh')}
           value={
             this.props.useWindowsOpenSSH ? CheckboxValue.On : CheckboxValue.Off
           }

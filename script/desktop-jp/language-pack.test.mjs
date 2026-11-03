@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import {
   parseLanguagePack,
   serializeLanguagePack,
@@ -50,5 +50,34 @@ test('shipped editable packs match bundled dictionaries', () => {
       )
     )
     assert.deepEqual(Object.fromEntries(editable), dictionary)
+  }
+})
+
+test('Japanese and English dictionaries cover every static UI translation key', () => {
+  const en = JSON.parse(
+    readFileSync(
+      new URL('../../app/src/lib/localization/en.json', import.meta.url),
+      'utf8'
+    )
+  )
+  const ja = JSON.parse(
+    readFileSync(
+      new URL('../../app/src/lib/localization/ja.json', import.meta.url),
+      'utf8'
+    )
+  )
+  assert.deepEqual(Object.keys(ja).sort(), Object.keys(en).sort())
+  for (const file of readdirSync(
+    new URL('../../app/src/ui/preferences/', import.meta.url)
+  )) {
+    if (!file.endsWith('.tsx')) continue
+    const source = readFileSync(
+      new URL(`../../app/src/ui/preferences/${file}`, import.meta.url),
+      'utf8'
+    )
+    for (const match of source.matchAll(/\bt\('([^']+)'\)/g)) {
+      assert.ok(en[match[1]], `${file}: missing English key ${match[1]}`)
+      assert.ok(ja[match[1]], `${file}: missing Japanese key ${match[1]}`)
+    }
   }
 })

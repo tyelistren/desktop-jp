@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import { UncommittedChangesStrategy } from '../../models/uncommitted-changes-strategy'
 import { DialogContent } from '../dialog'
@@ -178,11 +179,11 @@ export class Prompts extends React.Component<
   private renderSwitchBranchOptionLabel = (key: UncommittedChangesStrategy) => {
     switch (key) {
       case UncommittedChangesStrategy.AskForConfirmation:
-        return 'Ask me where I want the changes to go'
+        return t('prompts.ask')
       case UncommittedChangesStrategy.MoveToNewBranch:
-        return 'Always bring my changes to my new branch'
+        return t('prompts.move')
       case UncommittedChangesStrategy.StashOnCurrentBranch:
-        return 'Always stash and leave my changes on the current branch'
+        return t('prompts.stash')
       default:
         return assertNever(key, `Unknown uncommitted changes strategy: ${key}`)
     }
@@ -201,9 +202,7 @@ export class Prompts extends React.Component<
 
     return (
       <div className="advanced-section">
-        <h2 id="switch-branch-heading">
-          If I have changes and I switch branches...
-        </h2>
+        <h2 id="switch-branch-heading">{t('prompts.switch')}</h2>
 
         <RadioGroup<UncommittedChangesStrategy>
           ariaLabelledBy="switch-branch-heading"
@@ -219,7 +218,7 @@ export class Prompts extends React.Component<
   private renderCommittingFilteredChangesPrompt = () => {
     return (
       <Checkbox
-        label="Committing changes hidden by filter"
+        label={t('prompts.filtered')}
         value={
           this.state.askForConfirmationOnCommitFilteredChanges
             ? CheckboxValue.On
@@ -234,12 +233,10 @@ export class Prompts extends React.Component<
     return (
       <DialogContent>
         <div className="advanced-section">
-          <h2 id="show-confirm-dialog-heading">
-            Show a confirmation dialog before...
-          </h2>
+          <h2 id="show-confirm-dialog-heading">{t('prompts.before')}</h2>
           <div role="group" aria-labelledby="show-confirm-dialog-heading">
             <Checkbox
-              label="Removing repositories"
+              label={t('prompts.remove')}
               value={
                 this.state.confirmRepositoryRemoval
                   ? CheckboxValue.On
@@ -248,7 +245,7 @@ export class Prompts extends React.Component<
               onChange={this.onConfirmRepositoryRemovalChanged}
             />
             <Checkbox
-              label="Discarding changes"
+              label={t('prompts.discard')}
               value={
                 this.state.confirmDiscardChanges
                   ? CheckboxValue.On
@@ -257,7 +254,7 @@ export class Prompts extends React.Component<
               onChange={this.onConfirmDiscardChangesChanged}
             />
             <Checkbox
-              label="Discarding changes permanently"
+              label={t('prompts.permanent')}
               value={
                 this.state.confirmDiscardChangesPermanently
                   ? CheckboxValue.On
@@ -266,7 +263,7 @@ export class Prompts extends React.Component<
               onChange={this.onConfirmDiscardChangesPermanentlyChanged}
             />
             <Checkbox
-              label="Discarding stash"
+              label={t('prompts.discardStash')}
               value={
                 this.state.confirmDiscardStash
                   ? CheckboxValue.On
@@ -275,7 +272,7 @@ export class Prompts extends React.Component<
               onChange={this.onConfirmDiscardStashChanged}
             />
             <Checkbox
-              label="Checking out a commit"
+              label={t('prompts.checkout')}
               value={
                 this.state.confirmCheckoutCommit
                   ? CheckboxValue.On
@@ -284,7 +281,7 @@ export class Prompts extends React.Component<
               onChange={this.onConfirmCheckoutCommitChanged}
             />
             <Checkbox
-              label="Force pushing"
+              label={t('prompts.force')}
               value={
                 this.state.confirmForcePush
                   ? CheckboxValue.On
@@ -293,7 +290,7 @@ export class Prompts extends React.Component<
               onChange={this.onConfirmForcePushChanged}
             />
             <Checkbox
-              label="Undo commit"
+              label={t('prompts.undo')}
               value={
                 this.state.confirmUndoCommit
                   ? CheckboxValue.On
@@ -302,7 +299,7 @@ export class Prompts extends React.Component<
               onChange={this.onConfirmUndoCommitChanged}
             />
             <Checkbox
-              label="Overriding commit message with generated message"
+              label={t('prompts.override')}
               value={
                 this.state.confirmCommitMessageOverride
                   ? CheckboxValue.On
@@ -311,7 +308,7 @@ export class Prompts extends React.Component<
               onChange={this.onConfirmCommitMessageOverrideChanged}
             />
             <Checkbox
-              label="Removing worktrees"
+              label={t('prompts.worktrees')}
               value={
                 this.state.confirmWorktreeRemoval
                   ? CheckboxValue.On
@@ -324,9 +321,9 @@ export class Prompts extends React.Component<
         </div>
         {this.renderSwitchBranchOptions()}
         <div className="advanced-section">
-          <h2>Commit Length</h2>
+          <h2>{t('prompts.length')}</h2>
           <Checkbox
-            label="Show commit length warning"
+            label={t('prompts.lengthWarning')}
             value={
               this.props.showCommitLengthWarning
                 ? CheckboxValue.On

@@ -214,11 +214,11 @@ export class Appearance extends React.Component<
 
     return (
       <div className="appearance-section formatting-section">
-        <h2 id="formatting-heading">Formatting</h2>
+        <h2 id="formatting-heading">{t('appearance.format')}</h2>
 
         <Row>
           <Select
-            label={__DARWIN__ ? 'Date Format' : 'Date format'}
+            label={__DARWIN__ ? t('appearance.dateMac') : t('appearance.date')}
             value={this.props.selectedDateFormat}
             onChange={this.onDateFormatChanged}
           >
@@ -230,7 +230,7 @@ export class Appearance extends React.Component<
           </Select>
 
           <Select
-            label={__DARWIN__ ? 'Time Format' : 'Time format'}
+            label={__DARWIN__ ? t('appearance.timeMac') : t('appearance.time')}
             value={this.props.selectedTimeFormat}
             onChange={this.onTimeFormatChanged}
           >
@@ -243,7 +243,9 @@ export class Appearance extends React.Component<
         </Row>
 
         <Select
-          label={__DARWIN__ ? 'Number Format' : 'Number format'}
+          label={
+            __DARWIN__ ? t('appearance.numberMac') : t('appearance.number')
+          }
           value={numberFormatToKey(this.props.selectedNumberFormat)}
           onChange={this.onNumberFormatChanged}
         >
@@ -259,7 +261,7 @@ export class Appearance extends React.Component<
 
         <Checkbox
           className="prefer-absolute-dates"
-          label="Prefer absolute dates over relative"
+          label={t('appearance.absolute')}
           value={
             this.props.preferAbsoluteDates
               ? CheckboxValue.On
@@ -280,19 +282,19 @@ export class Appearance extends React.Component<
 
         <Select
           value={this.state.selectedTabSize.toString()}
-          label={__DARWIN__ ? 'Diff Tab Size' : 'Diff tab size'}
+          label={__DARWIN__ ? t('appearance.tabMac') : t('appearance.tab')}
           onChange={this.onSelectedTabSizeChanged}
         >
           {availableTabSizes.map(n => (
             <option key={n} value={n}>
-              {n === tabSizeDefault ? `${n} (default)` : n}
+              {n === tabSizeDefault ? `${n} (${t('appearance.default')})` : n}
             </option>
           ))}
         </Select>
 
         <Checkbox
           className="always-show-worktree-list"
-          label="Always show worktree list"
+          label={t('appearance.worktrees')}
           value={
             this.props.alwaysShowWorktreeList
               ? CheckboxValue.On
