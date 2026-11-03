@@ -1,3 +1,4 @@
+import { t } from '../lib/localization'
 import * as React from 'react'
 import * as Path from 'path'
 
@@ -3554,7 +3555,9 @@ export class App extends React.Component<IAppProps, IAppState> {
       <ToolbarDropdown
         icon={icon}
         title={title}
-        description={__DARWIN__ ? 'Current Repository' : 'Current repository'}
+        description={
+          __DARWIN__ ? t('toolbar.currentRepoMac') : t('toolbar.currentRepo')
+        }
         tooltip={tooltip}
         foldoutStyle={foldoutStyle}
         onContextMenu={this.onRepositoryToolbarButtonContextMenu}

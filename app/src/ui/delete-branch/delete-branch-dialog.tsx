@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 
 import { Dispatcher } from '../dispatcher'
@@ -39,7 +40,7 @@ export class DeleteBranch extends React.Component<
     return (
       <Dialog
         id="delete-branch"
-        title={__DARWIN__ ? 'Delete Branch' : 'Delete branch'}
+        title={__DARWIN__ ? t('branch.deleteMac') : t('branch.delete')}
         type="warning"
         onSubmit={this.deleteBranch}
         onDismissed={this.props.onDismissed}
@@ -51,15 +52,18 @@ export class DeleteBranch extends React.Component<
         <DialogContent>
           <div id="delete-branch-confirmation-message">
             <p>
-              Delete branch <Ref>{this.props.branch.name}</Ref>?
+              <Ref>{this.props.branch.name}</Ref> — {t('branch.deleteQuestion')}
             </p>
-            <p>This action cannot be undone.</p>
+            <p>{t('branch.irreversible')}</p>
 
             {this.renderDeleteOnRemote()}
           </div>
         </DialogContent>
         <DialogFooter>
-          <OkCancelButtonGroup destructive={true} okButtonText="Delete" />
+          <OkCancelButtonGroup
+            destructive={true}
+            okButtonText={t('action.delete')}
+          />
         </DialogFooter>
       </Dialog>
     )
@@ -70,13 +74,10 @@ export class DeleteBranch extends React.Component<
       return (
         <div>
           <p id="delete-branch-confirmation-message-remote">
-            <strong>
-              The branch also exists on the remote, do you wish to delete it
-              there as well?
-            </strong>
+            <strong>{t('branch.remoteDeleteWarning')}</strong>
           </p>
           <Checkbox
-            label="Yes, delete this branch on the remote"
+            label={t('branch.remoteDelete')}
             value={
               this.state.includeRemoteBranch
                 ? CheckboxValue.On

@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 
 import { Repository } from '../../models/repository'
@@ -237,7 +238,7 @@ export class CreateBranch extends React.Component<
       >
         <DialogContent>
           <RefNameTextBox
-            label="Name"
+            label={t('branch.name')}
             ariaDescribedBy={hasError ? this.ERRORS_ID : undefined}
             initialValue={this.props.initialName}
             onValueChange={this.onBranchNameChange}
@@ -272,7 +273,7 @@ export class CreateBranch extends React.Component<
       return this.props.headerText
     }
 
-    return __DARWIN__ ? 'Create a Branch' : 'Create a branch'
+    return __DARWIN__ ? t('branch.createTitleMac') : t('branch.createTitle')
   }
 
   private getOkButtonText = (): string => {
@@ -280,7 +281,7 @@ export class CreateBranch extends React.Component<
       return this.props.okButtonText
     }
 
-    return __DARWIN__ ? 'Create Branch' : 'Create branch'
+    return __DARWIN__ ? t('branch.createMac') : t('branch.create')
   }
 
   private onBranchNameChange = (name: string) => {
@@ -295,7 +296,7 @@ export class CreateBranch extends React.Component<
 
     const currentError = alreadyExists
       ? {
-          error: new Error(`A branch named ${branchName} already exists.`),
+          error: new Error(t('branch.exists', { branch: branchName })),
           isWarning: false,
         }
       : null
@@ -360,7 +361,7 @@ export class CreateBranch extends React.Component<
       if (!defaultBranch) {
         this.setState({
           currentError: {
-            error: new Error('Could not determine the default branch.'),
+            error: new Error(t('branch.noDefault')),
             isWarning: false,
           },
         })
@@ -374,7 +375,7 @@ export class CreateBranch extends React.Component<
       if (!upstreamDefaultBranch) {
         this.setState({
           currentError: {
-            error: new Error('Could not determine the default branch.'),
+            error: new Error(t('branch.noDefault')),
             isWarning: false,
           },
         })
@@ -449,8 +450,7 @@ export class CreateBranch extends React.Component<
         },
         {
           title: currentBranchName,
-          description:
-            'The currently checked out branch. Pick this if you need to build on work done on this branch.',
+          description: t('branch.currentHelp'),
           key: StartPoint.CurrentBranch,
         },
       ]
@@ -502,8 +502,7 @@ export class CreateBranch extends React.Component<
         },
         {
           title: currentBranchName,
-          description:
-            'The currently checked out branch. Pick this if you need to build on work done on this branch.',
+          description: t('branch.currentHelp'),
           key: StartPoint.CurrentBranch,
         },
       ]
@@ -527,7 +526,7 @@ export class CreateBranch extends React.Component<
         <div className="secondary-text">
           Your default branch source is determined by your{' '}
           <LinkButton onClick={this.onForkSettingsClick}>
-            fork behavior settings
+            {t('branch.forkSettings')}
           </LinkButton>
           .
         </div>
@@ -543,7 +542,7 @@ export class CreateBranch extends React.Component<
         <span>
           &nbsp;as determined by your{' '}
           <LinkButton onClick={this.onForkSettingsClick}>
-            fork behavior settings
+            {t('branch.forkSettings')}
           </LinkButton>
         </span>
       )
@@ -559,7 +558,7 @@ export class CreateBranch extends React.Component<
   ) => (
     <Row>
       <VerticalSegmentedControl
-        label="Create branch based on…"
+        label={t('branch.base')}
         items={items}
         selectedKey={selectedValue}
         onSelectionChanged={this.onBaseBranchChanged}
@@ -579,7 +578,7 @@ export class CreateBranch extends React.Component<
 /** Reusable snippet */
 const defaultBranchLink = (
   <LinkButton uri="https://help.github.com/articles/setting-the-default-branch/">
-    default branch
+    {t('branch.default')}
   </LinkButton>
 )
 

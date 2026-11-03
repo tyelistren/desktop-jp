@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Repository } from '../../models/repository'
@@ -59,7 +60,7 @@ export class StashAndSwitchBranch extends React.Component<
     return (
       <Dialog
         id="stash-changes"
-        title={__DARWIN__ ? 'Switch Branch' : 'Switch branch'}
+        title={__DARWIN__ ? t('branch.switchMac') : t('branch.switch')}
         onSubmit={this.onSubmit}
         onDismissed={this.props.onDismissed}
         loading={isStashingChanges}
@@ -71,7 +72,9 @@ export class StashAndSwitchBranch extends React.Component<
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText={__DARWIN__ ? 'Switch Branch' : 'Switch branch'}
+            okButtonText={
+              __DARWIN__ ? t('branch.switchMac') : t('branch.switch')
+            }
             okButtonDisabled={isStashingChanges}
           />
         </DialogFooter>
@@ -89,8 +92,7 @@ export class StashAndSwitchBranch extends React.Component<
 
     return (
       <Row>
-        <Octicon symbol={octicons.alert} /> Your current stash will be
-        overwritten by creating a new stash
+        <Octicon symbol={octicons.alert} /> {t('stash.replaceWarning')}
       </Row>
     )
   }
@@ -99,14 +101,13 @@ export class StashAndSwitchBranch extends React.Component<
     const { branchToCheckout } = this.props
     const items = [
       {
-        title: `Leave my changes on ${this.state.currentBranchName}`,
-        description:
-          'Your in-progress work will be stashed on this branch for you to return to later',
+        title: t('stash.leave', { branch: this.state.currentBranchName }),
+        description: t('stash.leaveHelp'),
         key: StashAction.StashOnCurrentBranch,
       },
       {
-        title: `Bring my changes to ${branchToCheckout.name}`,
-        description: 'Your in-progress work will follow you to the new branch',
+        title: t('stash.bring', { branch: branchToCheckout.name }),
+        description: t('stash.bringHelp'),
         key: StashAction.MoveToNewBranch,
       },
     ]
@@ -114,7 +115,7 @@ export class StashAndSwitchBranch extends React.Component<
     return (
       <Row>
         <VerticalSegmentedControl
-          label="You have changes on this branch. What would you like to do with them?"
+          label={t('stash.question')}
           items={items}
           selectedKey={this.state.selectedStashAction}
           onSelectionChanged={this.onSelectionChanged}

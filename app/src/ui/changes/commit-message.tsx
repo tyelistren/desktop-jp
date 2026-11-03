@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import classNames from 'classnames'
 import {
@@ -853,11 +854,11 @@ export class CommitMessage extends React.Component<
   private get toggleCoAuthorsText(): string {
     return this.props.showCoAuthoredBy
       ? __DARWIN__
-        ? 'Remove Co-Authors'
-        : 'Remove co-authors'
+        ? t('commit.removeAuthorsMac')
+        : t('commit.removeAuthors')
       : __DARWIN__
-      ? 'Add Co-Authors'
-      : 'Add co-authors'
+      ? t('commit.addAuthorsMac')
+      : t('commit.addAuthors')
   }
 
   private getAddRemoveCoAuthorsMenuItem(): IMenuItem {
@@ -891,9 +892,7 @@ export class CommitMessage extends React.Component<
     const noChangesAvailable = !commitToAmend && noFilesSelected
 
     return {
-      label: __DARWIN__
-        ? 'Generate Commit Message with Copilot'
-        : 'Generate commit message with Copilot',
+      label: __DARWIN__ ? t('commit.generateMac') : t('commit.generate'),
       action: () => {
         const { commitMessage } = this.state
         onGenerateCommitMessage(
@@ -1006,7 +1005,7 @@ export class CommitMessage extends React.Component<
     const noFilesSelected = filesSelected.length === 0
     const noChangesAvailable = !commitToAmend && noFilesSelected
 
-    let ariaLabel = 'Generate commit message with Copilot'
+    let ariaLabel = t('commit.generate')
     const canCancelGenerateCommitMessage = this.canCancelGenerateCommitMessage
     const showCancelGenerateCommitMessage =
       isGeneratingCommitMessage === true && canCancelGenerateCommitMessage
@@ -1014,9 +1013,9 @@ export class CommitMessage extends React.Component<
     if (!isGeneratingCommitMessage && noChangesAvailable) {
       ariaLabel += '. Files must be selected to generate a commit message.'
     } else if (showCancelGenerateCommitMessage) {
-      ariaLabel = 'Cancel generating commit details'
+      ariaLabel = t('commit.cancelGenerating')
     } else if (isGeneratingCommitMessage) {
-      ariaLabel = 'Generating commit details…'
+      ariaLabel = t('commit.generating')
     }
 
     return (
@@ -1035,9 +1034,7 @@ export class CommitMessage extends React.Component<
           }
         >
           <AriaLiveContainer
-            message={
-              isGeneratingCommitMessage ? 'Generating commit details…' : ''
-            }
+            message={isGeneratingCommitMessage ? t('commit.generating') : ''}
           />
           <Octicon
             symbol={
@@ -1055,7 +1052,7 @@ export class CommitMessage extends React.Component<
   }
 
   private renderCommitOptionsButton() {
-    const ariaLabel = 'Configure commit options'
+    const ariaLabel = t('commit.options')
 
     return (
       <>
@@ -1496,8 +1493,10 @@ export class CommitMessage extends React.Component<
   private getButtonVerb() {
     const { isCommitting, commitToAmend } = this.props
 
-    const amendVerb = isCommitting ? 'Amending' : 'Amend'
-    const commitVerb = isCommitting ? 'Committing' : 'Commit'
+    const amendVerb = isCommitting ? t('commit.amending') : t('commit.amend')
+    const commitVerb = isCommitting
+      ? t('commit.committing')
+      : t('commit.commit')
     const isAmending = commitToAmend !== null
 
     return isAmending ? amendVerb : commitVerb
@@ -1511,19 +1510,12 @@ export class CommitMessage extends React.Component<
       return verb
     }
 
-    /** N.B. For screen reader users, this string literal is important! This was
-     * moved into a string literal because when it was JSX it was interpreted
-     * as three separate strings "Verb" and "Count" and "to" and even tho
-     * visually it was correctly adding spacings, for screen reader users it was
-     * not and putting them all to together as one word. */
-    const action = `${verb} ${this.getFilesToBeCommittedButtonText()}to `
-
-    return (
-      <>
-        {action}
-        <strong>{branch}</strong>
-      </>
-    )
+    // Keep the label a single string so assistive technologies read it in order.
+    return t('commit.toBranchWithFiles', {
+      action: verb,
+      files: this.getFilesToBeCommittedButtonText(),
+      branch,
+    })
   }
 
   private getFilesToBeCommittedButtonText() {
@@ -1536,9 +1528,12 @@ export class CommitMessage extends React.Component<
       return ''
     }
 
-    const pluralizedFile = filesToBeCommittedCount > 1 ? 'files' : 'file'
-
-    return `${filesToBeCommittedCount} ${pluralizedFile} `
+    return t(
+      filesToBeCommittedCount === 1 ? 'commit.oneFile' : 'commit.files',
+      {
+        count: filesToBeCommittedCount,
+      }
+    )
   }
 
   private getCommittingButtonTitle() {
@@ -1549,7 +1544,7 @@ export class CommitMessage extends React.Component<
       return verb
     }
 
-    return `${verb} to ${branch}`
+    return t('commit.toBranch', { action: verb, branch })
   }
 
   private getButtonText() {
@@ -1572,7 +1567,7 @@ export class CommitMessage extends React.Component<
 
     const isAmending = commitToAmend !== null
     return isAmending
-      ? `${this.getButtonVerb()} last commit`
+      ? t('commit.last', { action: this.getButtonVerb() })
       : this.getCommittingButtonTitle()
   }
 
@@ -1583,7 +1578,7 @@ export class CommitMessage extends React.Component<
 
     const isSummaryBlank = isEmptyOrWhitespace(this.summaryOrPlaceholder)
     if (isSummaryBlank) {
-      return `A commit summary is required to commit`
+      return t('commit.summaryRequired')
     } else if (
       !this.props.anyFilesSelected &&
       this.props.anyFilesAvailable &&
@@ -1608,7 +1603,7 @@ export class CommitMessage extends React.Component<
     const loading =
       isCommitting || isGeneratingCommitMessage ? <Loading /> : undefined
     const generatingCommitDetailsMessage = isGeneratingCommitMessage
-      ? 'Generating commit details…'
+      ? t('commit.generating')
       : null
     const tooltip =
       generatingCommitDetailsMessage ?? this.getButtonTooltip(buttonEnabled)
@@ -1647,13 +1642,11 @@ export class CommitMessage extends React.Component<
             </div>
           </>
         }
-        ariaLiveMessage={
-          'Great commit summaries contain fewer than 50 characters. Place extra information in the description field.'
-        }
+        ariaLiveMessage={t('commit.summaryHelp')}
         direction={TooltipDirection.NORTH}
         className="length-hint"
         tooltipClassName="length-hint-tooltip"
-        ariaLabel="Open Summary Length Info"
+        ariaLabel={t('commit.summaryInfo')}
       >
         <Octicon symbol={octicons.lightBulb} />
       </ToggledtippedContent>
@@ -1706,7 +1699,7 @@ export class CommitMessage extends React.Component<
 
     const text =
       hookName === 'pre-auto-gc' && status === 'finished'
-        ? 'Optimizing repository…'
+        ? t('commit.optimizing')
         : status === 'started'
         ? `${hookName} hook running…`
         : status === 'finished'
@@ -1722,7 +1715,7 @@ export class CommitMessage extends React.Component<
       <div className={cn}>
         <div className="description">{text}</div>
         {onShowCommitProgress && (
-          <Button tooltip="Show commit progress" onClick={onShowCommitProgress}>
+          <Button tooltip={t('commit.progress')} onClick={onShowCommitProgress}>
             <Octicon symbol={octicons.terminal} />
           </Button>
         )}
@@ -1771,7 +1764,7 @@ export class CommitMessage extends React.Component<
     return (
       <div
         role="group"
-        aria-label="Create commit"
+        aria-label={t('commit.create')}
         className={className}
         onContextMenu={this.onContextMenu}
         ref={this.wrapperRef}
@@ -1781,8 +1774,12 @@ export class CommitMessage extends React.Component<
 
           <AutocompletingInput
             required={true}
-            label={this.props.showInputLabels === true ? 'Summary' : undefined}
-            screenReaderLabel="Commit summary"
+            label={
+              this.props.showInputLabels === true
+                ? t('commit.summary')
+                : undefined
+            }
+            screenReaderLabel={t('commit.summaryReader')}
             className={summaryInputClassName}
             placeholder={placeholder}
             value={this.state.commitMessage.summary}
@@ -1806,7 +1803,9 @@ export class CommitMessage extends React.Component<
         {this.state.isRuleFailurePopoverOpen && this.renderRuleFailurePopover()}
 
         {this.props.showInputLabels === true && (
-          <label htmlFor="commit-message-description">Description</label>
+          <label htmlFor="commit-message-description">
+            {t('commit.description')}
+          </label>
         )}
         <FocusContainer
           className="description-focus-container"
@@ -1817,10 +1816,10 @@ export class CommitMessage extends React.Component<
             className={descriptionClassName}
             screenReaderLabel={
               this.props.showInputLabels !== true
-                ? 'Commit description'
+                ? t('commit.descriptionReader')
                 : undefined
             }
-            placeholder="Description"
+            placeholder={t('commit.description')}
             value={this.state.commitMessage.description || ''}
             onValueChanged={this.onDescriptionChanged}
             autocompletionProviders={

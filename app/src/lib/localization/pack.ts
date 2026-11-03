@@ -54,3 +54,17 @@ export function resolveTranslation(
 ): string {
   return pack.get(key) || english.get(key) || key
 }
+
+/** Insert named values once, without interpreting markup or replacement syntax. */
+export function formatTranslation(
+  template: string,
+  values: Readonly<Record<string, string | number>>
+): string {
+  return template.replace(
+    /\{([a-zA-Z][a-zA-Z0-9_]*)\}/g,
+    (token, key: string) =>
+      Object.prototype.hasOwnProperty.call(values, key)
+        ? String(values[key])
+        : token
+  )
+}

@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 
 import { Dispatcher } from '../dispatcher'
@@ -66,7 +67,7 @@ export class RenameBranch extends React.Component<
     return (
       <Dialog
         id="rename-branch"
-        title={__DARWIN__ ? 'Rename Branch' : 'Rename branch'}
+        title={__DARWIN__ ? t('branch.renameMac') : t('branch.rename')}
         onDismissed={this.props.onDismissed}
         onSubmit={this.renameBranch}
         focusCloseButtonOnOpen={true}
@@ -74,7 +75,7 @@ export class RenameBranch extends React.Component<
         <DialogContent>
           {renderBranchHasRemoteWarning(this.props.branch)}
           <RefNameTextBox
-            label="Name"
+            label={t('branch.name')}
             ariaDescribedBy={hasError ? this.ERRORS_ID : undefined}
             initialValue={this.props.branch.name}
             onValueChange={this.onNameChange}
@@ -89,7 +90,9 @@ export class RenameBranch extends React.Component<
 
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText={`Rename ${this.props.branch.name}`}
+            okButtonText={t('branch.renameNamed', {
+              branch: this.props.branch.name,
+            })}
             okButtonDisabled={disabled}
           />
         </DialogFooter>

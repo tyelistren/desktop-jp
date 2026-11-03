@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Repository } from '../../models/repository'
@@ -36,7 +37,9 @@ export class ConfirmDiscardStashDialog extends React.Component<
   }
 
   public render() {
-    const title = __DARWIN__ ? 'Discard Stash?' : 'Discard stash?'
+    const title = __DARWIN__
+      ? t('stash.discardTitleMac')
+      : t('stash.discardTitle')
 
     return (
       <Dialog
@@ -52,11 +55,11 @@ export class ConfirmDiscardStashDialog extends React.Component<
       >
         <DialogContent>
           <Row id="discard-stash-warning-message">
-            Are you sure you want to discard these stashed changes?
+            {t('stash.discardWarning')}
           </Row>
           <Row>
             <Checkbox
-              label="Do not show this message again"
+              label={t('dialog.dontAsk')}
               value={
                 this.state.confirmDiscardStash
                   ? CheckboxValue.Off
@@ -67,7 +70,10 @@ export class ConfirmDiscardStashDialog extends React.Component<
           </Row>
         </DialogContent>
         <DialogFooter>
-          <OkCancelButtonGroup destructive={true} okButtonText="Discard" />
+          <OkCancelButtonGroup
+            destructive={true}
+            okButtonText={t('stash.discard')}
+          />
         </DialogFooter>
       </Dialog>
     )

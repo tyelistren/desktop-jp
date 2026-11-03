@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import { IStashEntry, StashedChangesLoadStates } from '../../models/stash-entry'
 import { FileList } from '../history/file-list'
@@ -142,7 +143,7 @@ export class StashDiffViewer extends React.PureComponent<IStashDiffViewerProps> 
             maximumWidth={fileListWidth.max}
             onResize={this.onResize}
             onReset={this.onReset}
-            description="Stash file list"
+            description={t('stash.files')}
           >
             <FileList
               files={files}
