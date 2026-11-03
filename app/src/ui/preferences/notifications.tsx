@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import { DialogContent } from '../dialog'
 import { Checkbox, CheckboxValue } from '../lib/checkbox'
@@ -51,9 +52,9 @@ export class Notifications extends React.Component<
     return (
       <DialogContent>
         <div className="advanced-section">
-          <h2>Notifications</h2>
+          <h2>{t('settings.notifications')}</h2>
           <Checkbox
-            label="Enable notifications"
+            label={t('notifications.enable')}
             value={
               this.props.notificationsEnabled
                 ? CheckboxValue.On
@@ -62,8 +63,8 @@ export class Notifications extends React.Component<
             onChange={this.onNotificationsEnabledChanged}
           />
           <p className="settings-description">
-            Allows the display of notifications when high-signal events take
-            place in the current repository.{this.renderNotificationHint()}
+            {t('notifications.help')}
+            {this.renderNotificationHint()}
           </p>
         </div>
       </DialogContent>
@@ -103,11 +104,10 @@ export class Notifications extends React.Component<
       return (
         <>
           {' '}
-          You need to{' '}
+          {t('notifications.permissionHelp')}{' '}
           <LinkButton onClick={this.onGrantNotificationPermission}>
-            grant permission
+            {t('notifications.grant')}
           </LinkButton>{' '}
-          to display these notifications from GitHub Desktop.
         </>
       )
     }
@@ -121,28 +121,25 @@ export class Notifications extends React.Component<
     if (warnNotificationsDenied) {
       return (
         <div className="setting-hint-warning">
-          <span className="warning-icon">⚠️</span> GitHub Desktop has no
-          permission to display notifications. Please, enable them in the{' '}
+          <span className="warning-icon">⚠️</span> {t('notifications.denied')}{' '}
           <LinkButton uri={notificationSettingsURL}>
-            Notifications Settings
+            {t('notifications.settings')}
           </LinkButton>
-          .
         </div>
       )
     }
 
-    const verb = suggestConfigureNotifications
-      ? 'properly configured'
-      : 'enabled'
+    const hint = suggestConfigureNotifications
+      ? t('notifications.configure')
+      : t('notifications.enableHint')
 
     return (
       <>
         {' '}
-        Make sure notifications are {verb} for GitHub Desktop in the{' '}
+        {hint}{' '}
         <LinkButton uri={notificationSettingsURL}>
-          Notifications Settings
+          {t('notifications.settings')}
         </LinkButton>
-        .
       </>
     )
   }
