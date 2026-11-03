@@ -1,3 +1,4 @@
+import { t } from '../lib/localization'
 import * as React from 'react'
 import { Repository } from '../models/repository'
 import { Commit, CommitOneLine } from '../models/commit'
@@ -223,12 +224,12 @@ export class RepositoryView extends React.Component<
     return (
       <TabBar selectedIndex={selectedTab} onTabClicked={this.onTabClicked}>
         <span className="with-indicator" id="changes-tab">
-          <span>Changes</span>
+          <span>{t('repository.changes')}</span>
           {this.renderChangesBadge()}
         </span>
 
         <div className="with-indicator" id="history-tab">
-          <span>History</span>
+          <span>{t('repository.history')}</span>
         </div>
       </TabBar>
     )

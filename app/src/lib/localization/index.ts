@@ -1,6 +1,10 @@
 import english from './en.json'
 import japanese from './ja.json'
-import { parseLanguagePack, resolveTranslation } from './pack'
+import {
+  parseLanguagePack,
+  resolveTranslation,
+  formatTranslation,
+} from './pack'
 
 export type Language = 'ja' | 'en' | 'custom'
 const storageKey = 'desktop-jp-language'
@@ -44,6 +48,12 @@ export function saveLanguage(language: Language, source?: string): void {
 const activePack = getLanguagePack(getLanguage())
 
 /** Translate a UI label. Untranslated entries retain the original English. */
-export function t(key: string): string {
-  return resolveTranslation(key, activePack, englishPack)
+export function t(
+  key: string,
+  values: Readonly<Record<string, string | number>> = {}
+): string {
+  return formatTranslation(
+    resolveTranslation(key, activePack, englishPack),
+    values
+  )
 }
