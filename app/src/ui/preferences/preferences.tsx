@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import { Account, isDotComAccount } from '../../models/account'
 import { PreferencesTab } from '../../models/preferences'
@@ -386,7 +387,7 @@ export class Preferences extends React.Component<
     return (
       <Dialog
         id="preferences"
-        title={__DARWIN__ ? 'Settings' : 'Options'}
+        title={t('settings.title')}
         onDismissed={this.onCancel}
         onSubmit={this.onSave}
       >
@@ -399,11 +400,11 @@ export class Preferences extends React.Component<
           >
             <span id={this.getTabId(PreferencesTab.Accounts)}>
               <Octicon className="icon" symbol={octicons.home} />
-              Accounts
+              {t('settings.accounts')}
             </span>
             <span id={this.getTabId(PreferencesTab.Integrations)}>
               <Octicon className="icon" symbol={octicons.person} />
-              Integrations
+              {t('settings.integrations')}
             </span>
             {this.isCopilotSdkEnabled && (
               <span id={this.getTabId(PreferencesTab.Copilot)}>
@@ -417,23 +418,23 @@ export class Preferences extends React.Component<
             </span>
             <span id={this.getTabId(PreferencesTab.Appearance)}>
               <Octicon className="icon" symbol={octicons.paintbrush} />
-              Appearance
+              {t('settings.appearance')}
             </span>
             <span id={this.getTabId(PreferencesTab.Notifications)}>
               <Octicon className="icon" symbol={octicons.bell} />
-              Notifications
+              {t('settings.notifications')}
             </span>
             <span id={this.getTabId(PreferencesTab.Prompts)}>
               <Octicon className="icon" symbol={octicons.question} />
-              Prompts
+              {t('settings.prompts')}
             </span>
             <span id={this.getTabId(PreferencesTab.Advanced)}>
               <Octicon className="icon" symbol={octicons.gear} />
-              Advanced
+              {t('settings.advanced')}
             </span>
             <span id={this.getTabId(PreferencesTab.Accessibility)}>
               <Octicon className="icon" symbol={octicons.accessibility} />
-              Accessibility
+              {t('settings.accessibility')}
             </span>
           </TabBar>
 
@@ -1006,7 +1007,7 @@ export class Preferences extends React.Component<
     return (
       <DialogFooter>
         <OkCancelButtonGroup
-          okButtonText="Save"
+          okButtonText={t('action.save')}
           okButtonDisabled={hasDisabledError}
         />
       </DialogFooter>
