@@ -493,14 +493,12 @@ export class CreateRepository extends React.Component<
         <InputError
           id="existing-repository-path-error"
           trackedUserInput={fullPath}
-          ariaLiveMessage={`The directory ${fullPath} appears to be a Git repository. Would you like to add this repository instead?`}
+          ariaLiveMessage={t('repo.existingHelp', { path: fullPath })}
         >
-          The directory <Ref>{fullPath}</Ref>appears to be a Git repository.
-          Would you like to{' '}
+          {t('repo.existingHelp', { path: fullPath })}{' '}
           <LinkButton onClick={this.onAddRepositoryClicked}>
-            add this repository
-          </LinkButton>{' '}
-          instead?
+            {t('repo.addExistingLink')}
+          </LinkButton>
         </InputError>
       </Row>
     )
@@ -518,12 +516,11 @@ export class CreateRepository extends React.Component<
         <InputWarning
           id="path-is-subfolder-of-repository"
           trackedUserInput={fullPath}
-          ariaLiveMessage={`The directory ${fullPath} appears to be a subfolder Git repository. Did you know about submodules?`}
+          ariaLiveMessage={t('repo.subfolderHelp', { path: fullPath })}
         >
-          The directory <Ref>{fullPath}</Ref>appears to be a subfolder of Git
-          repository.
+          {t('repo.subfolderHelp', { path: fullPath })}
           <LinkButton uri={submoduleDocsUrl}>
-            Learn about submodules.
+            {t('repo.submodulesLink')}
           </LinkButton>
         </InputWarning>
       </Row>

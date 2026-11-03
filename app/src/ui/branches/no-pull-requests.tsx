@@ -1,6 +1,6 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import { encodePathAsUrl } from '../../lib/path'
-import { Ref } from '../lib/ref'
 import { LinkButton } from '../lib/link-button'
 
 const BlankSlateImage = encodePathAsUrl(
@@ -42,15 +42,15 @@ export class NoPullRequests extends React.Component<INoPullRequestsProps, {}> {
 
   private renderTitle() {
     if (this.props.isSearch) {
-      return <div className="title">Sorry, I can't find that pull request!</div>
+      return <div className="title">{t('pr.notFound')}</div>
     } else if (this.props.isLoadingPullRequests) {
-      return <div className="title">Hang tight</div>
+      return <div className="title">{t('pr.wait')}</div>
     } else {
       return (
         <div>
-          <div className="title">You're all set!</div>
+          <div className="title">{t('pr.allSet')}</div>
           <div className="no-prs">
-            No open pull requests in <Ref>{this.props.repositoryName}</Ref>
+            {t('pr.none', { repository: this.props.repositoryName })}
           </div>
         </div>
       )
@@ -59,31 +59,27 @@ export class NoPullRequests extends React.Component<INoPullRequestsProps, {}> {
 
   private renderCallToAction() {
     if (this.props.isLoadingPullRequests) {
-      return (
-        <div className="call-to-action">
-          Loading pull requests as fast as I can!
-        </div>
-      )
+      return <div className="call-to-action">{t('pr.loading')}</div>
     }
 
     if (this.props.isOnDefaultBranch) {
       return (
         <div className="call-to-action">
-          Would you like to{' '}
+          {t('pr.prompt')}{' '}
           <LinkButton onClick={this.props.onCreateBranch}>
-            create a new branch
+            {t('pr.newBranch')}
           </LinkButton>{' '}
-          and get going on your next project?
+          {t('pr.branchHelp')}
         </div>
       )
     } else {
       return (
         <div className="call-to-action">
-          Would you like to{' '}
+          {t('pr.prompt')}{' '}
           <LinkButton onClick={this.props.onCreatePullRequest}>
-            create a pull request
+            {t('pr.create')}
           </LinkButton>{' '}
-          from the current branch?
+          {t('pr.createHelp')}
         </div>
       )
     }

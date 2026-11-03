@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 
 import { Commit } from '../../models/commit'
@@ -28,16 +29,14 @@ export class UndoCommit extends React.Component<IUndoCommitProps, {}> {
   public render() {
     const disabled =
       this.props.isPushPullFetchInProgress || this.props.isCommitting
-    const title = disabled
-      ? 'Undo is disabled while the repository is being updated'
-      : undefined
+    const title = disabled ? t('undo.disabled') : undefined
 
     const authorDate = this.props.commit.author.date
     return (
-      <div id="undo-commit" role="group" aria-label="Undo commit">
+      <div id="undo-commit" role="group" aria-label={t('undo.title')}>
         <div className="commit-info">
           <div className="ago">
-            Committed <RelativeTime date={authorDate} />
+            {t('undo.committed')} <RelativeTime date={authorDate} />
           </div>
           <RichText
             emoji={this.props.emoji}
@@ -53,7 +52,7 @@ export class UndoCommit extends React.Component<IUndoCommitProps, {}> {
             onClick={this.props.onUndo}
             tooltip={title}
           >
-            Undo
+            {t('undo.action')}
           </Button>
         </div>
       </div>

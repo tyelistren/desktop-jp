@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Repository } from '../../models/repository'
@@ -38,7 +39,7 @@ export class WarnLocalChangesBeforeUndo extends React.Component<
   }
 
   public render() {
-    const title = __DARWIN__ ? 'Undo Commit' : 'Undo commit'
+    const title = __DARWIN__ ? t('undo.titleMac') : t('undo.title')
 
     return (
       <Dialog
@@ -54,7 +55,10 @@ export class WarnLocalChangesBeforeUndo extends React.Component<
       >
         {this.getWarningDialog()}
         <DialogFooter>
-          <OkCancelButtonGroup destructive={true} okButtonText="Continue" />
+          <OkCancelButtonGroup
+            destructive={true}
+            okButtonText={t('operation.continue')}
+          />
         </DialogFooter>
       </Dialog>
     )
@@ -66,13 +70,10 @@ export class WarnLocalChangesBeforeUndo extends React.Component<
     }
     return (
       <DialogContent>
-        <Row id="undo-warning-message">
-          You have changes in progress. Undoing the commit might result in some
-          of these changes being lost. Do you want to continue anyway?
-        </Row>
+        <Row id="undo-warning-message">{t('undo.warning')}</Row>
         <Row>
           <Checkbox
-            label="Do not show this message again"
+            label={t('dialog.dontAsk')}
             value={
               this.state.confirmUndoCommit
                 ? CheckboxValue.Off
@@ -90,27 +91,21 @@ export class WarnLocalChangesBeforeUndo extends React.Component<
       return (
         <DialogContent>
           <p>{this.getMergeCommitUndoWarningText()}</p>
-          <p>Do you want to continue anyway?</p>
+          <p>{t('operation.continueQuestion')}</p>
         </DialogContent>
       )
     }
     return (
       <DialogContent>
-        <p>
-          You have changes in progress. Undoing the merge commit might result in
-          some of these changes being lost.
-        </p>
+        <p>{t('undo.mergeWarning')}</p>
         <p>{this.getMergeCommitUndoWarningText()}</p>
-        <p>Do you want to continue anyway?</p>
+        <p>{t('operation.continueQuestion')}</p>
       </DialogContent>
     )
   }
 
   private getMergeCommitUndoWarningText() {
-    return `Undoing a merge commit will apply the changes from the merge into
-    your working directory, and committing again will create an entirely new
-    commit. This means you will lose the merge commit and, as a result, commits
-    from the merged branch could disappear from this branch.`
+    return t('undo.mergeHelp')
   }
 
   private onSubmit = async () => {
