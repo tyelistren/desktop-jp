@@ -1,3 +1,5 @@
+import { LanguagePreferences } from './language'
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import {
   ApplicationTheme,
@@ -148,14 +150,14 @@ export class Appearance extends React.Component<
         return (
           <span>
             <img src={lightThemeImage} alt="" />
-            <span className="theme-value-label">Light</span>
+            <span className="theme-value-label">{t('theme.light')}</span>
           </span>
         )
       case ApplicationTheme.Dark:
         return (
           <span>
             <img src={darkThemeImage} alt="" />
-            <span className="theme-value-label">Dark</span>
+            <span className="theme-value-label">{t('theme.dark')}</span>
           </span>
         )
       case ApplicationTheme.System:
@@ -170,7 +172,7 @@ export class Appearance extends React.Component<
               <img src={lightThemeImage} alt="" />
               <img src={darkThemeImage} alt="" />
             </span>
-            <span className="theme-value-label">System</span>
+            <span className="theme-value-label">{t('theme.system')}</span>
           </span>
         )
     }
@@ -180,7 +182,7 @@ export class Appearance extends React.Component<
     const selectedTheme = this.state.selectedTheme
 
     if (selectedTheme == null) {
-      return <Row>Loading system theme</Row>
+      return <Row>{t('theme.loading')}</Row>
     }
 
     const themes = [
@@ -191,7 +193,7 @@ export class Appearance extends React.Component<
 
     return (
       <div className="appearance-section">
-        <h2 id="theme-heading">Theme</h2>
+        <h2 id="theme-heading">{t('theme.title')}</h2>
 
         <RadioGroup<ApplicationTheme>
           ariaLabelledBy="theme-heading"
@@ -274,7 +276,7 @@ export class Appearance extends React.Component<
 
     return (
       <div className="appearance-section">
-        <h2 id="miscellaneous-heading">Miscellaneous</h2>
+        <h2 id="miscellaneous-heading">{t('appearance.misc')}</h2>
 
         <Select
           value={this.state.selectedTabSize.toString()}
@@ -305,6 +307,7 @@ export class Appearance extends React.Component<
   public render() {
     return (
       <DialogContent>
+        <LanguagePreferences />
         {this.renderSelectedTheme()}
         {this.renderFormatting()}
         {this.renderMiscellaneous()}
