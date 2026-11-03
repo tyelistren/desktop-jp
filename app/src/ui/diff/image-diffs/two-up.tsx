@@ -1,3 +1,4 @@
+import { t } from '../../../lib/localization'
 import * as React from 'react'
 import { ImageContainer } from './image-container'
 import { ICommonImageDiffProperties } from './modified-image-diff'
@@ -35,31 +36,35 @@ export class TwoUp extends React.Component<ITwoUpProps, {}> {
       <div className="image-diff-container" ref={this.props.onContainerRef}>
         <div className="image-diff-two-up">
           <div className="image-diff-previous" style={style}>
-            <div className="image-diff-header">Deleted</div>
+            <div className="image-diff-header">{t('image.deleted')}</div>
             <ImageContainer
               image={previous}
               onElementLoad={this.props.onPreviousImageLoad}
             />
 
             <div className="image-diff-footer">
-              <span className="strong">W:</span> {previousImageSize.width}
-              px | <span className="strong">H:</span> {previousImageSize.height}
-              px | <span className="strong">Size:</span>{' '}
+              <span className="strong">{t('image.width')}</span>{' '}
+              {previousImageSize.width}
+              px | <span className="strong">{t('image.height')}</span>{' '}
+              {previousImageSize.height}
+              px | <span className="strong">{t('image.size')}</span>{' '}
               {formatBytes(previous.bytes, 2)}
             </div>
           </div>
 
           <div className="image-diff-current" style={style}>
-            <div className="image-diff-header">Added</div>
+            <div className="image-diff-header">{t('image.added')}</div>
             <ImageContainer
               image={current}
               onElementLoad={this.props.onCurrentImageLoad}
             />
 
             <div className="image-diff-footer">
-              <span className="strong">W:</span> {currentImageSize.width}
-              px | <span className="strong">H:</span> {currentImageSize.height}
-              px | <span className="strong">Size:</span>{' '}
+              <span className="strong">{t('image.width')}</span>{' '}
+              {currentImageSize.width}
+              px | <span className="strong">{t('image.height')}</span>{' '}
+              {currentImageSize.height}
+              px | <span className="strong">{t('image.size')}</span>{' '}
               {formatBytes(current.bytes, 2)}
             </div>
           </div>

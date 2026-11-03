@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 
 import { assertNever } from '../../lib/fatal-error'
@@ -180,14 +181,11 @@ export class Diff extends React.Component<IDiffProps, IDiffState> {
       <div className="panel empty large-diff">
         <img src={NoDiffImage} className="blankslate-image" alt="" />
         <div className="description">
-          <p>The diff is too large to be displayed by default.</p>
-          <p>
-            You can try to show it anyway, but performance may be negatively
-            impacted.
-          </p>
+          <p>{t('diff.largeDefault')}</p>
+          <p>{t('diff.largeHelp')}</p>
         </div>
         <Button onClick={this.showLargeDiff}>
-          {__DARWIN__ ? 'Show Diff' : 'Show diff'}
+          {__DARWIN__ ? t('diff.showMac') : t('diff.show')}
         </Button>
       </div>
     )
@@ -197,7 +195,7 @@ export class Diff extends React.Component<IDiffProps, IDiffState> {
     return (
       <div className="panel empty large-diff">
         <img src={NoDiffImage} alt="" />
-        <p>The diff is too large to be displayed.</p>
+        <p>{t('diff.tooLarge')}</p>
       </div>
     )
   }
@@ -222,7 +220,7 @@ export class Diff extends React.Component<IDiffProps, IDiffState> {
         this.props.file.status.kind === AppFileStatusKind.New ||
         this.props.file.status.kind === AppFileStatusKind.Untracked
       ) {
-        return <div className="panel empty">The file is empty</div>
+        return <div className="panel empty">{t('diff.empty')}</div>
       }
 
       if (this.props.file.status.kind === AppFileStatusKind.Renamed) {
@@ -231,33 +229,25 @@ export class Diff extends React.Component<IDiffProps, IDiffState> {
           return (
             <div className="panel renamed">
               <Octicon symbol={OcticonSymbol.alert} />
-              The file was renamed and includes changes.
+              {t('diff.renamedChanged')}
             </div>
           )
         }
-        return (
-          <div className="panel renamed">
-            The file was renamed but not changed
-          </div>
-        )
+        return <div className="panel renamed">{t('diff.renamed')}</div>
       }
 
       if (
         isConflictedFileStatus(this.props.file.status) &&
         isManualConflict(this.props.file.status)
       ) {
-        return (
-          <div className="panel empty">
-            The file is in conflict and must be resolved via the command line.
-          </div>
-        )
+        return <div className="panel empty">{t('diff.manualConflict')}</div>
       }
 
       if (this.props.hideWhitespaceInDiff) {
-        return <div className="panel empty">Only whitespace changes found</div>
+        return <div className="panel empty">{t('diff.onlyWhitespace')}</div>
       }
 
-      return <div className="panel empty">No content changes found</div>
+      return <div className="panel empty">{t('diff.noChanges')}</div>
     }
 
     return this.renderTextDiff(diff)

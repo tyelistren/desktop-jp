@@ -1,3 +1,4 @@
+import { t } from '../../../lib/localization'
 import * as React from 'react'
 
 import { Image, ImageDiffType } from '../../../models/diff'
@@ -153,10 +154,10 @@ export class ModifiedImageDiff extends React.Component<
           onTabClicked={this.props.onChangeDiffType}
           type={TabBarType.Switch}
         >
-          <span>2-up</span>
-          <span>Swipe</span>
-          <span>Onion Skin</span>
-          <span>Difference</span>
+          <span>{t('image.twoUp')}</span>
+          <span>{t('image.swipe')}</span>
+          <span>{t('image.onion')}</span>
+          <span>{t('image.difference')}</span>
         </TabBar>
 
         {this.renderCurrentDiffType()}
