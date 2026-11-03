@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import { Account } from '../../models/account'
 import { IFilterListGroup } from '../lib/filter-list'
@@ -14,7 +15,6 @@ import { Octicon, syncClockwise } from '../octicons'
 import { HighlightText } from '../lib/highlight-text'
 import { ClickSource } from '../lib/list'
 import { LinkButton } from '../lib/link-button'
-import { Ref } from '../lib/ref'
 import { SectionFilterList } from '../lib/section-filter-list'
 import { TooltippedContent } from '../lib/tooltipped-content'
 
@@ -188,7 +188,7 @@ export class CloneableRepositoryFilterList extends React.PureComponent<ICloneabl
         renderPostFilter={this.renderPostFilter}
         renderPreFilter={this.props.renderPreFilter}
         onItemClick={this.props.onItemClicked ? this.onItemClick : undefined}
-        placeholderText={'Filter your repositories'}
+        placeholderText={t('repo.filter')}
         getGroupAriaLabel={this.getGroupAriaLabelGetter(groups)}
       />
     )
@@ -252,13 +252,13 @@ export class CloneableRepositoryFilterList extends React.PureComponent<ICloneabl
         >
           <HighlightText text={item.text[0]} highlight={matches.title} />
         </TooltippedContent>
-        {item.archived && <div className="archived">Archived</div>}
+        {item.archived && <div className="archived">{t('repo.archived')}</div>}
       </div>
     )
   }
 
   private renderPostFilter = () => {
-    const tooltip = 'Refresh the list of repositories'
+    const tooltip = t('repo.refresh')
 
     return (
       <Button
@@ -280,17 +280,16 @@ export class CloneableRepositoryFilterList extends React.PureComponent<ICloneabl
 
     if (loading && (repositories === null || repositories.length === 0)) {
       return (
-        <div className="no-items loading">{`Loading repositories from ${account.friendlyEndpoint}…`}</div>
+        <div className="no-items loading">
+          {t('repo.loading', { endpoint: account.friendlyEndpoint })}
+        </div>
       )
     }
 
     if (this.props.filterText.length !== 0) {
       return (
         <div className="no-items no-results-found">
-          <div>
-            Sorry, I can't find any repository matching{' '}
-            <Ref>{this.props.filterText}</Ref>
-          </div>
+          <div>{t('repo.noMatch', { query: this.props.filterText })}</div>
         </div>
       )
     }
@@ -298,12 +297,14 @@ export class CloneableRepositoryFilterList extends React.PureComponent<ICloneabl
     return (
       <div className="no-items empty-repository-list">
         <div>
-          Looks like there are no repositories for{' '}
-          <Ref>{this.props.account.login}</Ref> on {account.friendlyEndpoint}.{' '}
+          {t('repo.empty', {
+            login: this.props.account.login,
+            endpoint: account.friendlyEndpoint,
+          })}{' '}
           <LinkButton onClick={this.refreshRepositories}>
-            Refresh this list
+            {t('repo.refreshList')}
           </LinkButton>{' '}
-          if you've created a repository recently.
+          {t('repo.refreshHelp')}
         </div>
       </div>
     )

@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import * as Path from 'path'
 import { Dispatcher } from '../dispatcher'
@@ -125,8 +126,7 @@ export class AddExistingRepository extends React.Component<
       return null
     }
 
-    const msg =
-      'This directory appears to be a bare repository. Bare repositories are not currently supported.'
+    const msg = t('repo.bare')
 
     return { screenReaderMessage: msg, displayedMessage: msg }
   }
@@ -228,7 +228,7 @@ export class AddExistingRepository extends React.Component<
     return (
       <Dialog
         id="add-existing-repository"
-        title={__DARWIN__ ? 'Add Local Repository' : 'Add local repository'}
+        title={__DARWIN__ ? t('repo.addLocalMac') : t('repo.addLocal')}
         onSubmit={this.addRepository}
         onDismissed={this.props.onDismissed}
         loading={this.state.isTrustingRepository}
@@ -238,19 +238,19 @@ export class AddExistingRepository extends React.Component<
             <TextBox
               ref={this.pathTextBoxRef}
               value={this.state.path}
-              label={__DARWIN__ ? 'Local Path' : 'Local path'}
-              placeholder="repository path"
+              label={__DARWIN__ ? t('repo.localPathMac') : t('repo.localPath')}
+              placeholder={t('repo.path')}
               onValueChanged={this.onPathChanged}
               ariaDescribedBy="add-existing-repository-path-error"
             />
-            <Button onClick={this.showFilePicker}>Choose…</Button>
+            <Button onClick={this.showFilePicker}>{t('repo.choose')}</Button>
           </Row>
           {this.renderErrors()}
         </DialogContent>
 
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText={__DARWIN__ ? 'Add Repository' : 'Add repository'}
+            okButtonText={__DARWIN__ ? t('repo.addMac') : t('repo.add')}
           />
         </DialogFooter>
       </Dialog>

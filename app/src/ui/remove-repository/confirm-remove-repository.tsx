@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import { Checkbox, CheckboxValue } from '../lib/checkbox'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
@@ -57,7 +58,7 @@ export class ConfirmRemoveRepository extends React.Component<
         id="confirm-remove-repository"
         key="remove-repository-confirmation"
         type="warning"
-        title={__DARWIN__ ? 'Remove Repository' : 'Remove repository'}
+        title={__DARWIN__ ? t('repo.removeTitleMac') : t('repo.removeTitle')}
         dismissDisabled={isRemovingRepository}
         loading={isRemovingRepository}
         disabled={isRemovingRepository}
@@ -66,11 +67,10 @@ export class ConfirmRemoveRepository extends React.Component<
       >
         <DialogContent>
           <p>
-            Are you sure you want to remove the repository "
-            {this.props.repository.name}" from GitHub Desktop?
+            {t('repo.removeQuestion', { name: this.props.repository.name })}
           </p>
           <div className="description">
-            <p>The repository will be removed from GitHub Desktop:</p>
+            <p>{t('repo.removeHelp')}</p>
             <p>
               <Ref>{this.props.repository.path}</Ref>
             </p>
@@ -78,7 +78,13 @@ export class ConfirmRemoveRepository extends React.Component<
 
           <div>
             <Checkbox
-              label={'Also move this repository to ' + TrashNameLabel}
+              label={t('repo.alsoTrash', {
+                trash: __WIN32__
+                  ? t('repo.recycleBin')
+                  : __DARWIN__
+                  ? t('repo.trash')
+                  : TrashNameLabel,
+              })}
               value={
                 this.state.deleteRepoFromDisk
                   ? CheckboxValue.On
@@ -89,7 +95,10 @@ export class ConfirmRemoveRepository extends React.Component<
           </div>
         </DialogContent>
         <DialogFooter>
-          <OkCancelButtonGroup destructive={true} okButtonText="Remove" />
+          <OkCancelButtonGroup
+            destructive={true}
+            okButtonText={t('repo.remove')}
+          />
         </DialogFooter>
       </Dialog>
     )

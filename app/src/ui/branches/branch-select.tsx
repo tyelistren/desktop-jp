@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import * as React from 'react'
 import { IMatches } from '../../lib/fuzzy-find'
 import { Branch } from '../../models/branch'
@@ -111,14 +112,16 @@ export class BranchSelect extends React.Component<
 
     const buttonContent = (
       <>
-        <span className="popover-dropdown-button-label">base:</span>
+        <span className="popover-dropdown-button-label">
+          {t('branch.baseLabel')}
+        </span>
         {selectedBranch?.name ?? ''}
       </>
     )
 
     return (
       <PopoverDropdown
-        contentTitle="Choose a base branch"
+        contentTitle={t('branch.chooseBase')}
         buttonContent={buttonContent}
         ref={this.popoverRef}
       >
