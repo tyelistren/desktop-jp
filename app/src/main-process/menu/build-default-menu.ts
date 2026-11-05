@@ -1,3 +1,9 @@
+import english from '../../lib/localization/en.json'
+import { formatTranslation } from '../../lib/localization/pack'
+import {
+  localizeMenuLabel,
+  translateStaticMenuLabel,
+} from '../../lib/localization/menu'
 import { Menu, shell, app, BrowserWindow } from 'electron'
 import { ensureItemIds } from './ensure-item-ids'
 import { MenuEvent } from './menu-event'
@@ -44,19 +50,21 @@ export function buildDefaultMenu(params: MenuLabelsEvent): Electron.Menu {
 }
 
 export function buildDefaultMenuTemplate({
+  languagePack,
   selectedExternalEditor,
   selectedShell,
   askForConfirmationOnForcePush,
   askForConfirmationOnRepositoryRemoval,
   hasCurrentPullRequest = false,
-  contributionTargetDefaultBranch = defaultBranchNameValue,
+  contributionTargetDefaultBranch,
   isForcePushForCurrentRepository = false,
   isStashedChangesVisible = false,
   askForConfirmationWhenStashingAllChanges = true,
   isChangesFilterVisible = true,
 }: MenuLabelsEvent): Electron.MenuItemConstructorOptions[] {
+  const isDefaultBranchUnknown = contributionTargetDefaultBranch === undefined
   contributionTargetDefaultBranch = truncateWithEllipsis(
-    contributionTargetDefaultBranch,
+    contributionTargetDefaultBranch ?? defaultBranchNameValue,
     25
   )
 
@@ -625,6 +633,77 @@ export function buildDefaultMenuTemplate({
   }
 
   ensureItemIds(template)
+
+  // Assign IDs from the original labels first, so state merging stays stable.
+  if (languagePack !== undefined) {
+    const translations = new Map(languagePack)
+    const englishPack = new Map(Object.entries(english))
+    const roleKeys: Readonly<Record<string, string>> = {
+      window: 'menu.window',
+      services: 'menu.services',
+      hide: 'menu.hide',
+      hideOthers: 'menu.hideOthers',
+      unhide: 'menu.unhide',
+      quit: 'menu.quit',
+      minimize: 'menu.minimize',
+      zoom: 'menu.zoom',
+      close: 'menu.close',
+      front: 'menu.front',
+      help: 'menu.label.help',
+    }
+    const translate = (items: Electron.MenuItemConstructorOptions[]) => {
+      for (const item of items) {
+        const original = item.label
+        if (original !== undefined) {
+          let key: string | undefined
+          let name: string | undefined
+          if (item.id === 'open-in-shell') {
+            key = 'menu.openShell'
+            name = selectedShell ?? (translations.get('menu.shell') || 'Shell')
+          } else if (item.id === 'open-external-editor') {
+            key = 'menu.openEditor'
+            name =
+              selectedExternalEditor ??
+              (translations.get('menu.editor') || 'External Editor')
+          } else if (
+            item.id === 'update-branch-with-contribution-target-branch'
+          ) {
+            key = 'menu.updateFrom'
+            name = isDefaultBranchUnknown
+              ? translations.get('menu.defaultBranch') || defaultBranchNameValue
+              : contributionTargetDefaultBranch
+          }
+          const pattern = key === undefined ? undefined : translations.get(key)
+          if (
+            pattern &&
+            name !== undefined &&
+            key !== undefined &&
+            pattern !== englishPack.get(key)
+          ) {
+            item.label = localizeMenuLabel(
+              __DARWIN__ ? '' : original,
+              formatTranslation(pattern, { name })
+            )
+          } else {
+            item.label = translateStaticMenuLabel(
+              original,
+              translations,
+              englishPack
+            )
+          }
+        } else if (item.role !== undefined) {
+          const translated = translations.get(roleKeys[item.role])
+          if (translated) {
+            item.label = localizeMenuLabel('', translated)
+          }
+        }
+        if (Array.isArray(item.submenu)) {
+          translate(item.submenu)
+        }
+      }
+    }
+    translate(template)
+  }
 
   return template
 }

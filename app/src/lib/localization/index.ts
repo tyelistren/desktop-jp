@@ -57,3 +57,10 @@ export function t(
     values
   )
 }
+
+/** Return the startup menu translations for the native application menu. */
+export function getMenuLanguagePack(): ReadonlyArray<
+  readonly [string, string]
+> {
+  return Array.from(activePack).filter(([key]) => key.startsWith('menu.'))
+}
