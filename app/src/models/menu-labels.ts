@@ -1,6 +1,9 @@
 import { Shell } from '../lib/shells'
 
 export type MenuLabelsEvent = {
+  /** Startup language snapshot, restricted to menu labels. */
+  readonly languagePack?: ReadonlyArray<readonly [string, string]>
+
   /**
    * Specify the user's selected shell to display in the menu.
    *

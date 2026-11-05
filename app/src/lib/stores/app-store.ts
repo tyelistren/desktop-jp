@@ -1,3 +1,4 @@
+import { getMenuLanguagePack } from '../localization'
 import * as Path from 'path'
 import { writeFile } from 'fs/promises'
 import {
@@ -2892,6 +2893,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
     } = this
 
     const labels: MenuLabelsEvent = {
+      languagePack: getMenuLanguagePack(),
       selectedShell: useCustomShell ? null : selectedShell,
       selectedExternalEditor: useCustomEditor ? null : selectedExternalEditor,
       askForConfirmationOnRepositoryRemoval,
