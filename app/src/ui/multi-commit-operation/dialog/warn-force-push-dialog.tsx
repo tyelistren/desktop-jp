@@ -1,3 +1,5 @@
+import { t } from '../../../lib/localization'
+import { translateOperation } from '../../../lib/localization/operation'
 import * as React from 'react'
 import { Checkbox, CheckboxValue } from '../../lib/checkbox'
 import { Dispatcher } from '../../dispatcher'
@@ -38,11 +40,10 @@ export class WarnForcePushDialog extends React.Component<
   }
 
   public render() {
-    const { operation, onDismissed } = this.props
+    const { onDismissed } = this.props
+    const operation = translateOperation(this.props.operation)
 
-    const title = __DARWIN__
-      ? `${operation} Will Require Force Push`
-      : `${operation} will require force push`
+    const title = t('operation.forceTitle', { operation })
 
     return (
       <Dialog
@@ -56,17 +57,14 @@ export class WarnForcePushDialog extends React.Component<
       >
         <DialogContent>
           <p id="warn-force-push-confirmation-title">
-            Are you sure you want to {operation.toLowerCase()}?
+            {t('operation.forceQuestion', { operation })}
           </p>
           <p id="warn-force-push-confirmation-message">
-            At the end of the {operation.toLowerCase()} flow, GitHub Desktop
-            will enable you to force push the branch to update the upstream
-            branch. Force pushing will alter the history on the remote and
-            potentially cause problems for others collaborating on this branch.
+            {t('operation.forceWarning', { operation })}
           </p>
           <div>
             <Checkbox
-              label="Do not show this message again"
+              label={t('operation.dontShow')}
               value={
                 this.state.askForConfirmationOnForcePush
                   ? CheckboxValue.Off
@@ -78,9 +76,7 @@ export class WarnForcePushDialog extends React.Component<
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText={`Begin ${
-              __DARWIN__ ? operation : operation.toLowerCase()
-            }`}
+            okButtonText={t('operation.begin', { operation })}
             onCancelButtonClick={this.props.onDismissed}
           />
         </DialogFooter>

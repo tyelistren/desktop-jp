@@ -1,3 +1,5 @@
+import { t } from '../../../lib/localization'
+import { translateOperation } from '../../../lib/localization/operation'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../../dialog'
 import { OkCancelButtonGroup } from '../../dialog/ok-cancel-button-group'
@@ -48,15 +50,11 @@ export class ConfirmAbortDialog extends React.Component<
   }
 
   public render() {
-    const { operation } = this.props
+    const operation = translateOperation(this.props.operation)
     return (
       <Dialog
         id="abort-warning"
-        title={
-          __DARWIN__
-            ? `Confirm Abort ${operation}`
-            : `Confirm abort ${operation.toLowerCase()}`
-        }
+        title={t('operation.abortTitle', { operation })}
         onDismissed={this.onCancel}
         onSubmit={this.onSubmit}
         disabled={this.state.isAborting}
@@ -66,23 +64,14 @@ export class ConfirmAbortDialog extends React.Component<
       >
         <DialogContent>
           <div className="column-left" id="abort-operation-confirmation">
-            <p>
-              Are you sure you want to abort this {operation.toLowerCase()}?
-            </p>
-            <p>
-              This will take you back to the original branch state and the
-              conflicts you have already resolved will be discarded.
-            </p>
+            <p>{t('operation.abortQuestion', { operation })}</p>
+            <p>{t('operation.abortWarning')}</p>
           </div>
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
             destructive={true}
-            okButtonText={
-              __DARWIN__
-                ? `Abort ${operation}`
-                : `Abort ${operation.toLowerCase()}`
-            }
+            okButtonText={t('operation.abort', { operation })}
           />
         </DialogFooter>
       </Dialog>
