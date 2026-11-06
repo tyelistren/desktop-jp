@@ -1,3 +1,4 @@
+import { t } from '../../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../../dialog'
 import { Dispatcher } from '../../dispatcher'
@@ -242,19 +243,21 @@ export class ConflictsDialog extends React.Component<
     }
 
     if (countResolved === 0) {
-      return <DialogSuccess>All resolutions have been undone.</DialogSuccess>
+      return <DialogSuccess>{t('conflict.undone')}</DialogSuccess>
     }
 
     if (conflictedFilesCount === 0) {
-      return (
-        <DialogSuccess>All conflicted files have been resolved. </DialogSuccess>
-      )
+      return <DialogSuccess>{t('conflict.resolvedAll')} </DialogSuccess>
     }
 
-    const conflictPluralized = countResolved === 1 ? 'file has' : 'files have'
     return (
       <DialogSuccess>
-        {countResolved} conflicted {conflictPluralized} been resolved.
+        {t(
+          countResolved === 1
+            ? 'conflict.resolvedOne'
+            : 'conflict.resolvedMany',
+          { count: countResolved }
+        )}
       </DialogSuccess>
     )
   }
@@ -291,12 +294,12 @@ export class ConflictsDialog extends React.Component<
         disabled={this.state.isAborting}
         tooltip={
           this.state.isAborting
-            ? 'Cannot resolve while operation is being aborted'
-            : 'Use Copilot to suggest resolutions for conflicted files'
+            ? t('conflict.aborting')
+            : t('conflict.copilotHint')
         }
       >
         <Octicon symbol={octicons.copilot} />
-        {' Resolve with Copilot'}
+        {t('conflict.copilot')}
       </Button>
     )
 
@@ -306,7 +309,7 @@ export class ConflictsDialog extends React.Component<
 
     return (
       <div className="copilot-resolve-button-with-call-out">
-        <span className="call-to-action-bubble">New</span>
+        <span className="call-to-action-bubble">{t('conflict.new')}</span>
         {button}
       </div>
     )
@@ -358,9 +361,7 @@ export class ConflictsDialog extends React.Component<
     )
 
     const tooltipString =
-      conflictedFiles.length > 0
-        ? 'Resolve all changes before continuing'
-        : undefined
+      conflictedFiles.length > 0 ? t('conflict.resolveFirst') : undefined
 
     return (
       <Dialog

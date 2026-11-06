@@ -1,3 +1,5 @@
+import { t } from '../../lib/localization'
+import { translateOperation } from '../../lib/localization/operation'
 import * as React from 'react'
 import { assertNever } from '../../lib/fatal-error'
 import { sendNonFatalException } from '../../lib/helpers/non-fatal-exception'
@@ -259,11 +261,9 @@ export abstract class BaseMultiCommitOperation extends React.Component<IMultiCom
         const { userHasResolvedConflicts, operationDetail } = state
         const { manualResolutions, ourBranch, theirBranch } = step.conflictState
 
-        const operation = __DARWIN__
-          ? operationDetail.kind
-          : operationDetail.kind.toLowerCase()
-        const submit = `Continue ${operation}`
-        const abort = `Abort ${operation}`
+        const operation = translateOperation(operationDetail.kind)
+        const submit = t('conflict.continue', { operation })
+        const abort = t('operation.abort', { operation })
 
         return (
           <ConflictsDialog
@@ -279,7 +279,7 @@ export abstract class BaseMultiCommitOperation extends React.Component<IMultiCom
             ourBranch={ourBranch}
             theirBranch={theirBranch}
             manualResolutions={manualResolutions}
-            headerTitle={`Resolve conflicts before ${operationDetail.kind}`}
+            headerTitle={t('conflict.title', { operation })}
             submitButton={submit}
             abortButton={abort}
             onSubmit={this.onContinueAfterConflicts}
