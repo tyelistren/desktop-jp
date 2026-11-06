@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter, DialogError } from '../dialog'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
@@ -147,11 +148,11 @@ export class EditCopilotBYOKProviderDialog extends React.Component<
     const isEditing = this.props.provider !== null
     const title = isEditing
       ? __DARWIN__
-        ? 'Edit Custom Provider'
-        : 'Edit custom provider'
+        ? translateUI('ui.edit-custom-provider.2d086bb')
+        : translateUI('ui.edit-custom-provider.0c159f7')
       : __DARWIN__
-      ? 'Add Custom Provider'
-      : 'Add custom provider'
+      ? translateUI('ui.add-custom-provider.5bd57ab')
+      : translateUI('ui.add-custom-provider.8604ef0')
 
     return (
       <Dialog
@@ -169,7 +170,13 @@ export class EditCopilotBYOKProviderDialog extends React.Component<
           {this.renderModelsSection()}
         </DialogContent>
         <DialogFooter>
-          <OkCancelButtonGroup okButtonText={isEditing ? 'Save' : 'Add'} />
+          <OkCancelButtonGroup
+            okButtonText={
+              isEditing
+                ? translateUI('ui.save.efc007a')
+                : translateUI('ui.add.61cc55a')
+            }
+          />
         </DialogFooter>
       </Dialog>
     )
@@ -178,31 +185,37 @@ export class EditCopilotBYOKProviderDialog extends React.Component<
   private renderProviderSection() {
     return (
       <fieldset className="copilot-byok-fieldset">
-        <legend>Provider</legend>
+        <legend>{translateUI('ui.provider.7ceee3f')}</legend>
         <Row>
           <TextBox
-            label="Name"
+            label={translateUI('ui.name.709a232')}
             value={this.state.name}
             onValueChanged={this.onNameChanged}
-            placeholder="My provider"
+            placeholder={translateUI('ui.my-provider.c9c91b2')}
             required={true}
             autoFocus={true}
           />
         </Row>
         <Row>
           <Select
-            label="Type"
+            label={translateUI('ui.type.3deb745')}
             value={this.state.type}
             onChange={this.onTypeChanged}
           >
-            <option value="openai">OpenAI / OpenAI-compatible</option>
+            <option value="openai">
+              {translateUI('ui.openai-openai-compatible.e586319')}
+            </option>
             <option value="azure">Azure</option>
             <option value="anthropic">Anthropic</option>
           </Select>
         </Row>
         <Row>
           <TextBox
-            label={__DARWIN__ ? 'Base URL' : 'Base URL'}
+            label={
+              __DARWIN__
+                ? translateUI('ui.base-url.1dbd61f')
+                : translateUI('ui.base-url.1dbd61f')
+            }
             value={this.state.baseUrl}
             onValueChanged={this.onBaseUrlChanged}
             placeholder={getBaseUrlPlaceholder(this.state.type)}
@@ -212,19 +225,31 @@ export class EditCopilotBYOKProviderDialog extends React.Component<
         {this.state.type === 'openai' && (
           <Row>
             <Select
-              label={__DARWIN__ ? 'API Format' : 'API format'}
+              label={
+                __DARWIN__
+                  ? translateUI('ui.api-format.256cfca')
+                  : translateUI('ui.api-format.ba7636e')
+              }
               value={this.state.wireApi}
               onChange={this.onWireApiChanged}
             >
-              <option value="completions">Chat completions (default)</option>
-              <option value="responses">Responses (GPT-5 series)</option>
+              <option value="completions">
+                {translateUI('ui.chat-completions-default.84b16b0')}
+              </option>
+              <option value="responses">
+                {translateUI('ui.responses-gpt-5-series.d521937')}
+              </option>
             </Select>
           </Row>
         )}
         {this.state.type === 'azure' && (
           <Row>
             <TextBox
-              label={__DARWIN__ ? 'Azure API Version' : 'Azure API version'}
+              label={
+                __DARWIN__
+                  ? translateUI('ui.azure-api-version.2187084')
+                  : translateUI('ui.azure-api-version.731ef64')
+              }
               value={this.state.azureApiVersion}
               onValueChanged={this.onAzureApiVersionChanged}
               placeholder="2024-10-21"
@@ -235,8 +260,8 @@ export class EditCopilotBYOKProviderDialog extends React.Component<
           <TextBox
             label={
               __DARWIN__
-                ? 'Request Timeout (seconds)'
-                : 'Request timeout (seconds)'
+                ? translateUI('ui.request-timeout-seconds.b79543e')
+                : translateUI('ui.request-timeout-seconds.1c19754')
             }
             value={this.state.requestTimeoutSeconds}
             onValueChanged={this.onRequestTimeoutChanged}
@@ -252,31 +277,37 @@ export class EditCopilotBYOKProviderDialog extends React.Component<
       <fieldset className="copilot-byok-fieldset">
         <Row>
           <Select
-            label="Authentication"
+            label={translateUI('ui.authentication.ee1acfa')}
             value={this.state.authKind}
             onChange={this.onAuthKindChanged}
           >
-            <option value="apiKey">API key</option>
-            <option value="bearer">Bearer token</option>
-            <option value="none">None</option>
+            <option value="apiKey">{translateUI('ui.api-key.cf678ca')}</option>
+            <option value="bearer">
+              {translateUI('ui.bearer-token.ffa64bc')}
+            </option>
+            <option value="none">{translateUI('ui.none.6eef664')}</option>
           </Select>
         </Row>
         {this.state.authKind !== 'none' && (
           <Row>
             <TextBox
               label={
-                this.state.authKind === 'bearer' ? 'Bearer token' : 'API key'
+                this.state.authKind === 'bearer'
+                  ? translateUI('ui.bearer-token.ffa64bc')
+                  : translateUI('ui.api-key.cf678ca')
               }
               type="password"
               value={this.state.secret}
               onValueChanged={this.onSecretChanged}
-              placeholder={isEditing ? '(unchanged)' : ''}
+              placeholder={isEditing ? translateUI('ui.unchanged.9257890') : ''}
             />
           </Row>
         )}
         {this.state.authKind === 'none' && (
           <p className="copilot-byok-section-hint">
-            No credentials will be sent with requests to this provider.
+            {translateUI(
+              'ui.no-credentials-will-be-sent-with-requests-to-thi.4815f16'
+            )}
           </p>
         )}
       </fieldset>
@@ -286,14 +317,17 @@ export class EditCopilotBYOKProviderDialog extends React.Component<
   private renderModelsSection() {
     return (
       <fieldset className="copilot-byok-fieldset copilot-byok-models">
-        <legend>Models</legend>
+        <legend>{translateUI('ui.models.f3798f8')}</legend>
         <p className="copilot-byok-section-hint">
-          Tell Desktop which models this provider offers. Each one will appear
-          in the model picker for Copilot features.
+          {translateUI(
+            'ui.tell-desktop-which-models-this-provider-offers-e.b7f8fa8'
+          )}
         </p>
         {this.state.models.length === 0 ? (
           <p className="copilot-byok-empty">
-            No models yet. Add at least one to use this provider.
+            {translateUI(
+              'ui.no-models-yet-add-at-least-one-to-use-this-provi.7642590'
+            )}
           </p>
         ) : (
           <ul className="copilot-byok-entry-list">
@@ -309,7 +343,9 @@ export class EditCopilotBYOKProviderDialog extends React.Component<
           </ul>
         )}
         <Button onClick={this.onAddModel}>
-          {__DARWIN__ ? 'Add Model…' : 'Add model…'}
+          {__DARWIN__
+            ? translateUI('ui.add-model.55e47ea')
+            : translateUI('ui.add-model.8715ac1')}
         </Button>
       </fieldset>
     )

@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { LinkButton } from '../lib/link-button'
@@ -20,29 +22,36 @@ export class AttributeMismatch extends React.Component<IAttributeMismatchProps> 
         id="lfs-attribute-mismatch"
         title={
           __DARWIN__
-            ? 'Update Existing Git LFS Filters?'
-            : 'Update existing Git LFS filters?'
+            ? translateUI('ui.update-existing-git-lfs-filters.f847291')
+            : translateUI('ui.update-existing-git-lfs-filters.513af3a')
         }
         onDismissed={this.props.onDismissed}
         onSubmit={this.onSubmit}
       >
         <DialogContent>
           <p>
-            Git LFS filters are already configured in{' '}
-            <LinkButton onClick={this.props.onEditGlobalGitConfig}>
-              your global git config
-            </LinkButton>{' '}
-            but are not the values it expects. Would you like to update them
-            now?
+            {translateUIRich('ui.sentence.9deec43f4b95', {
+              p0: (
+                <LinkButton onClick={this.props.onEditGlobalGitConfig}>
+                  {translateUI('ui.your-global-git-config.508f16f')}
+                </LinkButton>
+              ),
+            })}
           </p>
         </DialogContent>
 
         <DialogFooter>
           <OkCancelButtonGroup
             okButtonText={
-              __DARWIN__ ? 'Update Existing Filters' : 'Update existing filters'
+              __DARWIN__
+                ? translateUI('ui.update-existing-filters.e97e01b')
+                : translateUI('ui.update-existing-filters.3244a9b')
             }
-            cancelButtonText={__DARWIN__ ? 'Not Now' : 'Not now'}
+            cancelButtonText={
+              __DARWIN__
+                ? translateUI('ui.not-now.b1e5359')
+                : translateUI('ui.not-now.e457149')
+            }
           />
         </DialogFooter>
       </Dialog>

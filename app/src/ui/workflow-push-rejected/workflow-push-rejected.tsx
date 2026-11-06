@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Dispatcher } from '../dispatcher'
@@ -6,7 +8,9 @@ import { RepositoryWithGitHubRepository } from '../../models/repository'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 import { SignInResult } from '../../lib/stores'
 
-const okButtonText = __DARWIN__ ? 'Continue in Browser' : 'Continue in browser'
+const okButtonText = __DARWIN__
+  ? translateUI('ui.continue-in-browser.5d69d8f')
+  : translateUI('ui.continue-in-browser.fe5ef3d')
 
 interface IWorkflowPushRejectedDialogProps {
   readonly rejectedPath: string
@@ -34,7 +38,11 @@ export class WorkflowPushRejectedDialog extends React.Component<
     return (
       <Dialog
         id="workflow-push-rejected"
-        title={__DARWIN__ ? 'Push Rejected' : 'Push rejected'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.push-rejected.bfedfb1')
+            : translateUI('ui.push-rejected.ee3f516')
+        }
         loading={this.state.loading}
         onDismissed={this.props.onDismissed}
         onSubmit={this.onSignIn}
@@ -42,14 +50,14 @@ export class WorkflowPushRejectedDialog extends React.Component<
       >
         <DialogContent>
           <p>
-            The push was rejected by the server for containing a modification to
-            the workflow file <Ref>{this.props.rejectedPath}</Ref>. In order to
-            be able to push to workflow files GitHub Desktop needs to request
-            additional permissions.
+            {translateUIRich('ui.sentence.01cbb58a08ea', {
+              p0: <Ref>{this.props.rejectedPath}</Ref>,
+            })}
           </p>
           <p>
-            Would you like to open a browser to grant GitHub Desktop permission
-            to update workflow files?
+            {translateUI(
+              'ui.would-you-like-to-open-a-browser-to-grant-github.4c155c4'
+            )}
           </p>
         </DialogContent>
         <DialogFooter>

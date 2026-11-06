@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { PullRequest } from '../../models/pull-request'
@@ -101,6 +103,16 @@ export abstract class PullRequestCommentLike extends React.Component<IPullReques
 
     const diff = eventDate.getTime() - Date.now()
     const relativeReviewDate = formatRelative(diff)
+    const localizedEventVerb =
+      eventVerb === 'commented on'
+        ? translateUI('ui.detail.commented')
+        : eventVerb === 'approved'
+        ? translateUI('ui.detail.approved')
+        : eventVerb === 'requested changes on'
+        ? translateUI('ui.detail.requested')
+        : eventVerb === 'reviewed'
+        ? translateUI('ui.detail.reviewed')
+        : eventVerb
 
     return (
       <div className="timeline-item-container">
@@ -114,13 +126,19 @@ export abstract class PullRequestCommentLike extends React.Component<IPullReques
           />
           {this.renderReviewIcon()}
           <div className="summary">
-            <LinkButton uri={user.html_url} className="author">
-              {user.login}
-            </LinkButton>{' '}
-            {eventVerb} your pull request{' '}
-            <LinkButton uri={externalURL} className="submission-date">
-              {relativeReviewDate}
-            </LinkButton>
+            {translateUIRich('ui.sentence.fb9bb4fef198', {
+              p0: (
+                <LinkButton uri={user.html_url} className="author">
+                  {user.login}
+                </LinkButton>
+              ),
+              p1: localizedEventVerb,
+              p2: (
+                <LinkButton uri={externalURL} className="submission-date">
+                  {relativeReviewDate}
+                </LinkButton>
+              ),
+            })}
           </div>
         </div>
         {bottomLine}
@@ -176,7 +194,7 @@ export abstract class PullRequestCommentLike extends React.Component<IPullReques
         onMarkdownLinkClicked={this.onMarkdownLinkClicked}
         markdownContext={'PullRequestComment'}
         underlineLinks={this.props.underlineLinks}
-        title="Pull request markdown comment"
+        title={translateUI('ui.pull-request-markdown-comment.2920894')}
       />
     )
   }

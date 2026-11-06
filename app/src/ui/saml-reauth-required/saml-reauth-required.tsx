@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Dispatcher } from '../dispatcher'
@@ -5,7 +7,9 @@ import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 import { RetryAction } from '../../models/retry-actions'
 import { SignInResult } from '../../lib/stores'
 
-const okButtonText = __DARWIN__ ? 'Continue in Browser' : 'Continue in browser'
+const okButtonText = __DARWIN__
+  ? translateUI('ui.continue-in-browser.5d69d8f')
+  : translateUI('ui.continue-in-browser.fe5ef3d')
 
 interface ISAMLReauthRequiredDialogProps {
   readonly dispatcher: Dispatcher
@@ -38,7 +42,9 @@ export class SAMLReauthRequiredDialog extends React.Component<
     return (
       <Dialog
         title={
-          __DARWIN__ ? 'Re-authorization Required' : 'Re-authorization required'
+          __DARWIN__
+            ? translateUI('ui.re-authorization-required.2e63abe')
+            : translateUI('ui.re-authorization-required.bfe534b')
         }
         loading={this.state.loading}
         onDismissed={this.props.onDismissed}
@@ -47,14 +53,14 @@ export class SAMLReauthRequiredDialog extends React.Component<
       >
         <DialogContent>
           <p>
-            The "{this.props.organizationName}" organization has enabled or
-            enforced SAML SSO. To access this repository, you must sign in again
-            and grant GitHub Desktop permission to access the organization's
-            repositories.
+            {translateUIRich('ui.sentence.5760bbb3f1e8', {
+              p0: this.props.organizationName,
+            })}
           </p>
           <p>
-            Would you like to open a browser to grant GitHub Desktop permission
-            to access the repository?
+            {translateUI(
+              'ui.would-you-like-to-open-a-browser-to-grant-github.1a3c8f1'
+            )}
           </p>
         </DialogContent>
         <DialogFooter>

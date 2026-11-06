@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { join } from 'path'
 import { LinkButton } from '../lib/link-button'
@@ -109,7 +111,7 @@ export class TutorialPanel extends React.Component<
     return (
       <div className="tutorial-panel-component panel">
         <div className="titleArea">
-          <h3>Get started</h3>
+          <h3>{translateUI('ui.get-started.90e40d5')}</h3>
           <img src={TutorialPanelImage} alt="Partially checked check list" />
         </div>
         <ol>
@@ -125,37 +127,44 @@ export class TutorialPanel extends React.Component<
             {!this.isStepComplete(TutorialStep.PickEditor) ? (
               <>
                 <p className="description">
-                  It doesn’t look like you have a text editor installed. We can
-                  recommend{' '}
-                  <LinkButton
-                    uri={suggestedExternalEditor.url}
-                    title={`Open the ${suggestedExternalEditor.name} website`}
-                  >
-                    {suggestedExternalEditor.name}
-                  </LinkButton>
-                  {` or `}
-                  <LinkButton
-                    uri="https://atom.io"
-                    title="Open the Atom website"
-                  >
-                    Atom
-                  </LinkButton>
-                  , but feel free to use any.
+                  {translateUIRich('ui.sentence.6c98aafcc9fc', {
+                    p0: (
+                      <LinkButton
+                        uri={suggestedExternalEditor.url}
+                        title={`Open the ${suggestedExternalEditor.name} website`}
+                      >
+                        {suggestedExternalEditor.name}
+                      </LinkButton>
+                    ),
+                    p1: ` or `,
+                    p2: (
+                      <LinkButton
+                        uri="https://atom.io"
+                        title={translateUI('ui.open-the-atom-website.2783a99')}
+                      >
+                        Atom
+                      </LinkButton>
+                    ),
+                  })}
                 </p>
                 <div className="action">
                   <LinkButton onClick={this.skipEditorInstall}>
-                    I have an editor
+                    {translateUI('ui.i-have-an-editor.8fce2aa')}
                   </LinkButton>
                 </div>
               </>
             ) : (
               <p className="description">
-                Your default editor is{' '}
-                <strong>{this.props.resolvedExternalEditor}</strong>. You can
-                change your preferred editor in{' '}
-                <LinkButton onClick={this.onPreferencesClick}>
-                  {__DARWIN__ ? 'Settings' : 'options'}
-                </LinkButton>
+                {translateUIRich('ui.sentence.e486ef9e2679', {
+                  p0: <strong>{this.props.resolvedExternalEditor}</strong>,
+                  p1: (
+                    <LinkButton onClick={this.onPreferencesClick}>
+                      {__DARWIN__
+                        ? translateUI('ui.settings.c7f73bb')
+                        : translateUI('ui.options.513f8de')}
+                    </LinkButton>
+                  ),
+                })}
               </p>
             )}
           </TutorialStepInstructions>
@@ -188,16 +197,18 @@ export class TutorialPanel extends React.Component<
             onSummaryClick={this.onStepSummaryClick}
           >
             <p className="description">
-              Open this repository in your preferred text editor. Edit the
-              {` `}
-              <Ref>README.md</Ref>
-              {` `}
-              file, save it, and come back.
+              {translateUIRich('ui.sentence.0333c36fa6b4', {
+                p0: ` `,
+                p1: <Ref>README.md</Ref>,
+                p2: ` `,
+              })}
             </p>
             {this.props.resolvedExternalEditor && (
               <div className="action">
                 <Button onClick={this.openTutorialFileInEditor}>
-                  {__DARWIN__ ? 'Open Editor' : 'Open editor'}
+                  {__DARWIN__
+                    ? translateUI('ui.open-editor.d01dd31')
+                    : translateUI('ui.open-editor.a3b05f4')}
                 </Button>
                 <KeyboardShortcut
                   darwinKeys={['⌘', '⇧', 'A']}
@@ -215,10 +226,9 @@ export class TutorialPanel extends React.Component<
             onSummaryClick={this.onStepSummaryClick}
           >
             <p className="description">
-              A commit allows you to save sets of changes. In the “summary“
-              field in the bottom left, write a short message that describes the
-              changes you made. When you’re done, click the blue Commit button
-              to finish.
+              {translateUI(
+                'ui.a-commit-allows-you-to-save-sets-of-changes-in-t.cba1b01'
+              )}
             </p>
           </TutorialStepInstructions>
           <TutorialStepInstructions
@@ -230,9 +240,9 @@ export class TutorialPanel extends React.Component<
             onSummaryClick={this.onStepSummaryClick}
           >
             <p className="description">
-              Publishing will “push”, or upload, your commits to this branch of
-              your repository on GitHub. Publish using the third button in the
-              top bar.
+              {translateUI(
+                'ui.publishing-will-push-or-upload-your-commits-to-t.f37ab85'
+              )}
             </p>
             <div className="action">
               <KeyboardShortcut darwinKeys={['⌘', 'P']} keys={['Ctrl', 'P']} />
@@ -248,14 +258,15 @@ export class TutorialPanel extends React.Component<
             onSummaryClick={this.onStepSummaryClick}
           >
             <p className="description">
-              A pull request allows you to propose changes to the code. By
-              opening one, you’re requesting that someone review and merge them.
-              Since this is a demo repository, this pull request will be
-              private.
+              {translateUI(
+                'ui.a-pull-request-allows-you-to-propose-changes-to-.ca13ad2'
+              )}
             </p>
             <div className="action">
               <Button onClick={this.openPullRequest} role="link">
-                {__DARWIN__ ? 'Open Pull Request' : 'Open pull request'}
+                {__DARWIN__
+                  ? translateUI('ui.open-pull-request.3bacfd1')
+                  : translateUI('ui.open-pull-request.ec89bb5')}
                 <Octicon symbol={octicons.linkExternal} />
               </Button>
               <KeyboardShortcut darwinKeys={['⌘', 'R']} keys={['Ctrl', 'R']} />
@@ -264,7 +275,9 @@ export class TutorialPanel extends React.Component<
         </ol>
         <div className="footer">
           <Button onClick={this.props.onExitTutorial}>
-            {__DARWIN__ ? 'Exit Tutorial' : 'Exit tutorial'}
+            {__DARWIN__
+              ? translateUI('ui.exit-tutorial.53029a9')
+              : translateUI('ui.exit-tutorial.0ab3a06')}
           </Button>
         </div>
       </div>
@@ -285,4 +298,8 @@ export class TutorialPanel extends React.Component<
 
 const SkipLinkButton: React.FunctionComponent<{
   onClick: () => void
-}> = props => <LinkButton onClick={props.onClick}>Skip</LinkButton>
+}> = props => (
+  <LinkButton onClick={props.onClick}>
+    {translateUI('ui.skip.3da4745')}
+  </LinkButton>
+)

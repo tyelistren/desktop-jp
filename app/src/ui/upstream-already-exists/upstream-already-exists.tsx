@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Repository } from '../../models/repository'
@@ -41,7 +43,9 @@ export class UpstreamAlreadyExists extends React.Component<IUpstreamAlreadyExist
     return (
       <Dialog
         title={
-          __DARWIN__ ? 'Upstream Already Exists' : 'Upstream already exists'
+          __DARWIN__
+            ? translateUI('ui.upstream-already-exists.16cd81a')
+            : translateUI('ui.upstream-already-exists.d8a4acf')
         }
         onDismissed={this.props.onDismissed}
         onSubmit={this.onUpdate}
@@ -49,25 +53,35 @@ export class UpstreamAlreadyExists extends React.Component<IUpstreamAlreadyExist
       >
         <DialogContent>
           <p>
-            The repository <Ref>{name}</Ref> is a fork of{' '}
-            <Ref>{parentName}</Ref>, but its <Ref>{UpstreamRemoteName}</Ref>{' '}
-            remote points elsewhere.
+            {translateUIRich('ui.sentence.67a35a0531f2', {
+              p0: <Ref>{name}</Ref>,
+              p1: <Ref>{parentName}</Ref>,
+              p2: <Ref>{UpstreamRemoteName}</Ref>,
+            })}
           </p>
           <ul>
             <li>
-              Current: <Ref>{existingURL}</Ref>
+              {translateUIRich('ui.sentence.bf65dbf98500', {
+                p0: <Ref>{existingURL}</Ref>,
+              })}
             </li>
             <li>
-              Expected: <Ref>{replacementURL}</Ref>
+              {translateUIRich('ui.sentence.cc3a25423fc6', {
+                p0: <Ref>{replacementURL}</Ref>,
+              })}
             </li>
           </ul>
-          <p>Would you like to update the remote to use the expected URL?</p>
+          <p>
+            {translateUI(
+              'ui.would-you-like-to-update-the-remote-to-use-the-e.7834e76'
+            )}
+          </p>
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
             destructive={true}
-            okButtonText="Update"
-            cancelButtonText="Ignore"
+            okButtonText={translateUI('ui.update.fb91e24')}
+            cancelButtonText={translateUI('ui.ignore.98f55db')}
             onCancelButtonClick={this.onIgnore}
           />
         </DialogFooter>

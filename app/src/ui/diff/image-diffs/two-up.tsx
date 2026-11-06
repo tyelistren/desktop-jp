@@ -1,3 +1,5 @@
+import { translateUIRich } from '../../lib/translated-text'
+import { t as translateUI } from '../../../lib/localization'
 import { t } from '../../../lib/localization'
 import * as React from 'react'
 import { ImageContainer } from './image-container'
@@ -70,17 +72,23 @@ export class TwoUp extends React.Component<ITwoUpProps, {}> {
           </div>
         </div>
         <div className="image-diff-summary">
-          Diff:{' '}
-          <span
-            className={classNames({
-              added: diffBytes > 0,
-              removed: diffBytes < 0,
-            })}
-          >
-            {diffBytes !== 0
-              ? `${diffBytesSign}${formatBytes(diffBytes, 2)} (${diffPercent})`
-              : 'No size difference'}
-          </span>
+          {translateUIRich('ui.sentence.c3d2b09ba385', {
+            p0: (
+              <span
+                className={classNames({
+                  added: diffBytes > 0,
+                  removed: diffBytes < 0,
+                })}
+              >
+                {diffBytes !== 0
+                  ? `${diffBytesSign}${formatBytes(
+                      diffBytes,
+                      2
+                    )} (${diffPercent})`
+                  : translateUI('ui.no-size-difference.494b4d1')}
+              </span>
+            ),
+          })}
         </div>
       </div>
     )

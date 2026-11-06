@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { copilotAppMarketingUrl } from '../../lib/copilot-app'
 import { Dialog, DialogContent, DefaultDialogFooter } from '../dialog'
@@ -25,19 +27,22 @@ export class CopilotAppNotFoundDialog extends React.Component<ICopilotAppNotFoun
       >
         <DialogContent>
           <p>
-            Couldn't find the GitHub Copilot App on your machine. Experience
-            agent-driven development built natively on GitHub by{' '}
-            <LinkButton uri={copilotAppMarketingUrl}>
-              downloading GitHub Copilot
-            </LinkButton>
-            .
+            {translateUIRich('ui.sentence.031ff2b180d7', {
+              p0: (
+                <LinkButton uri={copilotAppMarketingUrl}>
+                  {translateUI('ui.downloading-github-copilot.28581e9')}
+                </LinkButton>
+              ),
+            })}
           </p>
           <p>
-            Already installed it? Let us know where in{' '}
-            <LinkButton onClick={this.onShowPreferences}>
-              Preferences
-            </LinkButton>
-            .
+            {translateUIRich('ui.sentence.72c586a925f3', {
+              p0: (
+                <LinkButton onClick={this.onShowPreferences}>
+                  {translateUI('ui.preferences.9dfd349')}
+                </LinkButton>
+              ),
+            })}
           </p>
         </DialogContent>
         <DefaultDialogFooter />

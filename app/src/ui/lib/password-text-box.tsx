@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { ITextBoxProps, TextBox } from './text-box'
 import { Button } from './button'
@@ -40,8 +41,8 @@ export class PasswordTextBox extends React.Component<
       <div className="password-text-box">
         <TextBox {...props} ref={this.textBoxRef} />
         <Button
-          ariaLabel="Toggle password visibility"
-          tooltip="Toggle password visibility"
+          ariaLabel={translateUI('ui.toggle-password-visibility.d23345a')}
+          tooltip={translateUI('ui.toggle-password-visibility.d23345a')}
           onClick={this.onTogglePasswordVisibility}
           ariaPressed={this.state.showPassword}
         >

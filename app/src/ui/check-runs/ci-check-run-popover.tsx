@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { GitHubRepository } from '../../models/github-repository'
 import type { Disposable } from 'event-kit'
@@ -226,8 +227,10 @@ export class CICheckRunPopover extends React.PureComponent<
     return (
       <div className="loading-check-runs">
         <img src={BlankSlateImage} className="blankslate-image" alt="" />
-        <div className="title">Stand By</div>
-        <div className="call-to-action">Check runs incoming!</div>
+        <div className="title">{translateUI('ui.stand-by.62039fb')}</div>
+        <div className="call-to-action">
+          {translateUI('ui.check-runs-incoming.16c8908')}
+        </div>
       </div>
     )
   }
@@ -279,18 +282,28 @@ export class CICheckRunPopover extends React.PureComponent<
   ): JSX.Element {
     switch (true) {
       case loading:
-        return <>Checks Summary</>
+        return <>{translateUI('ui.checks-summary.84755e1')}</>
       case somePendingNoFailures:
         return (
-          <span className="pending">Some checks haven't completed yet</span>
+          <span className="pending">
+            {translateUI('ui.some-checks-haven-t-completed-yet.1318106')}
+          </span>
         )
       case allFailure:
-        return <span className="failure">All checks have failed</span>
+        return (
+          <span className="failure">
+            {translateUI('ui.all-checks-have-failed.2375ac1')}
+          </span>
+        )
       case allSuccess:
-        return <>All checks have passed</>
+        return <>{translateUI('ui.all-checks-have-passed.cf66b15')}</>
     }
 
-    return <span className="failure">Some checks were not successful</span>
+    return (
+      <span className="failure">
+        {translateUI('ui.some-checks-were-not-successful.4cba74a')}
+      </span>
+    )
   }
 
   private renderHeader = (): JSX.Element => {

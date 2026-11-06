@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import * as Path from 'path'
 
@@ -46,11 +48,11 @@ export class DeleteWorktreeDialog extends React.Component<
 
     const title = isMissing
       ? __DARWIN__
-        ? 'Remove Missing Worktree'
-        : 'Remove missing worktree'
+        ? translateUI('ui.remove-missing-worktree.744ecb6')
+        : translateUI('ui.remove-missing-worktree.9f72994')
       : __DARWIN__
-      ? 'Delete Worktree'
-      : 'Delete worktree'
+      ? translateUI('ui.delete-worktree.539eb5b')
+      : translateUI('ui.delete-worktree.8394b10')
 
     return (
       <Dialog
@@ -68,18 +70,21 @@ export class DeleteWorktreeDialog extends React.Component<
           <p id="delete-worktree-confirmation">
             {isMissing ? (
               <>
-                The folder for the worktree <Ref>{name}</Ref> no longer exists.
-                Remove it from this repository?
+                {translateUIRich('ui.sentence.f81a9517478a', {
+                  p0: <Ref>{name}</Ref>,
+                })}
               </>
             ) : (
               <>
-                Are you sure you want to delete the worktree <Ref>{name}</Ref>?
+                {translateUIRich('ui.sentence.cdbdfbca96e5', {
+                  p0: <Ref>{name}</Ref>,
+                })}
               </>
             )}
           </p>
           {!isMissing && (
             <Checkbox
-              label="Do not show this message again"
+              label={translateUI('ui.do-not-show-this-message-again.afe501e')}
               value={
                 this.state.confirmWorktreeRemoval
                   ? CheckboxValue.Off
@@ -92,7 +97,11 @@ export class DeleteWorktreeDialog extends React.Component<
         <DialogFooter>
           <OkCancelButtonGroup
             destructive={true}
-            okButtonText={isMissing ? 'Remove' : 'Delete'}
+            okButtonText={
+              isMissing
+                ? translateUI('ui.remove.e963907')
+                : translateUI('ui.delete.f6fdbe4')
+            }
           />
         </DialogFooter>
       </Dialog>

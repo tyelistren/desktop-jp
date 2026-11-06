@@ -77,7 +77,9 @@ test('Japanese and English dictionaries cover every static UI translation key', 
       new URL(`../../app/src/ui/${file}`, import.meta.url),
       'utf8'
     )
-    for (const match of source.matchAll(/\bt\('([^']+)'/g)) {
+    for (const match of source.matchAll(
+      /\b(?:t|translateUI|translateUIRich)\(\s*'([^']+)'/g
+    )) {
       assert.ok(en[match[1]], `${file}: missing English key ${match[1]}`)
       assert.ok(ja[match[1]], `${file}: missing Japanese key ${match[1]}`)
     }

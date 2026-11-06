@@ -1,3 +1,5 @@
+import { t as translateUI } from '../../lib/localization'
+import { translateUIRich } from '../lib/translated-text'
 import * as React from 'react'
 
 import { assertNever } from '../../lib/fatal-error'
@@ -121,19 +123,28 @@ export function renderBanner(
         />
       )
     case BannerType.SquashUndone: {
-      const pluralized = banner.commitsCount === 1 ? 'commit' : 'commits'
+      const pluralized =
+        banner.commitsCount === 1
+          ? translateUI('ui.dynamic.commit')
+          : translateUI('ui.dynamic.commits')
       return (
         <SuccessBanner
           key="squash-undone"
           timeout={5000}
           onDismissed={onDismissed}
         >
-          Squash of {banner.commitsCount} {pluralized} undone.
+          {translateUIRich('ui.sentence.9b8a9d362c8b', {
+            p0: banner.commitsCount,
+            p1: pluralized,
+          })}
         </SuccessBanner>
       )
     }
     case BannerType.SuccessfulReorder: {
-      const pluralized = banner.count === 1 ? 'commit' : 'commits'
+      const pluralized =
+        banner.count === 1
+          ? translateUI('ui.dynamic.commit')
+          : translateUI('ui.dynamic.commits')
 
       return (
         <SuccessBanner
@@ -143,20 +154,29 @@ export function renderBanner(
           onUndo={banner.onUndo}
         >
           <span>
-            Successfully reordered {banner.count} {pluralized}.
+            {translateUIRich('ui.sentence.1cd1ee6fbe85', {
+              p0: banner.count,
+              p1: pluralized,
+            })}
           </span>
         </SuccessBanner>
       )
     }
     case BannerType.ReorderUndone: {
-      const pluralized = banner.commitsCount === 1 ? 'commit' : 'commits'
+      const pluralized =
+        banner.commitsCount === 1
+          ? translateUI('ui.dynamic.commit')
+          : translateUI('ui.dynamic.commits')
       return (
         <SuccessBanner
           key="reorder-undone"
           timeout={5000}
           onDismissed={onDismissed}
         >
-          Reorder of {banner.commitsCount} {pluralized} undone.
+          {translateUIRich('ui.sentence.7c76524d86e7', {
+            p0: banner.commitsCount,
+            p1: pluralized,
+          })}
         </SuccessBanner>
       )
     }

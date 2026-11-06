@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { Dispatcher } from '../dispatcher'
@@ -33,7 +35,11 @@ export class DeleteRemoteBranch extends React.Component<
     return (
       <Dialog
         id="delete-branch"
-        title={__DARWIN__ ? 'Delete Remote Branch' : 'Delete remote branch'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.delete-remote-branch.da20d97')
+            : translateUI('ui.delete-remote-branch.5281ede')
+        }
         type="warning"
         onSubmit={this.deleteBranch}
         onDismissed={this.props.onDismissed}
@@ -45,18 +51,24 @@ export class DeleteRemoteBranch extends React.Component<
         <DialogContent>
           <div id="delete-branch-confirmation-message">
             <p>
-              Delete remote branch <Ref>{this.props.branch.name}</Ref>?
+              {translateUIRich('ui.sentence.dd1efb450e7c', {
+                p0: <Ref>{this.props.branch.name}</Ref>,
+              })}
             </p>
-            <p>This action cannot be undone.</p>
+            <p>{translateUI('ui.this-action-cannot-be-undone.951f495')}</p>
 
             <p>
-              This branch does not exist locally. Deleting it may impact others
-              collaborating on this branch.
+              {translateUI(
+                'ui.this-branch-does-not-exist-locally-deleting-it-m.5165d9b'
+              )}
             </p>
           </div>
         </DialogContent>
         <DialogFooter>
-          <OkCancelButtonGroup destructive={true} okButtonText="Delete" />
+          <OkCancelButtonGroup
+            destructive={true}
+            okButtonText={translateUI('ui.delete.f6fdbe4')}
+          />
         </DialogFooter>
       </Dialog>
     )

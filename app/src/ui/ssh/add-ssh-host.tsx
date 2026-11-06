@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
@@ -20,23 +22,30 @@ export class AddSSHHost extends React.Component<IAddSSHHostProps> {
       <Dialog
         id="add-ssh-host"
         type="normal"
-        title="SSH Host"
+        title={translateUI('ui.ssh-host.a34d122')}
         backdropDismissable={false}
         onSubmit={this.onSubmit}
         onDismissed={this.onCancel}
       >
         <DialogContent>
           <p>
-            The authenticity of host '{this.props.host} ({this.props.ip})' can't
-            be established. {this.props.keyType} key fingerprint is{' '}
-            {this.props.fingerprint}.
+            {translateUIRich('ui.sentence.ab4bdb641c26', {
+              p0: this.props.host,
+              p1: this.props.ip,
+              p2: this.props.keyType,
+              p3: this.props.fingerprint,
+            })}
           </p>
-          <p>Are you sure you want to continue connecting?</p>
+          <p>
+            {translateUI(
+              'ui.are-you-sure-you-want-to-continue-connecting.6648aab'
+            )}
+          </p>
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText="Yes"
-            cancelButtonText="No"
+            okButtonText={translateUI('ui.yes.5397e05')}
+            cancelButtonText={translateUI('ui.no.816c52f')}
             onCancelButtonClick={this.onCancel}
           />
         </DialogFooter>

@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { DialogContent } from '../dialog'
 import { Account } from '../../models/account'
@@ -57,7 +58,9 @@ export class GitConfig extends React.Component<IGitConfigProps> {
     return (
       <DialogContent>
         <div className="advanced-section">
-          <h2 id="git-config-heading">For this repository I wish to</h2>
+          <h2 id="git-config-heading">
+            {translateUI('ui.for-this-repository-i-wish-to.217ba3d')}
+          </h2>
           <Row>
             <RadioGroup<GitConfigLocation>
               ariaLabelledBy="git-config-heading"

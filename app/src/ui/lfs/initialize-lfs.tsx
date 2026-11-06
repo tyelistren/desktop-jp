@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Repository } from '../../models/repository'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
@@ -34,7 +36,7 @@ export class InitializeLFS extends React.Component<IInitializeLFSProps, {}> {
     return (
       <Dialog
         id="initialize-lfs"
-        title="Initialize Git LFS"
+        title={translateUI('ui.initialize-git-lfs.7ff6159')}
         backdropDismissable={false}
         onSubmit={this.onInitialize}
         onDismissed={this.props.onDismissed}
@@ -43,8 +45,12 @@ export class InitializeLFS extends React.Component<IInitializeLFSProps, {}> {
 
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText="Initialize Git LFS"
-            cancelButtonText={__DARWIN__ ? 'Not Now' : 'Not now'}
+            okButtonText={translateUI('ui.initialize-git-lfs.7ff6159')}
+            cancelButtonText={
+              __DARWIN__
+                ? translateUI('ui.not-now.b1e5359')
+                : translateUI('ui.not-now.e457149')
+            }
             onCancelButtonClick={this.props.onDismissed}
           />
         </DialogFooter>
@@ -61,9 +67,10 @@ export class InitializeLFS extends React.Component<IInitializeLFSProps, {}> {
     if (this.props.repositories.length > MaxRepositoriesToList) {
       return (
         <p>
-          {this.props.repositories.length} repositories use{' '}
-          <LinkButton uri={LFSURL}>Git LFS</LinkButton>. To contribute to them,
-          Git LFS must first be initialized. Would you like to do so now?
+          {translateUIRich('ui.sentence.fdd4daf409a8', {
+            p0: this.props.repositories.length,
+            p1: <LinkButton uri={LFSURL}>Git LFS</LinkButton>,
+          })}
         </p>
       )
     } else {
@@ -75,10 +82,11 @@ export class InitializeLFS extends React.Component<IInitializeLFSProps, {}> {
       return (
         <div>
           <p>
-            {pluralizedRepositories}{' '}
-            <LinkButton uri={LFSURL}>Git LFS</LinkButton>. To contribute to{' '}
-            {pluralizedUse}, Git LFS must first be initialized. Would you like
-            to do so now?
+            {translateUIRich('ui.sentence.c09a18eabac7', {
+              p0: pluralizedRepositories,
+              p1: <LinkButton uri={LFSURL}>Git LFS</LinkButton>,
+              p2: pluralizedUse,
+            })}
           </p>
           <ul>
             {this.props.repositories.map(r => (

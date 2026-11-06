@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dispatcher } from '../dispatcher/index'
 import { LinkButton } from '../lib/link-button'
@@ -73,13 +75,14 @@ export class UpdateAvailable extends React.Component<IUpdateAvailableProps> {
     if (this.props.isX64ToARM64ImmediateAutoUpdate) {
       return (
         <span onSubmit={this.updateNow}>
-          An optimized version of GitHub Desktop is available for your{' '}
-          {__DARWIN__ ? 'Apple silicon' : 'Arm64'} machine and will be installed
-          at the next launch or{' '}
-          <LinkButton onClick={this.updateNow}>
-            restart GitHub Desktop
-          </LinkButton>{' '}
-          now.
+          {translateUIRich('ui.sentence.8209390bf049', {
+            p0: __DARWIN__ ? 'Apple silicon' : 'Arm64',
+            p1: (
+              <LinkButton onClick={this.updateNow}>
+                {translateUI('ui.restart-github-desktop.4ee164c')}
+              </LinkButton>
+            ),
+          })}
         </span>
       )
     }
@@ -92,19 +95,28 @@ export class UpdateAvailable extends React.Component<IUpdateAvailableProps> {
 
       return (
         <span>
-          <span aria-hidden="true">
-            <RichText
-              className="banner-emoji"
-              text={':tada:'}
-              emoji={this.props.emoji}
-            />
-          </span>
-          Exciting new features have been added{version}. See{' '}
-          <LinkButton onClick={this.showReleaseNotes}>what's new</LinkButton> or{' '}
-          <LinkButton onClick={this.dismissUpdateShowCaseVisibility}>
-            dismiss
-          </LinkButton>
-          .
+          {translateUIRich('ui.sentence.f6385c8a2d71', {
+            p0: (
+              <span aria-hidden="true">
+                <RichText
+                  className="banner-emoji"
+                  text={':tada:'}
+                  emoji={this.props.emoji}
+                />
+              </span>
+            ),
+            p1: version,
+            p2: (
+              <LinkButton onClick={this.showReleaseNotes}>
+                {translateUI('ui.what-s-new.05f39e0')}
+              </LinkButton>
+            ),
+            p3: (
+              <LinkButton onClick={this.dismissUpdateShowCaseVisibility}>
+                {translateUI('ui.dismiss.2f029c7')}
+              </LinkButton>
+            ),
+          })}
         </span>
       )
     }
@@ -112,30 +124,38 @@ export class UpdateAvailable extends React.Component<IUpdateAvailableProps> {
     if (this.props.prioritizeUpdate) {
       return (
         <span onSubmit={this.updateNow}>
-          This version of GitHub Desktop is missing{' '}
-          {this.props.prioritizeUpdateInfoUrl ? (
-            <LinkButton uri={this.props.prioritizeUpdateInfoUrl}>
-              important updates
-            </LinkButton>
-          ) : (
-            'important updates'
-          )}
-          . Please{' '}
-          <LinkButton onClick={this.updateNow}>
-            restart GitHub Desktop
-          </LinkButton>{' '}
-          now to install pending updates.
+          {translateUIRich('ui.sentence.2d158d1b8a4b', {
+            p0: this.props.prioritizeUpdateInfoUrl ? (
+              <LinkButton uri={this.props.prioritizeUpdateInfoUrl}>
+                {translateUI('ui.important-updates.c8f075e')}
+              </LinkButton>
+            ) : (
+              'important updates'
+            ),
+            p1: (
+              <LinkButton onClick={this.updateNow}>
+                {translateUI('ui.restart-github-desktop.4ee164c')}
+              </LinkButton>
+            ),
+          })}
         </span>
       )
     }
 
     return (
       <span onSubmit={this.updateNow}>
-        An updated version of GitHub Desktop is available and will be installed
-        at the next launch. See{' '}
-        <LinkButton onClick={this.showReleaseNotes}>what's new</LinkButton> or{' '}
-        <LinkButton onClick={this.updateNow}>restart GitHub Desktop</LinkButton>
-        .
+        {translateUIRich('ui.sentence.5b393d5e8d0f', {
+          p0: (
+            <LinkButton onClick={this.showReleaseNotes}>
+              {translateUI('ui.what-s-new.05f39e0')}
+            </LinkButton>
+          ),
+          p1: (
+            <LinkButton onClick={this.updateNow}>
+              {translateUI('ui.restart-github-desktop.4ee164c')}
+            </LinkButton>
+          ),
+        })}
       </span>
     )
   }

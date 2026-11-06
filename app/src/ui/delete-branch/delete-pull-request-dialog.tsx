@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { Dispatcher } from '../dispatcher'
@@ -23,24 +25,36 @@ export class DeletePullRequest extends React.Component<IDeleteBranchProps, {}> {
     return (
       <Dialog
         id="delete-branch"
-        title={__DARWIN__ ? 'Delete Branch' : 'Delete branch'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.delete-branch.d6726bb')
+            : translateUI('ui.delete-branch.5478e60')
+        }
         type="warning"
         onDismissed={this.props.onDismissed}
         onSubmit={this.deleteBranch}
       >
         <DialogContent>
-          <p>This branch may have an open pull request associated with it.</p>
           <p>
-            If{' '}
-            <LinkButton onClick={this.openPullRequest}>
-              #{this.props.pullRequest.pullRequestNumber}
-            </LinkButton>{' '}
-            has been merged, you can also go to GitHub to delete the remote
-            branch.
+            {translateUI(
+              'ui.this-branch-may-have-an-open-pull-request-associ.a43cb3c'
+            )}
+          </p>
+          <p>
+            {translateUIRich('ui.sentence.26f5dd163073', {
+              p0: (
+                <LinkButton onClick={this.openPullRequest}>
+                  #{this.props.pullRequest.pullRequestNumber}
+                </LinkButton>
+              ),
+            })}
           </p>
         </DialogContent>
         <DialogFooter>
-          <OkCancelButtonGroup destructive={true} okButtonText="Delete" />
+          <OkCancelButtonGroup
+            destructive={true}
+            okButtonText={translateUI('ui.delete.f6fdbe4')}
+          />
         </DialogFooter>
       </Dialog>
     )

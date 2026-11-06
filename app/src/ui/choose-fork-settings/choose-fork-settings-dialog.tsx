@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import {
@@ -48,25 +50,31 @@ export class ChooseForkSettings extends React.Component<
   public render() {
     const items = [
       {
-        title: 'To contribute to the parent project',
+        title: translateUI('ui.to-contribute-to-the-parent-project.8ba2b85'),
         description: (
           <>
-            We will help you contribute to the{' '}
-            <strong>
-              {this.props.repository.gitHubRepository.parent.fullName}
-            </strong>{' '}
-            repository
+            {translateUIRich('ui.sentence.7ca88871724e', {
+              p0: (
+                <strong>
+                  {this.props.repository.gitHubRepository.parent.fullName}
+                </strong>
+              ),
+            })}
           </>
         ),
         key: ForkContributionTarget.Parent,
       },
       {
-        title: 'For my own purposes',
+        title: translateUI('ui.for-my-own-purposes.1e59828'),
         description: (
           <>
-            We will help you contribute to the{' '}
-            <strong>{this.props.repository.gitHubRepository.fullName}</strong>{' '}
-            repository
+            {translateUIRich('ui.sentence.7ca88871724e', {
+              p0: (
+                <strong>
+                  {this.props.repository.gitHubRepository.fullName}
+                </strong>
+              ),
+            })}
           </>
         ),
         key: ForkContributionTarget.Self,
@@ -76,14 +84,16 @@ export class ChooseForkSettings extends React.Component<
     return (
       <Dialog
         id="fork-settings"
-        title="How are you planning to use this fork?"
+        title={translateUI('ui.how-are-you-planning-to-use-this-fork.af6f0bb')}
         onSubmit={this.onSubmit}
         onDismissed={this.props.onDismissed}
       >
         <DialogContent>
           <Row>
             <VerticalSegmentedControl
-              label="This repository is a fork. How do you plan to use it?"
+              label={translateUI(
+                'ui.this-repository-is-a-fork-how-do-you-plan-to-use.9841bb5'
+              )}
               items={items}
               selectedKey={this.state.forkContributionTarget}
               onSelectionChanged={this.onSelectionChanged}
@@ -98,7 +108,9 @@ export class ChooseForkSettings extends React.Component<
         </DialogContent>
 
         <DialogFooter>
-          <OkCancelButtonGroup okButtonText="Continue" />
+          <OkCancelButtonGroup
+            okButtonText={translateUI('ui.continue.2e02623')}
+          />
         </DialogFooter>
       </Dialog>
     )

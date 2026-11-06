@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Dispatcher } from '../dispatcher'
@@ -28,18 +30,23 @@ export class InvalidatedToken extends React.Component<IInvalidatedTokenProps> {
         id="invalidated-token"
         type="warning"
         title={
-          __DARWIN__ ? 'Invalidated Account Token' : 'Invalidated account token'
+          __DARWIN__
+            ? translateUI('ui.invalidated-account-token.b305bb8')
+            : translateUI('ui.invalidated-account-token.1085c4d')
         }
         onSubmit={this.onSubmit}
         onDismissed={this.props.onDismissed}
       >
         <DialogContent>
-          Your account token is no longer valid and you have been signed out
-          from your <Ref>{account.friendlyEndpoint}</Ref> account. Do you want
-          to sign in again?
+          {translateUIRich('ui.sentence.eb4ae23d4a37', {
+            p0: <Ref>{account.friendlyEndpoint}</Ref>,
+          })}
         </DialogContent>
         <DialogFooter>
-          <OkCancelButtonGroup okButtonText="Yes" cancelButtonText="No" />
+          <OkCancelButtonGroup
+            okButtonText={translateUI('ui.yes.5397e05')}
+            cancelButtonText={translateUI('ui.no.816c52f')}
+          />
         </DialogFooter>
       </Dialog>
     )

@@ -1,9 +1,10 @@
+import { mapStatus } from '../../lib/status'
 import * as React from 'react'
 import { PathLabel } from '../lib/path-label'
 import { AppFileStatus } from '../../models/status'
 import { IDiff, DiffType } from '../../models/diff'
 import { Octicon, iconForStatus } from '../octicons'
-import { mapStatus } from '../../lib/status'
+import { fileStatusLabel } from '../lib/file-status-label'
 import { DiffOptions } from './diff-options'
 
 interface IDiffHeaderProps {
@@ -31,7 +32,7 @@ interface IDiffHeaderProps {
 export class DiffHeader extends React.Component<IDiffHeaderProps, {}> {
   public render() {
     const status = this.props.status
-    const fileStatus = mapStatus(status)
+    const fileStatus = fileStatusLabel(status)
 
     return (
       <div className="header">
@@ -41,7 +42,7 @@ export class DiffHeader extends React.Component<IDiffHeaderProps, {}> {
 
         <Octicon
           symbol={iconForStatus(status)}
-          className={'status status-' + fileStatus.toLowerCase()}
+          className={'status status-' + mapStatus(status).toLowerCase()}
           title={fileStatus}
         />
       </div>

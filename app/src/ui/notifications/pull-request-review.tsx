@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Row } from '../lib/row'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
@@ -115,7 +116,7 @@ export class PullRequestReview extends React.Component<
     const okCancelButtonGroup = (
       <OkCancelButtonGroup
         onCancelButtonClick={this.props.onDismissed}
-        cancelButtonText="Dismiss"
+        cancelButtonText={translateUI('ui.dismiss.70afe9e')}
         // If there is nothing special about the OK button, just hide the cancel
         // button, since they will both just dismiss the dialog.
         cancelButtonVisible={okButtonTitle !== undefined}

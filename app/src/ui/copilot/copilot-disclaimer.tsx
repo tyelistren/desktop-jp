@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import {
   Dialog,
@@ -46,15 +48,23 @@ export class CopilotDisclaimer extends React.Component<ICopilotDisclaimerProps> 
       >
         <DialogContent>
           <p id="copilot-disclaimer-body">
-            Copilot is powered by AI, so mistakes are possible.
-            {children !== undefined && <> {children}</>}{' '}
-            <LinkButton uri="https://gh.io/copilot-for-desktop-transparency">
-              Learn more about Copilot in GitHub Desktop.
-            </LinkButton>
+            {translateUIRich('ui.sentence.c3112271d8fb', {
+              p0: children !== undefined && <> {children}</>,
+              p1: (
+                <LinkButton uri="https://gh.io/copilot-for-desktop-transparency">
+                  {translateUI(
+                    'ui.learn-more-about-copilot-in-github-desktop.61227d0'
+                  )}
+                </LinkButton>
+              ),
+            })}
           </p>
         </DialogContent>
         <DialogFooter>
-          <OkCancelButtonGroup destructive={true} okButtonText="I understand" />
+          <OkCancelButtonGroup
+            destructive={true}
+            okButtonText={translateUI('ui.i-understand.842a9bd')}
+          />
         </DialogFooter>
       </Dialog>
     )

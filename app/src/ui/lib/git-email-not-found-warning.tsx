@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Account, isDotComAccount } from '../../models/account'
 import { LinkButton } from './link-button'
@@ -30,10 +31,12 @@ export class GitEmailNotFoundWarning extends React.Component<IGitEmailNotFoundWa
 
     const learnMore = !isAttributableEmail ? (
       <LinkButton
-        ariaLabel="Learn more about commit attribution"
+        ariaLabel={translateUI(
+          'ui.learn-more-about-commit-attribution.819a524'
+        )}
         uri="https://docs.github.com/en/github/committing-changes-to-your-project/why-are-my-commits-linked-to-the-wrong-user"
       >
-        Learn more.
+        {translateUI('ui.learn-more.2a5c6a3')}
       </LinkButton>
     ) : null
 

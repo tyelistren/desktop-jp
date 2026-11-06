@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import {
   Dialog,
@@ -56,7 +58,7 @@ export class LocalChangesOverwrittenDialog extends React.Component<
 
     return (
       <Dialog
-        title="Error"
+        title={translateUI('ui.error.7f2f6a1')}
         id="local-changes-overwritten"
         loading={this.state.stashing}
         disabled={this.state.stashing}
@@ -69,8 +71,10 @@ export class LocalChangesOverwrittenDialog extends React.Component<
         <DialogContent>
           <div id="local-changes-error-description">
             <p>
-              Unable to {this.getRetryActionName()} when changes are present on
-              your branch.{overwrittenText}
+              {translateUIRich('ui.sentence.d7179359e3e9', {
+                p0: this.getRetryActionName(),
+                p1: overwrittenText,
+              })}
             </p>
             {this.renderFiles()}
             {this.renderStashText()}
@@ -113,7 +117,13 @@ export class LocalChangesOverwrittenDialog extends React.Component<
       return null
     }
 
-    return <p>You can stash your changes now and recover them afterwards.</p>
+    return (
+      <p>
+        {translateUI(
+          'ui.you-can-stash-your-changes-now-and-recover-them-.92baabd'
+        )}
+      </p>
+    )
   }
 
   private renderFooter() {
@@ -126,11 +136,11 @@ export class LocalChangesOverwrittenDialog extends React.Component<
         <OkCancelButtonGroup
           okButtonText={
             __DARWIN__
-              ? 'Stash Changes and Continue'
-              : 'Stash changes and continue'
+              ? translateUI('ui.stash-changes-and-continue.37610c9')
+              : translateUI('ui.stash-changes-and-continue.12bc127')
           }
           okButtonTitle="This will create a stash with your current changes. You can recover them by restoring the stash afterwards."
-          cancelButtonText="Close"
+          cancelButtonText={translateUI('ui.close.bbfa773')}
         />
       </DialogFooter>
     )

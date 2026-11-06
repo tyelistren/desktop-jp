@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { TextBox } from '../lib/text-box'
@@ -46,7 +48,11 @@ export class GenericGitAuthentication extends React.Component<
     return (
       <Dialog
         id="generic-git-auth"
-        title={__DARWIN__ ? `Authentication Failed` : `Authentication failed`}
+        title={
+          __DARWIN__
+            ? translateUI('ui.authentication-failed.ed3b12f')
+            : translateUI('ui.authentication-failed.2db8daa')
+        }
         onDismissed={this.props.onDismiss}
         onSubmit={this.save}
         role="alertdialog"
@@ -54,22 +60,24 @@ export class GenericGitAuthentication extends React.Component<
       >
         <DialogContent>
           <p id="generic-git-auth-error">
-            We were unable to authenticate with{' '}
-            <Ref>{this.props.remoteUrl}</Ref>. Please enter{' '}
-            {this.props.username ? (
-              <>
-                the password for the user <Ref>{this.props.username}</Ref>
-              </>
-            ) : (
-              'your username and password'
-            )}{' '}
-            to try again.
+            {translateUIRich('ui.sentence.0b826f38d2d8', {
+              p0: <Ref>{this.props.remoteUrl}</Ref>,
+              p1: this.props.username ? (
+                <>
+                  {translateUIRich('ui.sentence.3f23b740d217', {
+                    p0: <Ref>{this.props.username}</Ref>,
+                  })}
+                </>
+              ) : (
+                'your username and password'
+              ),
+            })}
           </p>
 
           {this.props.username === undefined && (
             <Row>
               <TextBox
-                label="Username"
+                label={translateUI('ui.username.84c2901')}
                 autoFocus={true}
                 value={this.state.username}
                 onValueChanged={this.onUsernameChange}
@@ -79,7 +87,7 @@ export class GenericGitAuthentication extends React.Component<
 
           <Row>
             <PasswordTextBox
-              label="Password"
+              label={translateUI('ui.password.8be3c94')}
               value={this.state.password}
               onValueChanged={this.onPasswordChange}
               ariaDescribedBy="generic-git-auth-password-description"
@@ -88,13 +96,13 @@ export class GenericGitAuthentication extends React.Component<
 
           <Row>
             <div id="generic-git-auth-password-description">
-              Depending on your repository's hosting service, you might need to
-              use a Personal Access Token (PAT) as your password. Learn more
-              about creating a PAT in our{' '}
-              <LinkButton uri="https://github.com/desktop/desktop/tree/development/docs/integrations">
-                integration docs
-              </LinkButton>
-              .
+              {translateUIRich('ui.sentence.6e2c59181253', {
+                p0: (
+                  <LinkButton uri="https://github.com/desktop/desktop/tree/development/docs/integrations">
+                    {translateUI('ui.integration-docs.83e89b8')}
+                  </LinkButton>
+                ),
+              })}
             </div>
           </Row>
         </DialogContent>

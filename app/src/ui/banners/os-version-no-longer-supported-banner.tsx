@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Octicon } from '../octicons'
 import * as octicons from '../octicons/octicons.generated'
@@ -23,12 +25,14 @@ export class OSVersionNoLongerSupportedBanner extends React.Component<{
         dismissable={true}
         onDismissed={this.onDismissed}
       >
-        <Octicon className="alert-icon" symbol={octicons.alert} />
-        This operating system is no longer supported. Software updates have been
-        disabled.
-        <LinkButton uri="https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/supported-operating-systems">
-          Support details
-        </LinkButton>
+        {translateUIRich('ui.sentence.3391d27a96b9', {
+          p0: <Octicon className="alert-icon" symbol={octicons.alert} />,
+          p1: (
+            <LinkButton uri="https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/supported-operating-systems">
+              {translateUI('ui.support-details.b76ff7a')}
+            </LinkButton>
+          ),
+        })}
       </Banner>
     )
   }

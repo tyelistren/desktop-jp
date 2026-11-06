@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
@@ -20,7 +22,11 @@ export class ConfirmDeleteCopilotBYOKProviderDialog extends React.Component<ICon
     return (
       <Dialog
         id="confirm-delete-copilot-byok-provider"
-        title={__DARWIN__ ? 'Remove Custom Provider' : 'Remove custom provider'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.remove-custom-provider.03927d8')
+            : translateUI('ui.remove-custom-provider.58a29d9')
+        }
         type="warning"
         onSubmit={this.onConfirm}
         onDismissed={this.props.onDismissed}
@@ -29,15 +35,20 @@ export class ConfirmDeleteCopilotBYOKProviderDialog extends React.Component<ICon
       >
         <DialogContent>
           <p id="confirm-delete-copilot-byok-provider-message">
-            Are you sure you want to remove the custom provider{' '}
-            <Ref>{this.props.provider.name}</Ref>?{' '}
-            {this.renderSecretConsequence()}
+            {translateUIRich('ui.sentence.f8e5061951fb', {
+              p0: <Ref>{this.props.provider.name}</Ref>,
+              p1: this.renderSecretConsequence(),
+            })}
           </p>
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
             destructive={true}
-            okButtonText={__DARWIN__ ? 'Remove' : 'Remove'}
+            okButtonText={
+              __DARWIN__
+                ? translateUI('ui.remove.e963907')
+                : translateUI('ui.remove.e963907')
+            }
           />
         </DialogFooter>
       </Dialog>

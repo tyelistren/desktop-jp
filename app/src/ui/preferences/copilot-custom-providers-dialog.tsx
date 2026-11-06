@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { isLocalBaseUrl, type IBYOKProvider } from '../../lib/copilot/byok'
 import { Button } from '../lib/button'
@@ -29,7 +30,11 @@ export class CopilotCustomProvidersDialog extends React.Component<ICopilotCustom
       <Dialog
         id="copilot-custom-providers-dialog"
         className="copilot-settings-dialog"
-        title={__DARWIN__ ? 'Custom Providers' : 'Custom providers'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.custom-providers.1fbb926')
+            : translateUI('ui.custom-providers.a62c392')
+        }
         onSubmit={this.props.onDismissed}
         onDismissed={this.props.onDismissed}
       >
@@ -37,13 +42,15 @@ export class CopilotCustomProvidersDialog extends React.Component<ICopilotCustom
           <div className="copilot-section">
             {this.renderProviders()}
             <Button onClick={this.onAddProviderClick}>
-              {__DARWIN__ ? 'Add Provider…' : 'Add provider…'}
+              {__DARWIN__
+                ? translateUI('ui.add-provider.03c574c')
+                : translateUI('ui.add-provider.a3c75ac')}
             </Button>
           </div>
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText="Done"
+            okButtonText={translateUI('ui.done.e9b450d')}
             cancelButtonVisible={false}
           />
         </DialogFooter>
@@ -55,8 +62,9 @@ export class CopilotCustomProvidersDialog extends React.Component<ICopilotCustom
     if (this.props.providers.length === 0) {
       return (
         <p className="copilot-byok-empty">
-          Add a custom provider to use your own API keys with OpenAI-compatible
-          endpoints, Azure, Anthropic, or local providers like Ollama.
+          {translateUI(
+            'ui.add-a-custom-provider-to-use-your-own-api-keys-w.fe5cd46'
+          )}
         </p>
       )
     }
@@ -79,7 +87,9 @@ export class CopilotCustomProvidersDialog extends React.Component<ICopilotCustom
           <div className="copilot-byok-entry-title">
             <span>{provider.name}</span>
             {isLocal && (
-              <span className="copilot-byok-provider-badge">Local</span>
+              <span className="copilot-byok-provider-badge">
+                {translateUI('ui.local.dc99d54')}
+              </span>
             )}
           </div>
           <span className="copilot-byok-entry-meta">

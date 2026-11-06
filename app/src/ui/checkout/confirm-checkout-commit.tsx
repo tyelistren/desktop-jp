@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Repository } from '../../models/repository'
@@ -36,7 +37,9 @@ export class ConfirmCheckoutCommitDialog extends React.Component<
   }
 
   public render() {
-    const title = __DARWIN__ ? 'Checkout Commit?' : 'Checkout commit?'
+    const title = __DARWIN__
+      ? translateUI('ui.checkout-commit.5c82997')
+      : translateUI('ui.checkout-commit.fca2fc8')
 
     return (
       <Dialog
@@ -52,13 +55,13 @@ export class ConfirmCheckoutCommitDialog extends React.Component<
       >
         <DialogContent>
           <Row id="checking-out-commit-confirmation">
-            Checking out a commit will create a detached HEAD, and you will no
-            longer be on any branch. Are you sure you want to checkout this
-            commit?
+            {translateUI(
+              'ui.checking-out-a-commit-will-create-a-detached-hea.1403243'
+            )}
           </Row>
           <Row>
             <Checkbox
-              label="Do not show this message again"
+              label={translateUI('ui.do-not-show-this-message-again.afe501e')}
               value={
                 this.state.confirmCheckoutCommit
                   ? CheckboxValue.Off
@@ -69,7 +72,10 @@ export class ConfirmCheckoutCommitDialog extends React.Component<
           </Row>
         </DialogContent>
         <DialogFooter>
-          <OkCancelButtonGroup destructive={true} okButtonText="Checkout" />
+          <OkCancelButtonGroup
+            destructive={true}
+            okButtonText={translateUI('ui.checkout.3ac8e9e')}
+          />
         </DialogFooter>
       </Dialog>
     )

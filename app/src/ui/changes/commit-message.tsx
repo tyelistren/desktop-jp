@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import { t } from '../../lib/localization'
 import * as React from 'react'
 import classNames from 'classnames'
@@ -1044,7 +1046,9 @@ export class CommitMessage extends React.Component<
             }
           />
           {shouldShowGenerateCommitMessageCallOut && (
-            <span className="call-to-action-bubble">New</span>
+            <span className="call-to-action-bubble">
+              {translateUI('ui.new.6403f2b')}
+            </span>
           )}
         </Button>
       </>
@@ -1087,7 +1091,9 @@ export class CommitMessage extends React.Component<
       items.push({
         type: 'checkbox',
         checked: this.props.skipCommitHooks,
-        label: __DARWIN__ ? 'Bypass Commit Hooks' : 'Bypass Commit hooks',
+        label: __DARWIN__
+          ? translateUI('ui.bypass-commit-hooks.2840088')
+          : translateUI('ui.bypass-commit-hooks.93d4e31'),
         action: () => {
           this.props.onUpdateCommitOptions(this.props.repository, {
             skipCommitHooks: !this.props.skipCommitHooks,
@@ -1100,8 +1106,8 @@ export class CommitMessage extends React.Component<
       type: 'checkbox',
       checked: this.props.signOffCommits,
       label: __DARWIN__
-        ? 'Add Signed-off-by Trailer'
-        : 'Add Signed-off-by trailer',
+        ? translateUI('ui.add-signed-off-by-trailer.9fe3766')
+        : translateUI('ui.add-signed-off-by-trailer.8a0f65f'),
       action: () => {
         this.props.onUpdateCommitOptions(this.props.repository, {
           signOffCommits: !this.props.signOffCommits,
@@ -1113,7 +1119,9 @@ export class CommitMessage extends React.Component<
       items.push({
         type: 'checkbox',
         checked: this.props.allowEmptyCommit,
-        label: __DARWIN__ ? 'Allow Empty Commit' : 'Allow empty commit',
+        label: __DARWIN__
+          ? translateUI('ui.allow-empty-commit.53d9d1d')
+          : translateUI('ui.allow-empty-commit.886efcc'),
         action: () => {
           this.props.onUpdateCommitOptions(this.props.repository, {
             allowEmptyCommit: !this.props.allowEmptyCommit,
@@ -1251,11 +1259,14 @@ export class CommitMessage extends React.Component<
     if (commitToAmend !== null) {
       return (
         <CommitWarning icon={CommitWarningIcon.Information}>
-          Your changes will modify your <strong>most recent commit</strong>.{' '}
-          <LinkButton onClick={this.props.onStopAmending}>
-            Stop amending
-          </LinkButton>{' '}
-          to make these changes as a new commit.
+          {translateUIRich('ui.sentence.d7970e1938bd', {
+            p0: <strong>{translateUI('ui.most-recent-commit.c25c996')}</strong>,
+            p1: (
+              <LinkButton onClick={this.props.onStopAmending}>
+                {translateUI('ui.stop-amending.6d16417')}
+              </LinkButton>
+            ),
+          })}
         </CommitWarning>
       )
     } else {
@@ -1331,12 +1342,14 @@ export class CommitMessage extends React.Component<
     if (showNoWriteAccess) {
       return (
         <CommitWarning icon={CommitWarningIcon.Warning}>
-          You don't have write access to <strong>{repository.name}</strong>.
-          Want to{' '}
-          <LinkButton onClick={this.props.onShowCreateForkDialog}>
-            create a fork
-          </LinkButton>
-          ?
+          {translateUIRich('ui.sentence.970c508e4c06', {
+            p0: <strong>{repository.name}</strong>,
+            p1: (
+              <LinkButton onClick={this.props.onShowCreateForkDialog}>
+                {translateUI('ui.create-a-fork.e98a379')}
+              </LinkButton>
+            ),
+          })}
         </CommitWarning>
       )
     } else if (showBranchProtected) {
@@ -1350,9 +1363,14 @@ export class CommitMessage extends React.Component<
 
       return (
         <CommitWarning icon={CommitWarningIcon.Warning}>
-          <strong>{branch}</strong> is a protected branch. Want to{' '}
-          <LinkButton onClick={this.onSwitchBranch}>switch branches</LinkButton>
-          ?
+          {translateUIRich('ui.sentence.ceb2681dee2d', {
+            p0: <strong>{branch}</strong>,
+            p1: (
+              <LinkButton onClick={this.onSwitchBranch}>
+                {translateUI('ui.switch-branches.240fc2b')}
+              </LinkButton>
+            ),
+          })}
         </CommitWarning>
       )
     } else if (repoRuleWarningToDisplay === 'publish') {
@@ -1362,24 +1380,29 @@ export class CommitMessage extends React.Component<
         <CommitWarning
           icon={canBypass ? CommitWarningIcon.Warning : CommitWarningIcon.Error}
         >
-          The branch name <strong>{branch}</strong> fails{' '}
-          <RepoRulesetsForBranchLink
-            repository={repository.gitHubRepository}
-            branch={branch}
-          >
-            one or more rules
-          </RepoRulesetsForBranchLink>{' '}
-          that {canBypass ? 'would' : 'will'} prevent it from being published
-          {canBypass && ', but you can bypass them. Proceed with caution!'}
-          {!canBypass && (
-            <>
-              . Want to{' '}
-              <LinkButton onClick={this.onSwitchBranch}>
-                switch branches
-              </LinkButton>
-              ?
-            </>
-          )}
+          {translateUIRich('ui.sentence.14f90fbf941c', {
+            p0: <strong>{branch}</strong>,
+            p1: (
+              <RepoRulesetsForBranchLink
+                repository={repository.gitHubRepository}
+                branch={branch}
+              >
+                {translateUI('ui.one-or-more-rules.4fe6cfa')}
+              </RepoRulesetsForBranchLink>
+            ),
+            p3: canBypass && translateUI('ui.detail.bypassWarning'),
+            p4: !canBypass && (
+              <>
+                {translateUIRich('ui.sentence.bc45542a358b', {
+                  p0: (
+                    <LinkButton onClick={this.onSwitchBranch}>
+                      {translateUI('ui.switch-branches.240fc2b')}
+                    </LinkButton>
+                  ),
+                })}
+              </>
+            ),
+          })}
         </CommitWarning>
       )
     } else if (repoRuleWarningToDisplay === 'commitSigning') {
@@ -1389,19 +1412,24 @@ export class CommitMessage extends React.Component<
         <CommitWarning
           icon={canBypass ? CommitWarningIcon.Warning : CommitWarningIcon.Error}
         >
-          <RepoRulesetsForBranchLink
-            repository={repository.gitHubRepository}
-            branch={branch}
-          >
-            One or more rules
-          </RepoRulesetsForBranchLink>{' '}
-          apply to the branch <strong>{branch}</strong> that require signed
-          commits
-          {canBypass && ', but you can bypass them. Proceed with caution!'}
-          {!canBypass && '.'}{' '}
-          <LinkButton uri="https://docs.github.com/authentication/managing-commit-signature-verification/signing-commits">
-            Learn more about commit signing.
-          </LinkButton>
+          {translateUIRich('ui.sentence.75502b073e4a', {
+            p0: (
+              <RepoRulesetsForBranchLink
+                repository={repository.gitHubRepository}
+                branch={branch}
+              >
+                {translateUI('ui.one-or-more-rules.695e1fc')}
+              </RepoRulesetsForBranchLink>
+            ),
+            p1: <strong>{branch}</strong>,
+            p2: canBypass && translateUI('ui.detail.bypassWarning'),
+            p3: !canBypass && '.',
+            p4: (
+              <LinkButton uri="https://docs.github.com/authentication/managing-commit-signature-verification/signing-commits">
+                {translateUI('ui.learn-more-about-commit-signing.d621289')}
+              </LinkButton>
+            ),
+          })}
         </CommitWarning>
       )
     } else if (repoRuleWarningToDisplay === 'basic') {
@@ -1411,24 +1439,29 @@ export class CommitMessage extends React.Component<
         <CommitWarning
           icon={canBypass ? CommitWarningIcon.Warning : CommitWarningIcon.Error}
         >
-          <RepoRulesetsForBranchLink
-            repository={repository.gitHubRepository}
-            branch={branch}
-          >
-            One or more rules
-          </RepoRulesetsForBranchLink>{' '}
-          apply to the branch <strong>{branch}</strong> that{' '}
-          {canBypass ? 'would' : 'will'} prevent pushing
-          {canBypass && ', but you can bypass them. Proceed with caution!'}
-          {!canBypass && (
-            <>
-              . Want to{' '}
-              <LinkButton onClick={this.onSwitchBranch}>
-                switch branches
-              </LinkButton>
-              ?
-            </>
-          )}
+          {translateUIRich('ui.sentence.c079992c6548', {
+            p0: (
+              <RepoRulesetsForBranchLink
+                repository={repository.gitHubRepository}
+                branch={branch}
+              >
+                {translateUI('ui.one-or-more-rules.695e1fc')}
+              </RepoRulesetsForBranchLink>
+            ),
+            p1: <strong>{branch}</strong>,
+            p3: canBypass && translateUI('ui.detail.bypassWarning'),
+            p4: !canBypass && (
+              <>
+                {translateUIRich('ui.sentence.bc45542a358b', {
+                  p0: (
+                    <LinkButton onClick={this.onSwitchBranch}>
+                      {translateUI('ui.switch-branches.240fc2b')}
+                    </LinkButton>
+                  ),
+                })}
+              </>
+            ),
+          })}
         </CommitWarning>
       )
     } else {
@@ -1470,7 +1503,7 @@ export class CommitMessage extends React.Component<
           repository={repository.gitHubRepository}
           branch={branch}
           failures={this.state.repoRuleCommitMessageFailures}
-          leadingText="This commit message"
+          leadingText={translateUI('ui.detail.thisMessage')}
         />
       </Popover>
     )
@@ -1635,10 +1668,14 @@ export class CommitMessage extends React.Component<
         tooltip={
           <>
             <div className="title">
-              Great commit summaries contain fewer than 50 characters
+              {translateUI(
+                'ui.great-commit-summaries-contain-fewer-than-50-cha.f5be5b6'
+              )}
             </div>
             <div className="description">
-              Place extra information in the description field.
+              {translateUI(
+                'ui.place-extra-information-in-the-description-field.a18e5e9'
+              )}
             </div>
           </>
         }

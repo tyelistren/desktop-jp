@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import React from 'react'
 import { Octicon } from '../octicons'
 import * as octicons from '../octicons/octicons.generated'
@@ -67,13 +69,15 @@ export class DiffContentsWarning extends React.Component<IDiffContentsWarningPro
       case DiffContentsWarningType.UnicodeBidiCharacters:
         return (
           <>
-            This diff contains bidirectional Unicode text that may be
-            interpreted or compiled differently than what appears below. To
-            review, open the file in an editor that reveals hidden Unicode
-            characters.{' '}
-            <LinkButton uri="https://github.co/hiddenchars">
-              Learn more about bidirectional Unicode characters
-            </LinkButton>
+            {translateUIRich('ui.sentence.8b3677accf8e', {
+              p0: (
+                <LinkButton uri="https://github.co/hiddenchars">
+                  {translateUI(
+                    'ui.learn-more-about-bidirectional-unicode-character.c268b7c'
+                  )}
+                </LinkButton>
+              ),
+            })}
           </>
         )
 
@@ -81,11 +85,15 @@ export class DiffContentsWarning extends React.Component<IDiffContentsWarningPro
         const { lineEndingsChange } = item
         return (
           <>
-            This file uses '{lineEndingsChange.from}' line endings, but{' '}
-            <LinkButton uri="https://docs.github.com/get-started/git-basics/configuring-git-to-handle-line-endings">
-              Git is configured to convert them
-            </LinkButton>{' '}
-            to '{lineEndingsChange.to}' the next time the file is checked out.
+            {translateUIRich('ui.sentence.1f8204e4ad37', {
+              p0: lineEndingsChange.from,
+              p1: (
+                <LinkButton uri="https://docs.github.com/get-started/git-basics/configuring-git-to-handle-line-endings">
+                  {translateUI('ui.git-is-configured-to-convert-them.31936e3')}
+                </LinkButton>
+              ),
+              p2: lineEndingsChange.to,
+            })}
           </>
         )
     }

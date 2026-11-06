@@ -1,3 +1,4 @@
+import { translateUIRich } from '../../lib/translated-text'
 import { t } from '../../../lib/localization'
 import * as React from 'react'
 
@@ -38,31 +39,44 @@ function getOperationPhrase(
     case MultiCommitOperationKind.Merge:
       return (
         <span>
-          Merging <Ref>{theirLabel}</Ref> into <Ref>{ourLabel}</Ref>
+          {translateUIRich('ui.sentence.749c5799e942', {
+            p0: <Ref>{theirLabel}</Ref>,
+            p1: <Ref>{ourLabel}</Ref>,
+          })}
         </span>
       )
     case MultiCommitOperationKind.Rebase:
       return (
         <span>
-          Rebasing <Ref>{ourLabel}</Ref> onto <Ref>{theirLabel}</Ref>
+          {translateUIRich('ui.sentence.227b7f4acb6c', {
+            p0: <Ref>{ourLabel}</Ref>,
+            p1: <Ref>{theirLabel}</Ref>,
+          })}
         </span>
       )
     case MultiCommitOperationKind.CherryPick:
       return (
         <span>
-          Cherry-picking from <Ref>{theirLabel}</Ref> into <Ref>{ourLabel}</Ref>
+          {translateUIRich('ui.sentence.b2802075f6a1', {
+            p0: <Ref>{theirLabel}</Ref>,
+            p1: <Ref>{ourLabel}</Ref>,
+          })}
         </span>
       )
     case MultiCommitOperationKind.Squash:
       return (
         <span>
-          Squashing into <Ref>{ourLabel}</Ref>
+          {translateUIRich('ui.sentence.0afe547f74c7', {
+            p0: <Ref>{ourLabel}</Ref>,
+          })}
         </span>
       )
     case MultiCommitOperationKind.Reorder:
       return (
         <span>
-          Reordering <Ref>{ourLabel}</Ref>
+          {translateUIRich('ui.sentence.1cc5c2a8e777', {
+            p0: <Ref>{ourLabel}</Ref>,
+          })}
         </span>
       )
     default:

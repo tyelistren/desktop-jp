@@ -1,3 +1,4 @@
+import { t as translateUI } from '../lib/localization'
 import * as React from 'react'
 import { PopoverDropdown } from './lib/popover-dropdown'
 import { Account, accountEquals } from '../models/account'
@@ -154,7 +155,7 @@ export class AccountPicker extends React.Component<
             </span>
           </div>
         }
-        label="Account"
+        label={translateUI('ui.account.85dfa32')}
         ref={this.popoverRef}
         openButtonClassName={this.props.openButtonClassName}
       >

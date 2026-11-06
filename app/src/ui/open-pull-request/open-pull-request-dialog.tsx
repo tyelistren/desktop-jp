@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { IConstrainedValue, IPullRequestState } from '../../lib/app-state'
 import { getDotComAPIEndpoint } from '../../lib/api'
@@ -207,20 +209,24 @@ export class OpenPullRequestDialog extends React.Component<IOpenPullRequestDialo
     const hasMergeBase = mergeStatus?.kind !== ComputedAction.Invalid
     const message = hasMergeBase ? (
       <>
-        <Ref>{baseBranch.name}</Ref> is up to date with all commits from{' '}
-        <Ref>{currentBranch.name}</Ref>.
+        {translateUIRich('ui.sentence.b26f514da386', {
+          p0: <Ref>{baseBranch.name}</Ref>,
+          p1: <Ref>{currentBranch.name}</Ref>,
+        })}
       </>
     ) : (
       <>
-        <Ref>{baseBranch.name}</Ref> and <Ref>{currentBranch.name}</Ref> are
-        entirely different commit histories.
+        {translateUIRich('ui.sentence.2ee9adfe8733', {
+          p0: <Ref>{baseBranch.name}</Ref>,
+          p1: <Ref>{currentBranch.name}</Ref>,
+        })}
       </>
     )
     return (
       <div className="open-pull-request-message">
         <div>
           <Octicon symbol={octicons.gitPullRequest} />
-          <h3>There are no changes.</h3>
+          <h3>{translateUI('ui.there-are-no-changes.92bcd35')}</h3>
           {message}
         </div>
       </div>
@@ -237,9 +243,16 @@ export class OpenPullRequestDialog extends React.Component<IOpenPullRequestDialo
     return (
       <div className="open-pull-request-message">
         <div>
-          <Octicon symbol={octicons.gitPullRequest} />
-          <h3>Could not find a default branch to compare against.</h3>
-          Select a base branch above.
+          {translateUIRich('ui.sentence.45e6dfead304', {
+            p0: <Octicon symbol={octicons.gitPullRequest} />,
+            p1: (
+              <h3>
+                {translateUI(
+                  'ui.could-not-find-a-default-branch-to-compare-again.b1003aa'
+                )}
+              </h3>
+            ),
+          })}
         </div>
       </div>
     )
@@ -276,7 +289,7 @@ export class OpenPullRequestDialog extends React.Component<IOpenPullRequestDialo
         <OkCancelButtonGroup
           okButtonText={okButton}
           okButtonTitle={buttonTitle}
-          cancelButtonText="Cancel"
+          cancelButtonText={translateUI('ui.cancel.77dfd21')}
           okButtonDisabled={commitSHAs === null || commitSHAs.length === 0}
         />
       </DialogFooter>

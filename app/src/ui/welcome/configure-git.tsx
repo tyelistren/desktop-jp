@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { WelcomeStep } from './welcome'
 import { Account } from '../../models/account'
@@ -17,10 +18,13 @@ export class ConfigureGit extends React.Component<IConfigureGitProps, {}> {
   public render() {
     return (
       <section id="configure-git" aria-label="Configure Git">
-        <h1 className="welcome-title">Configure Git</h1>
+        <h1 className="welcome-title">
+          {translateUI('ui.configure-git.c8f4693')}
+        </h1>
         <p className="welcome-text">
-          This is used to identify the commits you create. Anyone will be able
-          to see this information if you publish commits.
+          {translateUI(
+            'ui.this-is-used-to-identify-the-commits-you-create-.dbaf9bf'
+          )}
         </p>
 
         <ConfigureGitUser
@@ -30,7 +34,9 @@ export class ConfigureGit extends React.Component<IConfigureGitProps, {}> {
           globalUserName={this.props.globalUserName}
           globalUserEmail={this.props.globalUserEmail}
         >
-          <Button onClick={this.cancel}>Cancel</Button>
+          <Button onClick={this.cancel}>
+            {translateUI('ui.cancel.77dfd21')}
+          </Button>
         </ConfigureGitUser>
       </section>
     )

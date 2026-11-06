@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../../lib/localization'
 import * as React from 'react'
 import classNames from 'classnames'
 import {
@@ -180,7 +181,7 @@ export class AuthorInput extends React.Component<
         </div>
         <div className="shadow-input" ref={this.shadowInputRef} />
         <label id="author-input-label" className="label" htmlFor="author-input">
-          Co-Authors&nbsp;
+          {translateUI('ui.co-authors.2c5fb26')}
         </label>
         {this.renderAuthors()}
         <AutocompletingInput<UserHit>

@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { DialogContent } from '../dialog'
 import { TextArea } from '../lib/text-area'
@@ -16,18 +18,20 @@ export class GitIgnore extends React.Component<IGitIgnoreProps, {}> {
     return (
       <DialogContent>
         <p id="ignored-files-description">
-          Editing <Ref>.gitignore</Ref>. This file specifies intentionally
-          untracked files that Git should ignore. Files already tracked by Git
-          are not affected.{' '}
-          <LinkButton onClick={this.props.onShowExamples}>
-            Learn more about gitignore files
-          </LinkButton>
+          {translateUIRich('ui.sentence.75e80b3191be', {
+            p0: <Ref>.gitignore</Ref>,
+            p1: (
+              <LinkButton onClick={this.props.onShowExamples}>
+                {translateUI('ui.learn-more-about-gitignore-files.97da802')}
+              </LinkButton>
+            ),
+          })}
         </p>
 
         <TextArea
-          ariaLabel="Ignored files"
+          ariaLabel={translateUI('ui.ignored-files.14c879b')}
           ariaDescribedBy="ignored-files-description"
-          placeholder="Ignored files"
+          placeholder={translateUI('ui.ignored-files.14c879b')}
           value={this.props.text || ''}
           onValueChanged={this.props.onIgnoreTextChanged}
           textareaClassName="gitignore"

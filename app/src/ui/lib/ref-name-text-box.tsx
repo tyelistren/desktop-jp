@@ -1,3 +1,5 @@
+import { translateUIRich } from './translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { sanitizedRefName } from '../../lib/sanitize-ref-name'
@@ -215,7 +217,9 @@ export class RefNameTextBox extends React.Component<
           trackedUserInput={proposedValue}
           ariaLiveMessage={`Error: ${proposedValue} is not a valid name.`}
         >
-          <Ref>{proposedValue}</Ref> is not a valid name.
+          {translateUIRich('ui.sentence.ffef2faa1e8b', {
+            p0: <Ref>{proposedValue}</Ref>,
+          })}
         </InputError>
       )
     }
@@ -241,11 +245,17 @@ export class RefNameTextBox extends React.Component<
   private renderWarningMessage(sanitizedValue: string) {
     return (
       <>
-        Will be {this.props.warningMessageVerb ?? 'created'} as{' '}
-        <Ref>{sanitizedValue}</Ref>.{' '}
-        <span className="sr-only">
-          Spaces and invalid characters have been replaced by hyphens.
-        </span>
+        {translateUIRich('ui.sentence.0fbac21b5e0d', {
+          p0: this.props.warningMessageVerb ?? 'created',
+          p1: <Ref>{sanitizedValue}</Ref>,
+          p2: (
+            <span className="sr-only">
+              {translateUI(
+                'ui.spaces-and-invalid-characters-have-been-replaced.2d8bd52'
+              )}
+            </span>
+          ),
+        })}
       </>
     )
   }

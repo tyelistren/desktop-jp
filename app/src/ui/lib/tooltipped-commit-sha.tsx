@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import React from 'react'
 import { Commit, shortenSHA } from '../../models/commit'
 import { Ref } from './ref'
@@ -56,7 +57,9 @@ export class TooltippedCommitSHA extends React.Component<
     return (
       <>
         <code>{this.longSHA}</code>
-        <button onClick={this.onCopySHAButtonClick}>Copy</button>
+        <button onClick={this.onCopySHAButtonClick}>
+          {translateUI('ui.copy.af74f7c')}
+        </button>
       </>
     )
   }

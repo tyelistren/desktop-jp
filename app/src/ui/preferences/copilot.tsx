@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import type { IBYOKProvider } from '../../lib/copilot/byok'
 import { isGHES } from '../../lib/endpoint-capabilities'
@@ -241,7 +242,7 @@ export class CopilotPreferences extends React.Component<ICopilotPreferencesProps
           DialogPreferredFocusClassName
         )
       case 'checking':
-        return <p>Checking Copilot access…</p>
+        return <p>{translateUI('ui.checking-copilot-access.42557d3')}</p>
       case 'no-license':
         return this.renderAccessCallToAction(
           'Copilot features in GitHub Desktop require a GitHub Copilot license.',

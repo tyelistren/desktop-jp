@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogFooter } from '../dialog'
 import { TabBar } from '../tab-bar'
@@ -95,8 +96,8 @@ export class UnreachableCommitsDialog extends React.Component<
         onTabClicked={this.onTabClicked}
         selectedIndex={this.state.selectedTab}
       >
-        <span>Unreachable</span>
-        <span>Reachable</span>
+        <span>{translateUI('ui.unreachable.aa284d0')}</span>
+        <span>{translateUI('ui.reachable.fa887b5')}</span>
       </TabBar>
     )
   }
@@ -135,23 +136,13 @@ export class UnreachableCommitsDialog extends React.Component<
   }
 
   private renderUnreachableCommitsMessage = () => {
-    const count = this.getShasToDisplay().length
-    const commitsPluralized = count > 1 ? 'commits' : 'commit'
-    const pronounPluralized = count > 1 ? `they're` : `it's`
     return (
       <div className="message">
-        You will{' '}
         {this.state.selectedTab === UnreachableCommitsTab.Unreachable
-          ? 'not'
-          : ''}{' '}
-        see changes from the following {commitsPluralized} because{' '}
-        {pronounPluralized}{' '}
-        {this.state.selectedTab === UnreachableCommitsTab.Unreachable
-          ? 'not'
-          : ''}{' '}
-        in the ancestry path of the most recent commit in your selection.{' '}
+          ? translateUI('ui.final.unreachable')
+          : translateUI('ui.final.reachable')}{' '}
         <LinkButton uri="https://github.com/desktop/desktop/blob/development/docs/learn-more/unreachable-commits.md">
-          Learn more about unreachable commits.
+          {translateUI('ui.learn-more-about-unreachable-commits.d89a5b3')}
         </LinkButton>
       </div>
     )
@@ -161,7 +152,11 @@ export class UnreachableCommitsDialog extends React.Component<
     return (
       <Dialog
         className="unreachable-commits"
-        title={__DARWIN__ ? 'Commit Reachability' : 'Commit reachability'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.commit-reachability.c87eca3')
+            : translateUI('ui.commit-reachability.d14aeee')
+        }
         onSubmit={this.props.onDismissed}
         onDismissed={this.props.onDismissed}
       >

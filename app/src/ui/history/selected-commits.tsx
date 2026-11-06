@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { writeClipboardText } from '../main-process-proxy'
 import * as Path from 'path'
@@ -253,7 +255,11 @@ export class SelectedCommits extends React.Component<
   private renderFileList() {
     const files = this.props.changesetData.files
     if (files.length === 0) {
-      return <div className="fill-window">No files in commit</div>
+      return (
+        <div className="fill-window">
+          {translateUI('ui.no-files-in-commit.3d8febd')}
+        </div>
+      )
     }
 
     // -1 for right hand side border
@@ -279,7 +285,10 @@ export class SelectedCommits extends React.Component<
     const filesPlural = fileCount === 1 ? 'file' : 'files'
     return (
       <div className="file-list-header">
-        {fileCount} changed {filesPlural}
+        {translateUIRich('ui.sentence.b0d479731eff', {
+          p0: fileCount,
+          p1: filesPlural,
+        })}
       </div>
     )
   }
@@ -318,7 +327,7 @@ export class SelectedCommits extends React.Component<
             maximumWidth={commitSummaryWidth.max}
             onResize={this.onCommitSummaryResize}
             onReset={this.onCommitSummaryReset}
-            description="Selected commit file list"
+            description={translateUI('ui.selected-commit-file-list.54b8dba')}
           >
             {this.renderFileList()}
           </Resizable>
@@ -349,17 +358,32 @@ export class SelectedCommits extends React.Component<
           <img src={BlankSlateImage} className="blankslate-image" alt="" />
           <div>
             <p>
-              Unable to display diff when multiple non-consecutive selected.
+              {translateUI(
+                'ui.unable-to-display-diff-when-multiple-non-consecu.6006415'
+              )}
             </p>
-            <div>You can:</div>
+            <div>{translateUI('ui.you-can.0b20448')}</div>
             <ul>
               <li>
-                Select a single commit or a range of consecutive commits to view
-                a diff.
+                {translateUI(
+                  'ui.select-a-single-commit-or-a-range-of-consecutive.aed8284'
+                )}
               </li>
-              <li>Drag the commits to the branch menu to cherry-pick them.</li>
-              <li>Drag the commits to squash or reorder them.</li>
-              <li>Right click on multiple commits to see options.</li>
+              <li>
+                {translateUI(
+                  'ui.drag-the-commits-to-the-branch-menu-to-cherry-pi.1393a70'
+                )}
+              </li>
+              <li>
+                {translateUI(
+                  'ui.drag-the-commits-to-squash-or-reorder-them.0d30501'
+                )}
+              </li>
+              <li>
+                {translateUI(
+                  'ui.right-click-on-multiple-commits-to-see-options.ac81637'
+                )}
+              </li>
             </ul>
           </div>
         </div>
@@ -387,8 +411,8 @@ export class SelectedCommits extends React.Component<
       showContextualMenu([
         {
           label: __DARWIN__
-            ? 'File Does Not Exist on Disk'
-            : 'File does not exist on disk',
+            ? translateUI('ui.file-does-not-exist-on-disk.fbf33e4')
+            : translateUI('ui.file-does-not-exist-on-disk.0942593'),
           enabled: false,
         },
       ])
@@ -466,8 +490,9 @@ function NoCommitSelected() {
 
   return (
     <div className="panel blankslate">
-      <img src={BlankSlateImage} className="blankslate-image" alt="" />
-      No commit selected
+      {translateUIRich('ui.sentence.04e29fb17874', {
+        p0: <img src={BlankSlateImage} className="blankslate-image" alt="" />,
+      })}
     </div>
   )
 }

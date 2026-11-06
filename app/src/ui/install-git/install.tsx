@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
@@ -45,25 +47,36 @@ export class InstallGit extends React.Component<IInstallGitProps, {}> {
       <Dialog
         id="install-git"
         type="warning"
-        title={__DARWIN__ ? 'Unable to Locate Git' : 'Unable to locate Git'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.unable-to-locate-git.df62ed7')
+            : translateUI('ui.unable-to-locate-git.0e91e3d')
+        }
         onSubmit={this.onSubmit}
         onDismissed={this.props.onDismissed}
       >
         <DialogContent>
           <p>
-            We were unable to locate Git on your system. This means you won't be
-            able to execute any Git commands in the{' '}
-            {__DARWIN__ ? 'Terminal window' : 'command prompt'}.
+            {translateUIRich('ui.sentence.956686fea0bc', {
+              p0: __DARWIN__
+                ? translateUI('ui.terminal-window.a07f4be')
+                : translateUI('ui.command-prompt.f0a7a29'),
+            })}
           </p>
           <p>
-            To help you get Git installed and configured for your operating
-            system, we have some external resources available.
+            {translateUI(
+              'ui.to-help-you-get-git-installed-and-configured-for.5f47ba6'
+            )}
           </p>
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText={__DARWIN__ ? 'Open Without Git' : 'Open without Git'}
-            cancelButtonText="Install Git"
+            okButtonText={
+              __DARWIN__
+                ? translateUI('ui.open-without-git.0555203')
+                : translateUI('ui.open-without-git.4647fbd')
+            }
+            cancelButtonText={translateUI('ui.install-git.4be4cde')}
             onCancelButtonClick={this.onExternalLink}
           />
         </DialogFooter>

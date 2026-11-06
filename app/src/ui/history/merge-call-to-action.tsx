@@ -1,3 +1,5 @@
+import { t as translateUI } from '../../lib/localization'
+import { translateUIRich } from '../lib/translated-text'
 import * as React from 'react'
 
 import { ICompareBranch, HistoryTabMode } from '../../lib/app-state'
@@ -38,7 +40,9 @@ export class MergeCallToAction extends React.Component<
           disabled={count <= 0}
           onClick={this.onMergeClicked}
         >
-          Merge into <strong>{this.props.currentBranch.name}</strong>
+          {translateUIRich('ui.sentence.eecd21649e65', {
+            p0: <strong>{this.props.currentBranch.name}</strong>,
+          })}
         </Button>
       </div>
     )
@@ -49,19 +53,17 @@ export class MergeCallToAction extends React.Component<
     const count = formState.aheadBehind.behind
 
     if (count > 0) {
-      const pluralized = count === 1 ? 'commit' : 'commits'
+      const pluralized =
+        count === 1
+          ? translateUI('ui.dynamic.commit')
+          : translateUI('ui.dynamic.commits')
       return (
         <div className="merge-message merge-message-legacy">
-          This will merge
-          <strong>{` ${formatNumber(count)} ${pluralized}`}</strong>
-          {` `}
-          from
-          {` `}
-          <strong>{branch.name}</strong>
-          {` `}
-          into
-          {` `}
-          <strong>{currentBranch.name}</strong>
+          {translateUIRich('ui.sentence.914c43cb5460', {
+            p0: <strong>{` ${formatNumber(count)} ${pluralized}`}</strong>,
+            p1: <strong>{branch.name}</strong>,
+            p2: <strong>{currentBranch.name}</strong>,
+          })}
         </div>
       )
     }

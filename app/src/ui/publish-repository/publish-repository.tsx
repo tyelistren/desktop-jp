@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Account } from '../../models/account'
 import { API, IAPIOrganization } from '../../lib/api'
@@ -115,7 +117,7 @@ export class PublishRepository extends React.Component<
     const options = new Array<JSX.Element>()
     options.push(
       <option value={-1} key={-1}>
-        None
+        {translateUI('ui.none.6eef664')}
       </option>
     )
 
@@ -136,7 +138,7 @@ export class PublishRepository extends React.Component<
 
     return (
       <Select
-        label="Organization"
+        label={translateUI('ui.organization.519255a')}
         value={selectedIndex.toString()}
         onChange={this.onOrgChange}
       >
@@ -161,7 +163,7 @@ export class PublishRepository extends React.Component<
 
         <Row>
           <TextBox
-            label="Name"
+            label={translateUI('ui.name.709a232')}
             value={this.name}
             onValueChanged={this.onNameChange}
           />
@@ -171,7 +173,7 @@ export class PublishRepository extends React.Component<
 
         <Row>
           <TextBox
-            label="Description"
+            label={translateUI('ui.description.55f8ebc')}
             value={this.props.settings.description}
             onValueChanged={this.onDescriptionChange}
           />
@@ -179,12 +181,15 @@ export class PublishRepository extends React.Component<
 
         <Row>
           <label>
-            <input
-              type="checkbox"
-              checked={this.props.settings.private}
-              onChange={this.onPrivateChange}
-            />
-            Keep this code private
+            {translateUIRich('ui.sentence.3495d0807632', {
+              p0: (
+                <input
+                  type="checkbox"
+                  checked={this.props.settings.private}
+                  onChange={this.onPrivateChange}
+                />
+              ),
+            })}
           </label>
         </Row>
 
@@ -201,8 +206,10 @@ export class PublishRepository extends React.Component<
 
     return (
       <Row className="warning-helper-text">
-        <Octicon symbol={octicons.alert} />
-        Will be created as {sanitizedName}
+        {translateUIRich('ui.sentence.3312430b2e74', {
+          p0: <Octicon symbol={octicons.alert} />,
+          p1: sanitizedName,
+        })}
       </Row>
     )
   }

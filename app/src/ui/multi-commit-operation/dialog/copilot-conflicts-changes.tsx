@@ -1,3 +1,5 @@
+import { translateUIRich } from '../../lib/translated-text'
+import { t as translateUI } from '../../../lib/localization'
 import * as React from 'react'
 import * as Path from 'path'
 import { AppFileStatusKind, CommittedFileChange } from '../../../models/status'
@@ -373,7 +375,7 @@ export class CopilotConflictsChanges extends React.Component<
       <div className="copilot-changes-tab">
         <div className="copilot-changes-header">
           <span className="copilot-changes-file-count">
-            {files.length} files changed
+            {translateUIRich('ui.sentence.6c348320c50a', { p0: files.length })}
           </span>
           <DiffOptions
             isInteractiveDiff={false}
@@ -415,13 +417,15 @@ export class CopilotConflictsChanges extends React.Component<
                       className="copilot-changes-diff-subheader-toggle"
                       onClick={this.onToggleSubheaderExpanded}
                       tooltip={
-                        this.state.isSubheaderExpanded ? 'Collapse' : 'Expand'
+                        this.state.isSubheaderExpanded
+                          ? translateUI('ui.collapse.9cf188d')
+                          : translateUI('ui.expand.9869e50')
                       }
                       ariaExpanded={this.state.isSubheaderExpanded}
                       ariaLabel={
                         this.state.isSubheaderExpanded
-                          ? 'Collapse description'
-                          : 'Expand description'
+                          ? translateUI('ui.collapse-description.7eca2ad')
+                          : translateUI('ui.expand-description.667b5a2')
                       }
                       ariaControls="copilot-changes-diff-description"
                     >
@@ -437,7 +441,9 @@ export class CopilotConflictsChanges extends React.Component<
                   <Button
                     className="copilot-resolution-dropdown"
                     onClick={this.onDropdownClick}
-                    ariaLabel="Change resolution choice"
+                    ariaLabel={translateUI(
+                      'ui.change-resolution-choice.424823d'
+                    )}
                   >
                     <Octicon symbol={choiceIcon} />
                     {choiceLabel}
@@ -466,12 +472,16 @@ export class CopilotConflictsChanges extends React.Component<
             )}
             {selectedFile !== null && noResolution && (
               <div className="copilot-changes-no-diff">
-                No Copilot resolution available for this file.
+                {translateUI(
+                  'ui.no-copilot-resolution-available-for-this-file.7f1a278'
+                )}
               </div>
             )}
             {selectedFile !== null && !noResolution && diffError && (
               <div className="copilot-changes-no-diff">
-                Unable to load the diff for this file.
+                {translateUI(
+                  'ui.unable-to-load-the-diff-for-this-file.70cd6ba'
+                )}
               </div>
             )}
           </div>

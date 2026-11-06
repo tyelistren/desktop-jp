@@ -1,3 +1,5 @@
+import { translateUIRich } from '../../lib/translated-text'
+import { t as translateUI } from '../../../lib/localization'
 import * as React from 'react'
 import { join } from 'path'
 import { Dialog, DialogContent, DialogFooter } from '../../dialog'
@@ -164,7 +166,7 @@ export class CopilotConflictsDialog extends React.Component<
 
     const items: ReadonlyArray<IMenuItem> = [
       {
-        label: "Use Copilot's suggestion",
+        label: translateUI('ui.use-copilot-s-suggestion.6b4078a'),
         type: 'checkbox',
         checked: currentChoice === 'copilot',
         action: () => this.setResolution(path, 'copilot'),
@@ -378,7 +380,7 @@ export class CopilotConflictsDialog extends React.Component<
         <div className="copilot-file-details">
           <PathText path={path} />
           <span className="copilot-file-explanation resolved-text">
-            No conflicts remaining
+            {translateUI('ui.no-conflicts-remaining.90a120d')}
           </span>
         </div>
         <div className="green-circle">
@@ -471,7 +473,7 @@ export class CopilotConflictsDialog extends React.Component<
             className="copilot-overflow-menu"
             onClick={onOverflowClick}
             disabled={this.state.isContinuing}
-            ariaLabel="File options"
+            ariaLabel={translateUI('ui.file-options.50384c5')}
           >
             <Octicon symbol={octicons.kebabHorizontal} />
           </Button>
@@ -512,8 +514,10 @@ export class CopilotConflictsDialog extends React.Component<
     return (
       <>
         <h2 className="copilot-conflicts-file-heading">
-          <Octicon symbol={octicons.fileCode} />
-          {conflictedFiles.length} Conflicted files
+          {translateUIRich('ui.sentence.1acc798e9f38', {
+            p0: <Octicon symbol={octicons.fileCode} />,
+            p1: conflictedFiles.length,
+          })}
         </h2>
         <ul className="copilot-conflicts-file-list">
           {conflictedFiles.map(file =>
@@ -572,7 +576,9 @@ export class CopilotConflictsDialog extends React.Component<
             className="copilot-resolution-dropdown"
             onClick={onDropdownClick}
             disabled={this.state.isContinuing}
-            ariaLabel="Choose a resolution for this file"
+            ariaLabel={translateUI(
+              'ui.choose-a-resolution-for-this-file.d977d42'
+            )}
           >
             <Octicon
               symbol={choice === undefined ? octicons.alert : octicons.check}
@@ -584,7 +590,7 @@ export class CopilotConflictsDialog extends React.Component<
             className="copilot-overflow-menu"
             onClick={onOverflowClick}
             disabled={this.state.isContinuing}
-            ariaLabel="File options"
+            ariaLabel={translateUI('ui.file-options.50384c5')}
           >
             <Octicon symbol={octicons.kebabHorizontal} />
           </Button>
@@ -602,8 +608,10 @@ export class CopilotConflictsDialog extends React.Component<
     return (
       <>
         <h2 className="copilot-conflicts-file-heading copilot-conflicts-skipped-heading">
-          <Octicon symbol={octicons.alert} />
-          {skippedFiles.length} Skipped by Copilot
+          {translateUIRich('ui.sentence.a8c2a802b1e6', {
+            p0: <Octicon symbol={octicons.alert} />,
+            p1: skippedFiles.length,
+          })}
         </h2>
         <ul className="copilot-conflicts-file-list">
           {skippedFiles.map(file => this.renderSkippedFile(file))}
@@ -694,8 +702,12 @@ export class CopilotConflictsDialog extends React.Component<
             <span className="copilot-conflicts-dialog-model">{modelLabel}</span>
             <Button
               className="copilot-conflicts-dialog-settings-button"
-              tooltip="Configure Copilot in app settings"
-              ariaLabel="Configure Copilot in app settings"
+              tooltip={translateUI(
+                'ui.configure-copilot-in-app-settings.34f14a1'
+              )}
+              ariaLabel={translateUI(
+                'ui.configure-copilot-in-app-settings.34f14a1'
+              )}
               onClick={this.onOpenCopilotSettings}
             >
               <Octicon symbol={octicons.sliders} />
@@ -708,15 +720,15 @@ export class CopilotConflictsDialog extends React.Component<
             onTabClicked={this.onTabSelected}
             type={TabBarType.Tabs}
           >
-            <span>Summary</span>
-            <span>Changes</span>
+            <span>{translateUI('ui.summary.12b71c3')}</span>
+            <span>{translateUI('ui.changes.8aa57de')}</span>
           </TabBar>
           {this.renderTabContent(unmergedFiles)}
         </DialogContent>
         <DialogFooter>
           <div className="copilot-conflicts-footer">
             <Button onClick={this.onBackToManual} disabled={isContinuing}>
-              Switch to manual
+              {translateUI('ui.switch-to-manual.55e4fc3')}
             </Button>
             <OkCancelButtonGroup
               okButtonText={`Continue ${operation}`}

@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Row } from '../lib/row'
@@ -36,7 +37,7 @@ export class SSHUserPassword extends React.Component<
       <Dialog
         id="ssh-user-password"
         type="normal"
-        title="SSH User Password"
+        title={translateUI('ui.ssh-user-password.9b73411')}
         backdropDismissable={false}
         onSubmit={this.onSubmit}
         onDismissed={this.onCancel}
@@ -51,7 +52,7 @@ export class SSHUserPassword extends React.Component<
           </Row>
           <Row>
             <Checkbox
-              label="Remember password"
+              label={translateUI('ui.remember-password.c307a18')}
               value={
                 this.state.rememberPassword
                   ? CheckboxValue.On

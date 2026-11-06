@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
@@ -70,8 +72,8 @@ export class PushProtectionErrorDialog extends React.Component<
       <Dialog
         title={
           __DARWIN__
-            ? 'Push Blocked: Secret Detected'
-            : 'Push blocked: secret detected'
+            ? translateUI('ui.push-blocked-secret-detected.98a42d7')
+            : translateUI('ui.push-blocked-secret-detected.89ba174')
         }
         onDismissed={this.props.onDismissed}
         onSubmit={this.props.onDismissed}
@@ -82,31 +84,60 @@ export class PushProtectionErrorDialog extends React.Component<
       >
         <DialogContent>
           <div id="push-protection-error-dialog-description">
-            <p>
-              <LinkButton uri="https://docs.github.com/code-security/secret-scanning/protecting-pushes-with-secret-scanning">
-                Secret Scanning
-              </LinkButton>{' '}
-              found secret(s) in the commit(s) you attempted to push.{' '}
-            </p>
-            <p>
-              Allowing secrets risks exposure. Consider{' '}
-              <LinkButton
-                onClick={this.props.onRemediationInstructionsLinkClick}
-                uri="https://docs.github.com/code-security/secret-scanning/working-with-secret-scanning-and-push-protection/working-with-push-protection-in-the-github-ui#resolving-a-blocked-commit"
-              >
-                removing the secret from your commit and commit history.
-              </LinkButton>
-            </p>
-            Exposing this secret can allow someone to:
-            <ul>
-              <li>Verify the identity of the secret(s)</li>
-              <li>Know which resources the secret(s) can access</li>
-              <li>Act on behalf of the secret's owner</li>
-              <li>
-                Push the secret(s) to this repository without being blocked
-              </li>
-            </ul>
-            {this.renderSecrets()}
+            {translateUIRich('ui.sentence.29f1445050dc', {
+              p0: (
+                <p>
+                  {translateUIRich('ui.sentence.d29ca4f3d622', {
+                    p0: (
+                      <LinkButton uri="https://docs.github.com/code-security/secret-scanning/protecting-pushes-with-secret-scanning">
+                        {translateUI('ui.secret-scanning.03df6c9')}
+                      </LinkButton>
+                    ),
+                  })}
+                </p>
+              ),
+              p1: (
+                <p>
+                  {translateUIRich('ui.sentence.117ae6a23c7a', {
+                    p0: (
+                      <LinkButton
+                        onClick={this.props.onRemediationInstructionsLinkClick}
+                        uri="https://docs.github.com/code-security/secret-scanning/working-with-secret-scanning-and-push-protection/working-with-push-protection-in-the-github-ui#resolving-a-blocked-commit"
+                      >
+                        {translateUI(
+                          'ui.removing-the-secret-from-your-commit-and-commit-.462be45'
+                        )}
+                      </LinkButton>
+                    ),
+                  })}
+                </p>
+              ),
+              p2: (
+                <ul>
+                  <li>
+                    {translateUI(
+                      'ui.verify-the-identity-of-the-secret-s.a7ef627'
+                    )}
+                  </li>
+                  <li>
+                    {translateUI(
+                      'ui.know-which-resources-the-secret-s-can-access.1765ef5'
+                    )}
+                  </li>
+                  <li>
+                    {translateUI(
+                      'ui.act-on-behalf-of-the-secret-s-owner.216599f'
+                    )}
+                  </li>
+                  <li>
+                    {translateUI(
+                      'ui.push-the-secret-s-to-this-repository-without-bei.011d8fe'
+                    )}
+                  </li>
+                </ul>
+              ),
+              p3: this.renderSecrets(),
+            })}
           </div>
         </DialogContent>
         <DialogFooter>
@@ -145,7 +176,7 @@ export class PushProtectionErrorDialog extends React.Component<
           uri={secret.bypassURL}
           onClick={this.props.onDelegatedBypassLinkClick}
         >
-          Bypass
+          {translateUI('ui.bypass.497852e')}
         </LinkButton>
       )
     }
@@ -153,8 +184,9 @@ export class PushProtectionErrorDialog extends React.Component<
     if (this.state.secretsBypassed.get(secret.id)) {
       return (
         <span className="bypass-success">
-          Bypassed{' '}
-          <Octicon symbol={octicons.check} className="bypass-success" />{' '}
+          {translateUIRich('ui.sentence.f147631275f1', {
+            p0: <Octicon symbol={octicons.check} className="bypass-success" />,
+          })}
         </span>
       )
     }
@@ -164,7 +196,7 @@ export class PushProtectionErrorDialog extends React.Component<
         ariaLabel={`Bypass ${secret.description}`}
         onClick={this.bypassSecret(secret)}
       >
-        Bypass
+        {translateUI('ui.bypass.497852e')}
       </LinkButton>
     )
   }

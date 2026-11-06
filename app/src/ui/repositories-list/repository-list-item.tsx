@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { Repository } from '../../models/repository'
@@ -159,7 +160,9 @@ const renderChangesIndicator = () => {
   return (
     <TooltippedContent
       className="change-indicator-wrapper"
-      tooltip="There are uncommitted changes in this repository"
+      tooltip={translateUI(
+        'ui.there-are-uncommitted-changes-in-this-repository.199ae8d'
+      )}
       disabled={enableAccessibleListToolTips()}
     >
       <Octicon symbol={octicons.dotFill} />

@@ -1,3 +1,6 @@
+import { t as translateUI } from '../../../lib/localization'
+import { translateOperation } from '../../../lib/localization/operation'
+import { translateUIRich } from '../../lib/translated-text'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../../dialog'
 import { DialogHeader } from '../../dialog/header'
@@ -91,8 +94,8 @@ type LoadingTheme = 'gathering' | 'analyzing'
 
 /** User-facing label for each theme. */
 const ThemeLabels: Record<LoadingTheme, string> = {
-  gathering: 'Gathering context…',
-  analyzing: 'Analyzing conflicts…',
+  gathering: translateUI('ui.dynamic.gathering'),
+  analyzing: translateUI('ui.dynamic.analyzing'),
 }
 
 /** Pick a random dwell duration in [MinDwellSeconds, MaxDwellSeconds]. */
@@ -113,12 +116,12 @@ function buildGatheringPool(
 ): ReadonlyArray<string> {
   const fileNames = filePaths.map(p => p.split('/').pop() ?? p)
   const pool: string[] = [
-    'Reviewing the changes from each side',
-    'Reading recent commit history',
-    'Looking for related context',
+    translateUI('ui.dynamic.reviewSides'),
+    translateUI('ui.dynamic.readHistory'),
+    translateUI('ui.dynamic.context'),
   ]
   for (const name of fileNames.slice(0, 4)) {
-    pool.push(`Reading ${name}`)
+    pool.push(translateUI('ui.dynamic.readFile', { name }))
   }
   return pool
 }
@@ -132,14 +135,16 @@ function buildAnalyzingPool(
 ): ReadonlyArray<string> {
   const fileNames = filePaths.map(p => p.split('/').pop() ?? p)
   const pool: string[] = [
-    'Cross-referencing related files',
-    'Considering both sides of each conflict',
+    translateUI('ui.dynamic.crossReference'),
+    translateUI('ui.dynamic.bothSides'),
   ]
   for (const name of fileNames.slice(0, 6)) {
-    pool.push(`Analyzing ${name}`)
+    pool.push(translateUI('ui.dynamic.analyzeFile', { name }))
   }
   if (fileNames.length > 6) {
-    pool.push(`…and ${fileNames.length - 6} more`)
+    pool.push(
+      translateUI('ui.dynamic.moreFiles', { count: fileNames.length - 6 })
+    )
   }
   return pool
 }
@@ -419,7 +424,9 @@ export class CopilotConflictsLoadingDialog extends React.Component<
         onDismissed={this.props.onDismissed}
       >
         <DialogHeader
-          title={`Resolving conflicts for ${operationKind.toLowerCase()}`}
+          title={translateUI('ui.dynamic.resolving', {
+            operation: translateOperation(operationKind),
+          })}
           titleId={CopilotConflictsLoadingDialogId}
           showCloseButton={true}
           onCloseButtonClick={this.props.onDismissed}
@@ -464,14 +471,19 @@ export class CopilotConflictsLoadingDialog extends React.Component<
               className="copilot-conflicts-loading-stop"
               onClick={this.onCancel}
             >
-              <Octicon
-                className="copilot-conflicts-loading-stop-icon"
-                symbol={octicons.squareFill}
-              />
-              Stop
+              {translateUIRich('ui.sentence.2c968997ba60', {
+                p0: (
+                  <Octicon
+                    className="copilot-conflicts-loading-stop-icon"
+                    symbol={octicons.squareFill}
+                  />
+                ),
+              })}
             </Button>
             <Button onClick={this.props.onAbort}>
-              Abort {operationKind.toLowerCase()}
+              {translateUIRich('ui.sentence.87cc1670b60b', {
+                p0: translateOperation(operationKind),
+              })}
             </Button>
           </div>
         </DialogFooter>

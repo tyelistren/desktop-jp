@@ -1,3 +1,5 @@
+import { translateUIRich } from './lib/translated-text'
+import { t as translateUI } from '../lib/localization'
 import * as React from 'react'
 import { clamp } from '../lib/clamp'
 import { PullRequest } from '../models/pull-request'
@@ -165,14 +167,17 @@ export class PullRequestQuickView extends React.Component<
     return (
       <header className="header">
         <Octicon symbol={octicons.listUnordered} />
-        <div className="action-needed">Review requested</div>
+        <div className="action-needed">
+          {translateUI('ui.review-requested.86a9586')}
+        </div>
         <Button
           className="button-with-icon"
           onClick={this.onViewOnGitHub}
           role="link"
         >
-          View on GitHub
-          <Octicon symbol={octicons.linkExternal} />
+          {translateUIRich('ui.sentence.0c14bae3d098', {
+            p0: <Octicon symbol={octicons.linkExternal} />,
+          })}
         </Button>
       </header>
     )
@@ -187,7 +192,11 @@ export class PullRequestQuickView extends React.Component<
             isDraft ? octicons.gitPullRequestDraft : octicons.gitPullRequest
           }
         />
-        <span className="state">{isDraft ? 'Draft' : 'Open'}</span>
+        <span className="state">
+          {isDraft
+            ? translateUI('ui.draft.23d33e2')
+            : translateUI('ui.open.cf9b770')}
+        </span>
       </div>
     )
   }
@@ -220,7 +229,7 @@ export class PullRequestQuickView extends React.Component<
           onMarkdownLinkClicked={this.onMarkdownLinkClicked}
           onMarkdownParsed={this.onMarkdownParsed}
           underlineLinks={this.props.underlineLinks}
-          title="Pull request markdown body"
+          title={translateUI('ui.pull-request-markdown-body.71ddcd1')}
         />
       </div>
     )

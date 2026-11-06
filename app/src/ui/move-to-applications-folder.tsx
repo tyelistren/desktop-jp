@@ -1,3 +1,4 @@
+import { t as translateUI } from '../lib/localization'
 import * as React from 'react'
 import {
   Dialog,
@@ -35,7 +36,9 @@ export class MoveToApplicationsFolder extends React.Component<
   public render() {
     return (
       <Dialog
-        title="Move GitHub Desktop to the Applications folder?"
+        title={translateUI(
+          'ui.move-github-desktop-to-the-applications-folder.7a3d5d7'
+        )}
         id="move-to-applications-folder"
         backdropDismissable={false}
         onDismissed={this.props.onDismissed}
@@ -44,17 +47,18 @@ export class MoveToApplicationsFolder extends React.Component<
       >
         <DialogContent>
           <p>
-            We've detected that you're not running GitHub Desktop from the
-            Applications folder of your machine. This could cause problems with
-            the app, including impacting your ability to sign in.
+            {translateUI(
+              'ui.we-ve-detected-that-you-re-not-running-github-de.f172dfd'
+            )}
           </p>
           <p>
-            Do you want to move GitHub Desktop to the Applications folder now?
-            This will also restart the app.
+            {translateUI(
+              'ui.do-you-want-to-move-github-desktop-to-the-applic.23a7c3c'
+            )}
           </p>
           <div>
             <Checkbox
-              label="Do not show this message again"
+              label={translateUI('ui.do-not-show-this-message-again.afe501e')}
               value={
                 this.state.askToMoveToApplicationsFolder
                   ? CheckboxValue.Off
@@ -73,9 +77,9 @@ export class MoveToApplicationsFolder extends React.Component<
     return (
       <DialogFooter>
         <OkCancelButtonGroup
-          okButtonText="Move and Restart"
+          okButtonText={translateUI('ui.move-and-restart.7723a45')}
           okButtonTitle="This will move GitHub Desktop to the Applications folder in your machine and restart the app."
-          cancelButtonText="Not Now"
+          cancelButtonText={translateUI('ui.not-now.b1e5359')}
           onCancelButtonClick={this.onNotNow}
         />
       </DialogFooter>

@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { TextBox } from '../lib/text-box'
 import { Button } from '../lib/button'
@@ -69,21 +70,23 @@ export class CustomIntegrationForm extends React.Component<
       <div className="custom-integration-form-container">
         <div className="custom-integration-form-path-container">
           <TextBox
-            label="Path"
+            label={translateUI('ui.path.519e391')}
             value={this.state.path}
             ref={this.pathInputRef}
             onValueChanged={this.onPathChanged}
-            placeholder="Path to executable"
+            placeholder={translateUI('ui.path-to-executable.5d80e54')}
             ariaDescribedBy={`${this.props.id}-custom-integration-path-error`}
           />
-          <Button onClick={this.onChoosePath}>Choose…</Button>
+          <Button onClick={this.onChoosePath}>
+            {translateUI('ui.choose.c3b69e6')}
+          </Button>
         </div>
         {this.renderPathErrors()}
         <TextBox
-          label="Arguments"
+          label={translateUI('ui.arguments.cbb9fa2')}
           value={this.state.arguments}
           onValueChanged={this.onParamsChanged}
-          placeholder="Command line arguments"
+          placeholder={translateUI('ui.command-line-arguments.5663b86')}
           ariaDescribedBy={`${this.props.id}-custom-integration-args-error`}
         />
         {this.renderArgsErrors()}

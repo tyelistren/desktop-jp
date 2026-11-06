@@ -1,9 +1,10 @@
+import { mapStatus } from '../../lib/status'
 import * as React from 'react'
 
 import { PathLabel } from '../lib/path-label'
 import { Octicon, iconForStatus } from '../octicons'
 import { Checkbox, CheckboxValue } from '../lib/checkbox'
-import { mapStatus } from '../../lib/status'
+import { fileStatusLabel } from '../lib/file-status-label'
 import { WorkingDirectoryFileChange } from '../../models/status'
 import { TooltipDirection } from '../lib/tooltip'
 import { TooltippedContent } from '../lib/tooltipped-content'
@@ -52,7 +53,7 @@ export class ChangedFile extends React.Component<IChangedFileProps, {}> {
       matches,
     } = this.props
     const { status, path } = file
-    const fileStatus = mapStatus(status)
+    const fileStatus = fileStatusLabel(status)
 
     const listItemPadding = 10 * 2
     const checkboxWidth = 20
@@ -73,7 +74,7 @@ export class ChangedFile extends React.Component<IChangedFileProps, {}> {
         ? 'partially included'
         : 'not included'
 
-    const pathScreenReaderMessage = `${path} ${mapStatus(
+    const pathScreenReaderMessage = `${path} ${fileStatusLabel(
       status
     )} ${includedText}`
 
@@ -112,7 +113,7 @@ export class ChangedFile extends React.Component<IChangedFileProps, {}> {
         >
           <Octicon
             symbol={iconForStatus(status)}
-            className={'status status-' + fileStatus.toLowerCase()}
+            className={'status status-' + mapStatus(status).toLowerCase()}
           />
         </TooltippedContent>
       </div>

@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Branch } from '../../models/branch'
 import { BranchSelect } from '../branches/branch-select'
@@ -64,7 +66,9 @@ export class OpenPullRequestDialogHeader extends React.Component<IOpenPullReques
   }
 
   public render() {
-    const title = __DARWIN__ ? 'Open a Pull Request' : 'Open a pull request'
+    const title = __DARWIN__
+      ? translateUI('ui.open-a-pull-request.4c48a93')
+      : translateUI('ui.open-a-pull-request.f9c1ac2')
     const {
       baseBranch,
       currentBranch,
@@ -87,29 +91,47 @@ export class OpenPullRequestDialogHeader extends React.Component<IOpenPullReques
       >
         <div className="break"></div>
         <div className="base-branch-details">
-          Merge {commits} into{' '}
-          <BranchSelect
-            repository={this.props.repository}
-            branch={baseBranch}
-            defaultBranch={defaultBranch}
-            currentBranch={currentBranch}
-            allBranches={prBaseBranches}
-            recentBranches={prRecentBaseBranches}
-            onChange={onBranchChange}
-            noBranchesMessage={
-              <>
-                <p>Sorry, I can't find that remote branch.</p>
-                <p>You can only open pull requests against remote branches.</p>
-              </>
-            }
-          />{' '}
-          from <Ref>{currentBranch.name}</Ref>.
+          {translateUIRich('ui.sentence.144c8358c510', {
+            p0: commits,
+            p1: (
+              <BranchSelect
+                repository={this.props.repository}
+                branch={baseBranch}
+                defaultBranch={defaultBranch}
+                currentBranch={currentBranch}
+                allBranches={prBaseBranches}
+                recentBranches={prRecentBaseBranches}
+                onChange={onBranchChange}
+                noBranchesMessage={
+                  <>
+                    <p>
+                      {translateUI(
+                        'ui.sorry-i-can-t-find-that-remote-branch.c8a32c3'
+                      )}
+                    </p>
+                    <p>
+                      {translateUI(
+                        'ui.you-can-only-open-pull-requests-against-remote-b.661ff9d'
+                      )}
+                    </p>
+                  </>
+                }
+              />
+            ),
+            p2: <Ref>{currentBranch.name}</Ref>,
+          })}
         </div>
         <div className="lines-added-deleted">
-          <span className="sr-only">Lines changed:</span>
-          <span className="lines-added">{linesAdded} added lines</span>
+          <span className="sr-only">
+            {translateUI('ui.lines-changed.dd49037')}
+          </span>
+          <span className="lines-added">
+            {translateUIRich('ui.sentence.460e096e6ecd', { p0: linesAdded })}
+          </span>
           <span>, </span>
-          <span className="lines-deleted">{linesDeleted} removed lines</span>
+          <span className="lines-deleted">
+            {translateUIRich('ui.sentence.e927c532379a', { p0: linesDeleted })}
+          </span>
         </div>
       </DialogHeader>
     )

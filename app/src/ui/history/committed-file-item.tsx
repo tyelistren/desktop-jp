@@ -1,7 +1,8 @@
+import { mapStatus } from '../../lib/status'
 import * as React from 'react'
 
 import { CommittedFileChange } from '../../models/status'
-import { mapStatus } from '../../lib/status'
+import { fileStatusLabel } from '../lib/file-status-label'
 import { PathLabel } from '../lib/path-label'
 import { Octicon, iconForStatus } from '../octicons'
 import { TooltippedContent } from '../lib/tooltipped-content'
@@ -17,7 +18,7 @@ export class CommittedFileItem extends React.Component<ICommittedFileItemProps> 
   public render() {
     const { file, focused } = this.props
     const { status } = file
-    const fileStatus = mapStatus(status)
+    const fileStatus = fileStatusLabel(status)
 
     const listItemPadding = 10 * 2
     const statusWidth = 16
@@ -44,7 +45,7 @@ export class CommittedFileItem extends React.Component<ICommittedFileItemProps> 
         >
           <Octicon
             symbol={iconForStatus(status)}
-            className={'status status-' + fileStatus.toLowerCase()}
+            className={'status status-' + mapStatus(status).toLowerCase()}
           />
         </TooltippedContent>
       </div>

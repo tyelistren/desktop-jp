@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { DesktopFakeRepository } from '../../lib/desktop-fake-repository'
 import { ReleaseNote } from '../../models/release-notes'
@@ -90,11 +92,7 @@ export class ThankYou extends React.Component<IThankYouProps, IThankYouState> {
     const version =
       this.props.latestVersion !== null ? ` ${this.props.latestVersion}` : ''
     const thankYouNote = (
-      <>
-        Thanks so much for all your hard work on GitHub Desktop{version}. We're
-        so grateful for your willingness to contribute and make the app better
-        for everyone!
-      </>
+      <>{translateUIRich('ui.sentence.f0521f191ce4', { p0: version })}</>
     )
 
     return (
@@ -107,7 +105,9 @@ export class ThankYou extends React.Component<IThankYouProps, IThankYouState> {
         <DialogContent>
           <div className="container">
             <div className="thank-you-note">{thankYouNote}</div>
-            <div className="contributions-heading">You contributed:</div>
+            <div className="contributions-heading">
+              {translateUI('ui.you-contributed.ec52651')}
+            </div>
             <div className="contributions">
               {this.renderList(this.props.userContributions)}
             </div>

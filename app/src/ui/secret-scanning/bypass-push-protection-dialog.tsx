@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
@@ -48,27 +49,35 @@ export class BypassPushProtectionDialog extends React.Component<
   public render() {
     const items = [
       {
-        title: "It's used in tests",
-        description:
-          'The secret poses no risk. If anyone finds it, they cannot do any damage or gain access to sensitive information.',
+        title: translateUI('ui.it-s-used-in-tests.fbf5fde'),
+        description: translateUI(
+          'ui.the-secret-poses-no-risk-if-anyone-finds-it-they.32dbdd4'
+        ),
         key: BypassReason.UsedInTests,
       },
       {
-        title: "It's a false positive",
-        description: 'The detected string is not a secret',
+        title: translateUI('ui.it-s-a-false-positive.f104429'),
+        description: translateUI(
+          'ui.the-detected-string-is-not-a-secret.bf70f98'
+        ),
         key: BypassReason.FalsePositive,
       },
       {
-        title: "I'll fix it later",
-        description:
-          'The secret is real, I understand the risk, and I will need to revoke it. This will open a security alert and notify admins of this repository.',
+        title: translateUI('ui.i-ll-fix-it-later.962edda'),
+        description: translateUI(
+          'ui.the-secret-is-real-i-understand-the-risk-and-i-w.5fa51a7'
+        ),
         key: BypassReason.WillFixLater,
       },
     ]
 
     return (
       <Dialog
-        title={__DARWIN__ ? 'Bypass Push Detection' : 'Bypass push detection'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.bypass-push-detection.2105a2d')
+            : translateUI('ui.bypass-push-detection.523c7bc')
+        }
         onDismissed={this.props.onDismissed}
         onSubmit={this.bypassPushProtection}
         className="bypass-push-protection-dialog"
@@ -83,7 +92,9 @@ export class BypassPushProtectionDialog extends React.Component<
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText="Allow me to expose this secret"
+            okButtonText={translateUI(
+              'ui.allow-me-to-expose-this-secret.105bffd'
+            )}
             destructive={true}
           />
         </DialogFooter>

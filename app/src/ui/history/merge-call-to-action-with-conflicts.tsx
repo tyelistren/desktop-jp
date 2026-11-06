@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { HistoryTabMode } from '../../lib/app-state'
@@ -249,8 +251,9 @@ export class MergeCallToActionWithConflicts extends React.Component<
   private renderLoadingMessage() {
     return (
       <div className="merge-message merge-message-loading">
-        Checking for ability to {this.state.selectedOperation.toLowerCase()}{' '}
-        automatically…
+        {translateUIRich('ui.sentence.6dbc2e7108ce', {
+          p0: this.state.selectedOperation.toLowerCase(),
+        })}
       </div>
     )
   }
@@ -260,28 +263,30 @@ export class MergeCallToActionWithConflicts extends React.Component<
       return null
     }
 
-    const pluralized = this.commitCount === 1 ? 'commit' : 'commits'
+    const pluralized =
+      this.commitCount === 1
+        ? translateUI('ui.dynamic.commit')
+        : translateUI('ui.dynamic.commits')
 
     if (this.state.selectedOperation === MultiCommitOperationKind.Rebase) {
       return (
         <div className="merge-message">
-          This will update <strong>{currentBranch.name}</strong>
-          {` by applying its `}
-          <strong>{`${this.commitCount} ${pluralized}`}</strong>
-          {` on top of `}
-          <strong>{branch.name}</strong>
+          {translateUIRich('ui.sentence.2ab0246aeb97', {
+            p0: <strong>{currentBranch.name}</strong>,
+            p1: <strong>{`${this.commitCount} ${pluralized}`}</strong>,
+            p2: <strong>{branch.name}</strong>,
+          })}
         </div>
       )
     }
 
     return (
       <div className="merge-message">
-        This will merge
-        <strong>{` ${this.commitCount} ${pluralized}`}</strong>
-        {` from `}
-        <strong>{branch.name}</strong>
-        {` into `}
-        <strong>{currentBranch.name}</strong>
+        {translateUIRich('ui.sentence.914c43cb5460', {
+          p0: <strong>{` ${this.commitCount} ${pluralized}`}</strong>,
+          p1: <strong>{branch.name}</strong>,
+          p2: <strong>{currentBranch.name}</strong>,
+        })}
       </div>
     )
   }
@@ -290,14 +295,18 @@ export class MergeCallToActionWithConflicts extends React.Component<
     if (this.state.selectedOperation === MultiCommitOperationKind.Rebase) {
       return (
         <div className="merge-message">
-          Unable to start rebase. Check you have chosen a valid branch.
+          {translateUI(
+            'ui.unable-to-start-rebase-check-you-have-chosen-a-v.5f549e1'
+          )}
         </div>
       )
     }
 
     return (
       <div className="merge-message">
-        Unable to merge unrelated histories in this repository
+        {translateUI(
+          'ui.unable-to-merge-unrelated-histories-in-this-repo.c4b2f33'
+        )}
       </div>
     )
   }
@@ -310,12 +319,11 @@ export class MergeCallToActionWithConflicts extends React.Component<
     const pluralized = count === 1 ? 'file' : 'files'
     return (
       <div className="merge-message">
-        There will be
-        <strong>{` ${count} conflicted ${pluralized}`}</strong>
-        {` when merging `}
-        <strong>{branch.name}</strong>
-        {` into `}
-        <strong>{currentBranch.name}</strong>
+        {translateUIRich('ui.sentence.615b5fe1c2da', {
+          p0: <strong>{` ${count} conflicted ${pluralized}`}</strong>,
+          p1: <strong>{branch.name}</strong>,
+          p2: <strong>{currentBranch.name}</strong>,
+        })}
       </div>
     )
   }

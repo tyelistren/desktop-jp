@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
@@ -37,7 +38,7 @@ export class CommitProgress extends React.Component<ICommitProgressProps> {
     return (
       <Dialog
         id="commit-progress-dialog"
-        title={`Committing changes`}
+        title={translateUI('ui.committing-changes.034c481')}
         onDismissed={this.onDismissed}
         onSubmit={this.onDismissed}
       >
@@ -52,7 +53,7 @@ export class CommitProgress extends React.Component<ICommitProgressProps> {
 
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText={'Close'}
+            okButtonText={translateUI('ui.close.bbfa773')}
             cancelButtonVisible={false}
           />
         </DialogFooter>
