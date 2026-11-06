@@ -1,3 +1,5 @@
+import { t } from '../../../lib/localization'
+import { translateOperation } from '../../../lib/localization/operation'
 import * as React from 'react'
 import { formatRebaseValue } from '../../../lib/rebase'
 import { RichText } from '../../lib/rich-text'
@@ -24,7 +26,8 @@ interface IProgressDialogProps {
 
 export class ProgressDialog extends React.Component<IProgressDialogProps> {
   public render() {
-    const { progress, operation, emoji } = this.props
+    const { progress, emoji } = this.props
+    const operation = translateOperation(this.props.operation)
     const { position, totalCommitCount, value, currentCommitSummary } = progress
 
     const progressValue = formatRebaseValue(value)
@@ -32,7 +35,7 @@ export class ProgressDialog extends React.Component<IProgressDialogProps> {
       <Dialog
         dismissDisabled={true}
         id="multi-commit-progress"
-        title={`${operation} in progress`}
+        title={t('operation.progress', { operation })}
       >
         <DialogContent>
           <div>
@@ -44,7 +47,10 @@ export class ProgressDialog extends React.Component<IProgressDialogProps> {
               </div>
               <div className="summary">
                 <div className="message">
-                  Commit {position} of {totalCommitCount}
+                  {t('operation.commitProgress', {
+                    position,
+                    total: totalCommitCount,
+                  })}
                 </div>
                 <div className="detail">
                   <RichText emoji={emoji} text={currentCommitSummary || ''} />

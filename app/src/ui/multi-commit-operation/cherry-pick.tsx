@@ -1,3 +1,4 @@
+import { t } from '../../lib/localization'
 import React from 'react'
 import { CherryPickConflictState } from '../../lib/app-state'
 import { Branch } from '../../models/branch'
@@ -121,13 +122,9 @@ export abstract class CherryPick extends BaseMultiCommitOperation {
       targetBranchName,
     } = step
 
-    const okButtonText = __DARWIN__
-      ? 'Create Branch and Cherry-pick'
-      : 'Create branch and cherry-pick'
+    const okButtonText = t('cherry.createBranch')
 
-    const headerText = __DARWIN__
-      ? 'Cherry-pick to New Branch'
-      : 'Cherry-pick to new branch'
+    const headerText = t('cherry.newBranch')
 
     return (
       <CreateBranch
