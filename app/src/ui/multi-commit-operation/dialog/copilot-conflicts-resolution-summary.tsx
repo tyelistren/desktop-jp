@@ -1,3 +1,4 @@
+import { t } from '../../../lib/localization'
 import * as React from 'react'
 
 import { assertNever } from '../../../lib/fatal-error'
@@ -124,7 +125,7 @@ export class CopilotConflictsResolutionSummary extends React.Component<ICopilotC
             className="copilot-conflicts-summary-copilot-icon"
           />
           <span className="copilot-conflicts-summary-theme-label">
-            Resolution summary
+            {t('resolution.summary')}
           </span>
         </h2>
         <div className="copilot-conflicts-summary-body">
@@ -150,7 +151,7 @@ export class CopilotConflictsResolutionSummary extends React.Component<ICopilotC
           repository={this.props.gitHubRepository ?? undefined}
           onMarkdownLinkClicked={this.props.onMarkdownLinkClicked}
           underlineLinks={true}
-          title="Copilot conflict resolution summary"
+          title={t('resolution.summaryTitle')}
           customCSS={summaryMarkdownCSS}
         />
       </div>
@@ -165,7 +166,9 @@ export class CopilotConflictsResolutionSummary extends React.Component<ICopilotC
 
     return (
       <div className="copilot-conflicts-summary-references">
-        <h3 className="copilot-conflicts-summary-references-title">Context</h3>
+        <h3 className="copilot-conflicts-summary-references-title">
+          {t('resolution.context')}
+        </h3>
         <ul className="copilot-conflicts-summary-reference-list">
           {references.map((ref, i) => (
             <li
@@ -252,13 +255,13 @@ function renderReference(
           <span className="copilot-conflicts-summary-reference-commit-ref">
             <span className="ref selectable">{ref.commit.shortSha}</span>
             <CopyButton
-              ariaLabel="Copy the full SHA"
+              ariaLabel={t('resolution.copySha')}
               copyContent={ref.commit.sha}
             />
           </span>
           {!ref.commit.isOnRemote && (
             <span className="copilot-conflicts-summary-reference-tag">
-              local only
+              {t('resolution.local')}
             </span>
           )}
         </>
