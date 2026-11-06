@@ -1,3 +1,4 @@
+import { getResolutionLabel } from './resolution-labels'
 import { t } from '../../../lib/localization'
 import * as React from 'react'
 import {
@@ -23,11 +24,7 @@ import {
 import { openFile } from '../open-file'
 import { Button } from '../button'
 import { IMenuItem } from '../../../lib/menu-item'
-import {
-  hasUnresolvedConflicts,
-  getUnmergedStatusEntryDescription,
-  getLabelForManualResolutionOption,
-} from '../../../lib/status'
+import { hasUnresolvedConflicts } from '../../../lib/status'
 import { revealInFileManager } from '../../../lib/app-shell'
 import { DialogPreferredFocusClassName } from '../../dialog'
 
@@ -446,7 +443,7 @@ function getManualResolutionMenuItems(
 ): ReadonlyArray<IMenuItem> {
   return [
     {
-      label: getLabelForManualResolutionOption(status.entry.us, ourBranch),
+      label: getResolutionLabel(status.entry.us, false, ourBranch),
       action: () =>
         dispatcher.updateManualConflictResolution(
           repository,
@@ -456,7 +453,7 @@ function getManualResolutionMenuItems(
     },
 
     {
-      label: getLabelForManualResolutionOption(status.entry.them, theirBranch),
+      label: getResolutionLabel(status.entry.them, false, theirBranch),
       action: () =>
         dispatcher.updateManualConflictResolution(
           repository,
@@ -473,10 +470,10 @@ function resolvedFileStatusString(
   branch?: string
 ): string {
   if (manualResolution === ManualConflictResolution.ours) {
-    return getUnmergedStatusEntryDescription(status.entry.us, branch)
+    return getResolutionLabel(status.entry.us, true, branch)
   }
   if (manualResolution === ManualConflictResolution.theirs) {
-    return getUnmergedStatusEntryDescription(status.entry.them, branch)
+    return getResolutionLabel(status.entry.them, true, branch)
   }
   return defaultConflictsResolvedMessage
 }
