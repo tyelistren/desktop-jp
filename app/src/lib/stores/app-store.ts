@@ -1595,6 +1595,26 @@ export class AppStore extends TypedBaseStore<IAppState> {
   }
 
   /** This shouldn't be called directly. See `Dispatcher`. */
+  public async _showBranchGraphCommit(repository: Repository, sha: string) {
+    if (!/^[0-9a-f]{40,64}$/.test(sha)) {
+      return
+    }
+    const commit = await getCommit(repository, sha)
+    if (commit === null) {
+      return
+    }
+    await this._changeRepositorySection(
+      repository,
+      RepositorySectionTab.History
+    )
+    this.repositoryStateCache.update(repository, state => ({
+      commitLookup: new Map(state.commitLookup).set(commit.sha, commit),
+    }))
+    this._changeCommitSelection(repository, [commit.sha], true)
+    await this._loadChangedFilesForCurrentSelection(repository)
+  }
+
+  /** This shouldn't be called directly. See `Dispatcher`. */
   public _changeCommitSelection(
     repository: Repository,
     shas: ReadonlyArray<string>,

@@ -643,6 +643,8 @@ export interface IAPIPullRequest {
   readonly base: IAPIPullRequestRef
   readonly body: string
   readonly state: 'open' | 'closed'
+  readonly merged_at?: string | null
+  readonly labels?: ReadonlyArray<{ readonly name: string }>
   readonly draft?: boolean
 }
 
@@ -1200,6 +1202,18 @@ export class API {
       log.warn(`fetchIssues: failed for repository ${owner}/${name}`, e)
       throw e
     }
+  }
+
+  /** Bounded optional graph enrichment; never used to infer Git parent edges. */
+  public async fetchRecentGraphPullRequests(owner: string, name: string) {
+    const url = urlWithQueryString(`repos/${owner}/${name}/pulls`, {
+      state: 'all',
+      sort: 'updated',
+      direction: 'desc',
+      per_page: '100',
+    })
+    const response = await this.ghRequest('GET', url)
+    return parsedResponse<ReadonlyArray<IAPIPullRequest>>(response)
   }
 
   /** Fetch all open pull requests in the given repository. */

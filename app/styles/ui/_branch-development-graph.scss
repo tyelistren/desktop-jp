@@ -1,0 +1,173 @@
+.branch-development-graph {
+  flex: 0 0 auto;
+  min-height: 0;
+  max-height: 60vh;
+  overflow: auto;
+  border-bottom: 1px solid var(--box-border-color);
+  background: var(--background-color);
+  color: var(--text-color);
+
+  button {
+    cursor: pointer;
+    color: inherit;
+    background: var(--background-color);
+    border: 1px solid var(--box-border-color);
+    border-radius: 3px;
+  }
+  button:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+  button:focus-visible,
+  .graph-commit:focus {
+    outline: 2px solid var(--toolbar-button-selected-background-color, #0969da);
+  }
+  header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 10px;
+  }
+  .graph-axis {
+    margin-right: auto;
+    font-size: 11px;
+  }
+  .graph-body {
+    display: flex;
+    min-height: 100px;
+    max-height: 45vh;
+  }
+  .graph-scroll {
+    overflow: auto;
+    flex: 1;
+    min-width: 0;
+  }
+  .graph-scroll > p {
+    padding: 0 10px;
+  }
+  .graph-canvas {
+    position: relative;
+  }
+  svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .graph-current-edge {
+    stroke: var(--link-color) !important;
+    stroke-width: 3 !important;
+  }
+  .graph-edge {
+    stroke: var(--text-secondary-color);
+    stroke-width: 1.5;
+    fill: none;
+  }
+  .graph-ref-line,
+  .graph-alias {
+    stroke: currentColor;
+    stroke-width: 3;
+    fill: none;
+    stroke-dasharray: 4 4;
+    cursor: pointer;
+  }
+  .graph-commit {
+    fill: var(--text-color);
+    cursor: pointer;
+  }
+  .graph-current {
+    color: var(--link-color);
+    font-weight: bold;
+  }
+  .graph-current .graph-commit {
+    fill: var(--link-color);
+  }
+  .graph-muted {
+    opacity: 0.6;
+  }
+  .graph-labels {
+    position: sticky;
+    left: 0;
+    width: 220px;
+    padding-top: 5px;
+    background: var(--background-color);
+    border-right: 1px solid var(--box-border-color);
+  }
+  .graph-labels > div {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 4px;
+  }
+  .graph-labels button:first-child {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+    border: none;
+  }
+  .graph-detail {
+    flex: 0 0 280px;
+    padding: 8px;
+    overflow: auto;
+    border-left: 1px solid var(--box-border-color);
+    overflow-wrap: anywhere;
+  }
+  .graph-detail p {
+    margin: 5px 0;
+  }
+  .graph-tag {
+    display: inline-block;
+    border: 1px solid var(--box-border-color);
+    border-radius: 8px;
+    padding: 1px 6px;
+    margin: 2px;
+  }
+  .graph-settings {
+    max-height: 170px;
+    overflow: auto;
+    padding: 8px;
+    border-bottom: 1px solid var(--box-border-color);
+  }
+  .graph-settings label {
+    display: inline-flex;
+    align-items: center;
+    margin: 3px 10px 3px 0;
+    gap: 4px;
+  }
+  .graph-settings details label {
+    display: flex;
+  }
+  footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 3px 10px;
+  }
+  .graph-ref-tip {
+    fill: var(--background-color);
+    stroke: currentColor;
+    stroke-width: 2;
+    cursor: pointer;
+  }
+  .graph-recent-mark {
+    color: var(--link-color);
+    font-size: 8px;
+  }
+  .graph-resizer {
+    display: block;
+    width: 100%;
+    min-height: 6px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    height: 6px;
+    cursor: ns-resize;
+    touch-action: none;
+    background: var(--box-border-color);
+  }
+  .graph-resizer:focus {
+    outline: 2px solid var(--link-color);
+  }
+}

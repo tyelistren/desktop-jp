@@ -1,3 +1,4 @@
+import { BranchGraph } from './branch-graph/branch-graph'
 import { t as translateUI } from '../lib/localization'
 import { t } from '../lib/localization'
 import * as React from 'react'
@@ -3378,6 +3379,16 @@ export class App extends React.Component<IAppProps, IAppState> {
         className={this.getDesktopAppContentsClassNames()}
       >
         {this.renderToolbar()}
+        {this.state.selectedState?.type === SelectionType.Repository && (
+          <BranchGraph
+            key={this.state.selectedState.repository.path}
+            repository={this.state.selectedState.repository}
+            state={this.state.selectedState.state}
+            dispatcher={this.props.dispatcher}
+            accounts={this.state.accounts}
+            emoji={this.state.emoji}
+          />
+        )}
         {this.renderBanner()}
         {this.renderRepository()}
         {this.renderPopups()}
