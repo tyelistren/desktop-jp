@@ -273,6 +273,32 @@ export class Dispatcher {
     return this.appStore._changeCommitSelection(repository, shas, isContiguous)
   }
 
+  /** Use the normal checkout flow, then inspect only that branch's stash. */
+  public async showBranchGraphStash(repository: Repository, branch: Branch) {
+    const before = this.repositoryStateManager.get(repository).branchesState.tip
+    if (before.kind !== TipState.Valid || before.branch.ref !== branch.ref) {
+      await this.checkoutBranch(repository, branch)
+    }
+    const state = this.repositoryStateManager.get(repository)
+    const tip = state.branchesState.tip
+    if (
+      tip.kind === TipState.Valid &&
+      tip.branch.ref === branch.ref &&
+      state.changesState.stashEntry?.branchName === branch.name
+    ) {
+      await this.changeRepositorySection(
+        repository,
+        RepositorySectionTab.Changes
+      )
+      await this.selectStashedFile(repository)
+    }
+  }
+
+  /** Inspect a graph commit without checking out or modifying the worktree. */
+  public showBranchGraphCommit(repository: Repository, sha: string) {
+    return this.appStore._showBranchGraphCommit(repository, sha)
+  }
+
   /** Update the shas that should be highlighted */
   public updateShasToHighlight(
     repository: Repository,
