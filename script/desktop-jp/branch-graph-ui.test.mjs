@@ -1,3 +1,4 @@
+import * as compact from '../../app/src/lib/branch-graph/compact.ts'
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
@@ -76,6 +77,7 @@ test('graph UI preserves dispatcher actions, settings, commit inspection and off
       },
     },
     '../../lib/branch-graph/layout': layout,
+    '../../lib/branch-graph/compact': compact,
     '../../lib/branch-graph/load': {
       loadBranchGraph: async () => {
         loads++
@@ -162,6 +164,10 @@ test('graph UI preserves dispatcher actions, settings, commit inspection and off
     accounts: [],
     emoji: new Map(),
   }
+  dom.window.localStorage.setItem(
+    'desktop-jp.graph.v1:/graph-fixture',
+    JSON.stringify({ hideMerged: false })
+  )
   const container = dom.window.document.getElementById('root')
   const button = text =>
     [...container.querySelectorAll('button')].find(b => b.textContent === text)
@@ -208,6 +214,51 @@ test('graph UI preserves dispatcher actions, settings, commit inspection and off
     await act(async () => {
       Simulate.click(button(t('graph.settings')))
     })
+    const maximum = container.querySelector('input[type="number"]')
+    await act(async () => {
+      maximum.value = '7'
+      Simulate.change(maximum)
+    })
+    assert.equal(
+      JSON.parse(
+        dom.window.localStorage.getItem('desktop-jp.graph.v1:/graph-fixture')
+      ).maxBranches,
+      7
+    )
+    const mainColor = button('main').parentElement.style.color
+    const featureColor = button('feature').parentElement.style.color
+    await act(async () => {
+      ReactDOM.render(
+        React.createElement(exports.BranchGraph, {
+          ...props,
+          state: {
+            ...props.state,
+            branchesState: {
+              ...props.state.branchesState,
+              tip: { kind: 'Valid', branch: feature },
+            },
+          },
+        }),
+        container
+      )
+    })
+    assert.equal(
+      button('feature').parentElement.classList.contains('graph-current'),
+      true
+    )
+    assert.equal(
+      button('main').parentElement.classList.contains('graph-current'),
+      false
+    )
+    assert.equal(button('main').parentElement.style.color, mainColor)
+    assert.equal(button('feature').parentElement.style.color, featureColor)
+    assert.equal(container.querySelector('.graph-current-edge') !== null, true)
+    await act(async () => {
+      ReactDOM.render(
+        React.createElement(exports.BranchGraph, props),
+        container
+      )
+    })
     const merged = [...container.querySelectorAll('label')]
       .find(l => l.textContent === t('graph.filter.merged'))
       .querySelector('input')
@@ -216,6 +267,13 @@ test('graph UI preserves dispatcher actions, settings, commit inspection and off
       Simulate.change(merged)
     })
     assert.equal(button('feature') === undefined, true)
+    assert.equal(
+      container
+        .querySelector('.graph-boundary')
+        ?.getAttribute('aria-label')
+        .includes(t('graph.hiddenConnection')),
+      true
+    )
     assert.equal(
       JSON.parse(
         dom.window.localStorage.getItem('desktop-jp.graph.v1:/graph-fixture')

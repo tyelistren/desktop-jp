@@ -1,3 +1,8 @@
+import {
+  selectGraphLanes,
+  assignGraphColors,
+  compactGraph,
+} from '../../lib/branch-graph/compact'
 /* eslint-disable react/jsx-no-bind -- Row-scoped callbacks in this functional SVG graph capture each branch/commit. */
 import * as React from 'react'
 import { Repository } from '../../models/repository'
@@ -37,7 +42,7 @@ interface IBranchGraphProps {
 type Snapshot = Awaited<ReturnType<typeof loadBranchGraph>>
 const rowHeight = 38
 const labelWidth = 220
-const columnWidth = 16
+const columnWidth = 48
 const dormantDays = 30
 
 /** Optional graph above the repository view; mutations use existing Dispatcher flows. */
@@ -202,41 +207,36 @@ export function BranchGraph({
         : bySha.get(lane.branch.sha)?.commit
     return tip !== undefined && Date.now() - tip.time > dormantDays * 86400000
   }
-  const isVisible = (lane: IGraphLane) => {
-    if (Object.prototype.hasOwnProperty.call(settings.overrides, lane.id)) {
-      return settings.overrides[lane.id]
-    }
-    if (lane.branch === null) {
-      return settings.deleted
-    }
-    if (lane.branch.ref === current?.ref) {
-      return settings.current
-    }
-    if (
-      lane.branch.ref === base?.ref ||
-      ['main', 'master'].includes(lane.branch.shortName ?? lane.branch.name)
-    ) {
-      return settings.main
-    }
-    if (
-      ['development', 'develop'].includes(
-        lane.branch.shortName ?? lane.branch.name
-      )
-    ) {
-      return settings.development
-    }
-    if (isDormant(lane) && !settings.dormant) {
-      return false
-    }
-    return isMerged(lane) ? settings.merged : settings.unmerged
+  const visible = selectGraphLanes(
+    graph.lanes,
+    settings,
+    current?.ref,
+    base?.ref,
+    snapshot?.merged ?? null,
+    new Map(graph.nodes.map(n => [n.commit.sha, n.commit.time])),
+    Date.now()
+  )
+  const colorSlots = assignGraphColors(
+    visible.map(v => v.lane),
+    base?.ref,
+    settings.colorSlots
+  )
+  const color = (index: number) => {
+    const slot = colorSlots[graph.lanes[index].id] ?? 4
+    return `var(--graph-color-${Math.min(slot, 4)})`
   }
-  const visible = graph.lanes
-    .map((lane, index) => ({ lane, index }))
-    .filter(({ lane }) => isVisible(lane))
+  const colorSignature = JSON.stringify(colorSlots)
+  React.useEffect(() => {
+    if (colorSignature !== JSON.stringify(settings.colorSlots)) {
+      setSettings(old => ({ ...old, colorSlots }))
+    }
+  }, [colorSignature])
+  const compact = compactGraph(graph.nodes, visible)
+  const compactBySha = new Map(compact.nodes.map(n => [n.commit.sha, n]))
   const rows = new Map(visible.map(({ index }, row) => [index, row]))
   const x = (column: number) => labelWidth + 24 + column * columnWidth
   const y = (row: number) => 24 + row * rowHeight
-  const width = Math.max(800, x(graph.nodes.length) + 70)
+  const width = Math.max(600, x(compact.nodes.length) + 70)
   const height = Math.max(70, visible.length * rowHeight + 40)
   React.useEffect(() => {
     if (viewport.current !== null) {
@@ -391,6 +391,24 @@ export function BranchGraph({
         <>
           {showSettings && (
             <div className="graph-settings">
+              <label>
+                {t('graph.maxBranches')}
+                <input
+                  type="number"
+                  min={2}
+                  max={20}
+                  value={settings.maxBranches}
+                  onChange={e => {
+                    const n = e.currentTarget.valueAsNumber
+                    if (Number.isFinite(n)) {
+                      update({
+                        maxBranches: Math.max(2, Math.min(20, Math.round(n))),
+                      })
+                    }
+                  }}
+                />
+              </label>
+              <p>{t('graph.compactHelp')}</p>
               {(
                 [
                   'main',
@@ -400,6 +418,8 @@ export function BranchGraph({
                   'merged',
                   'deleted',
                   'dormant',
+                  'hideMerged',
+                  'upstream',
                 ] as const
               ).map(key => {
                 return (
@@ -421,27 +441,28 @@ export function BranchGraph({
                 <button onClick={() => update({ overrides: {} })}>
                   {t('graph.reset')}
                 </button>
-                {graph.lanes
-                  .filter(l => l.branch !== null)
-                  .map(lane => {
-                    return (
-                      <label key={lane.id}>
-                        <input
-                          type="checkbox"
-                          checked={isVisible(lane)}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            update({
-                              overrides: {
-                                ...settings.overrides,
-                                [lane.id]: e.currentTarget.checked,
-                              },
-                            })
-                          }
-                        />
-                        {name(lane)}
-                      </label>
-                    )
-                  })}
+                {graph.lanes.map(lane => {
+                  return (
+                    <label key={lane.id}>
+                      <input
+                        type="checkbox"
+                        checked={
+                          settings.overrides[lane.id] ??
+                          visible.some(v => v.lane.id === lane.id)
+                        }
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          update({
+                            overrides: {
+                              ...settings.overrides,
+                              [lane.id]: e.currentTarget.checked,
+                            },
+                          })
+                        }
+                      />
+                      {name(lane)}
+                    </label>
+                  )
+                })}
               </details>
             </div>
           )}
@@ -458,38 +479,51 @@ export function BranchGraph({
                   height={height}
                   aria-label={t('graph.ancestry')}
                 >
-                  {graph.nodes.map(node => {
+                  {compact.edges.map((edge, edgeIndex) => {
+                    const node = compactBySha.get(edge.child)
+                    if (node === undefined) {
+                      return null
+                    }
                     const row = rows.get(node.lane)
                     if (row === undefined) {
                       return null
                     }
-                    return node.commit.parents.map(parent => {
-                      const p = bySha.get(parent)
-                      const parentRow =
-                        p === undefined ? undefined : rows.get(p.lane)
-                      if (p === undefined || parentRow === undefined) {
-                        return null
-                      }
-                      const edgeBranch = branches.find(
-                        b => b.ref === graph.lanes[node.lane].branch?.ref
-                      )
-
-                      return (
+                    const p =
+                      edge.parent === null
+                        ? undefined
+                        : compactBySha.get(edge.parent)
+                    const parentRow =
+                      p === undefined ? undefined : rows.get(p.lane)
+                    const edgeBranch = branches.find(
+                      b => b.ref === graph.lanes[node.lane].branch?.ref
+                    )
+                    const active =
+                      current !== null && edgeBranch?.ref === current.ref
+                    const label =
+                      edge.boundary === 'hidden'
+                        ? `${t('graph.hiddenConnection')} (${
+                            edge.boundarySha?.slice(0, 7) ?? ''
+                          })`
+                        : edge.boundary === 'outside'
+                        ? `${t('graph.outsideConnection')} (${
+                            edge.boundarySha?.slice(0, 7) ?? ''
+                          })`
+                        : t('graph.skippedCommits', { count: edge.skipped })
+                    return (
+                      <g
+                        key={`${edge.child}:${edgeIndex}`}
+                        style={{ color: color(node.lane) }}
+                      >
                         <path
-                          key={`${node.commit.sha}:${parent}`}
-                          className={
-                            current !== null && edgeBranch?.ref === current.ref
-                              ? 'graph-edge graph-current-edge'
-                              : 'graph-edge'
-                          }
+                          className={`graph-edge ${
+                            active ? 'graph-current-edge' : ''
+                          } ${edge.skipped > 0 ? 'graph-compressed-edge' : ''}`}
                           onClick={() => {
                             if (edgeBranch !== undefined) {
                               checkout(edgeBranch)
                             }
                           }}
-                          onContextMenu={(
-                            e: React.MouseEvent<SVGPathElement, MouseEvent>
-                          ) => {
+                          onContextMenu={e => {
                             if (edgeBranch !== undefined) {
                               contextMenu(e, edgeBranch)
                             }
@@ -497,12 +531,32 @@ export function BranchGraph({
                           onMouseEnter={() =>
                             setHovered(graph.lanes[node.lane].id)
                           }
-                          d={`M ${x(p.column)} ${y(parentRow)} L ${
-                            x(node.column) - 8
-                          } ${y(parentRow)} L ${x(node.column)} ${y(row)}`}
-                        />
-                      )
-                    })
+                          d={
+                            p !== undefined && parentRow !== undefined
+                              ? `M ${x(p.column)} ${y(parentRow)} H ${
+                                  x(node.column) - 16
+                                } L ${x(node.column)} ${y(row)}`
+                              : `M ${x(node.column) - 18} ${y(row) - 10} L ${x(
+                                  node.column
+                                )} ${y(row)}`
+                          }
+                        >
+                          {edge.skipped > 0 && <title>{label}</title>}
+                        </path>
+                        {edge.boundary !== null && (
+                          <text
+                            className="graph-boundary"
+                            x={x(node.column) - 18}
+                            y={y(row) - 12}
+                            role="img"
+                            aria-label={label}
+                          >
+                            {edge.boundary === 'hidden' ? '◇' : '…'}
+                            <title>{label}</title>
+                          </text>
+                        )}
+                      </g>
+                    )
                   })}
                   {visible.map(({ lane, index }, row) => {
                     const branch = branches.find(
@@ -511,13 +565,13 @@ export function BranchGraph({
                     const tipNode =
                       lane.branch === null
                         ? undefined
-                        : bySha.get(lane.branch.sha)
+                        : compactBySha.get(lane.branch.sha)
                     const active =
                       current !== null && branch?.ref === current.ref
                     const last =
                       lane.commits[0] === undefined
                         ? tipNode
-                        : bySha.get(lane.commits[0].sha)
+                        : compactBySha.get(lane.commits[0].sha)
                     if (last === undefined) {
                       return null
                     }
@@ -529,6 +583,7 @@ export function BranchGraph({
                     return (
                       <g
                         key={lane.id}
+                        style={{ color: color(index) }}
                         className={
                           active
                             ? 'graph-current'
@@ -569,35 +624,41 @@ export function BranchGraph({
                               )} V ${y(row)}`}
                             />
                           )}
-                        {lane.commits.map(c => {
-                          const n = bySha.get(c.sha)
-                          if (n === undefined) {
-                            return null
-                          }
+                        {compact.nodes
+                          .filter(n => n.lane === index)
+                          .map(({ commit: c }) => {
+                            const n = compactBySha.get(c.sha)
+                            if (n === undefined) {
+                              return null
+                            }
 
-                          return (
-                            <circle
-                              key={c.sha}
-                              className="graph-commit"
-                              cx={x(n.column)}
-                              cy={y(row)}
-                              r={active ? 5 : 4}
-                              tabIndex={0}
-                              role="button"
-                              aria-label={`${c.sha.slice(0, 7)} ${c.summary}`}
-                              onClick={() =>
-                                run(() =>
-                                  dispatcher.showBranchGraphCommit(
-                                    repository,
-                                    c.sha
-                                  )
-                                )
-                              }
-                              onKeyDown={(
-                                e: React.KeyboardEvent<SVGCircleElement>
-                              ) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                  e.preventDefault()
+                            return (
+                              <path
+                                key={c.sha}
+                                className="graph-commit"
+                                data-kind={compact.kinds.get(c.sha) ?? 'commit'}
+                                d={
+                                  compact.kinds.get(c.sha) === 'tip'
+                                    ? `M ${x(n.column) - 5} ${
+                                        y(row) - 5
+                                      } h 10 v 10 h -10 Z`
+                                    : compact.kinds.get(c.sha) === 'merge'
+                                    ? `M ${x(n.column)} ${
+                                        y(row) - 6
+                                      } l 6 6 l -6 6 l -6 -6 Z`
+                                    : compact.kinds.get(c.sha) === 'fork'
+                                    ? `M ${x(n.column)} ${
+                                        y(row) - 6
+                                      } l 6 11 h -12 Z`
+                                    : `M ${x(n.column) - 3} ${y(
+                                        row
+                                      )} a 3 3 0 1 0 6 0 a 3 3 0 1 0 -6 0`
+                                }
+                                strokeWidth={active ? 2 : 1}
+                                tabIndex={0}
+                                role="button"
+                                aria-label={`${c.sha.slice(0, 7)} ${c.summary}`}
+                                onClick={() =>
                                   run(() =>
                                     dispatcher.showBranchGraphCommit(
                                       repository,
@@ -605,22 +666,34 @@ export function BranchGraph({
                                     )
                                   )
                                 }
-                              }}
-                            >
-                              <title>{`${new Date(
-                                c.time
-                              ).toLocaleString()}\n${c.sha.slice(0, 7)} ${
-                                c.summary
-                              }`}</title>
-                            </circle>
-                          )
-                        })}
+                                onKeyDown={(
+                                  e: React.KeyboardEvent<SVGPathElement>
+                                ) => {
+                                  if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault()
+                                    run(() =>
+                                      dispatcher.showBranchGraphCommit(
+                                        repository,
+                                        c.sha
+                                      )
+                                    )
+                                  }
+                                }}
+                              >
+                                <title>{`${new Date(
+                                  c.time
+                                ).toLocaleString()}\n${c.sha.slice(0, 7)} ${
+                                  c.summary
+                                }`}</title>
+                              </path>
+                            )
+                          })}
                       </g>
                     )
                   })}
                 </svg>
                 <div className="graph-labels">
-                  {visible.map(({ lane }) => {
+                  {visible.map(({ lane, index }) => {
                     const branch = branches.find(
                       b => b.ref === lane.branch?.ref
                     )
@@ -633,7 +706,7 @@ export function BranchGraph({
                     return (
                       <div
                         key={lane.id}
-                        style={{ height: rowHeight }}
+                        style={{ height: rowHeight, color: color(index) }}
                         className={
                           current !== null && branch?.ref === current.ref
                             ? 'graph-current'
@@ -697,7 +770,7 @@ export function BranchGraph({
                               })
                             }
                           >
-                            ◆
+                            ▣
                           </button>
                         )}
                       </div>
@@ -777,7 +850,12 @@ export function BranchGraph({
           </div>
           <footer>
             <small>
-              {t('graph.legend')}
+              {t('graph.compactLegend')}{' '}
+              {t('graph.compactCount', {
+                branches: visible.length,
+                commits: compact.nodes.length,
+                omitted: compact.omitted,
+              })}
               {snapshot?.truncated
                 ? ` ${t('graph.truncated', { count: limit })}`
                 : ''}
