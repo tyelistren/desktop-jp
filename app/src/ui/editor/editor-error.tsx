@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import {
@@ -62,8 +63,12 @@ export class EditorError extends React.Component<IEditorErrorProps, {}> {
       return (
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText="Close"
-            cancelButtonText={__DARWIN__ ? 'Open Preferences' : 'Open options'}
+            okButtonText={translateUI('ui.close.bbfa773')}
+            cancelButtonText={
+              __DARWIN__
+                ? translateUI('ui.open-preferences.6dd67ec')
+                : translateUI('ui.open-options.26daf43')
+            }
             onCancelButtonClick={this.onShowPreferencesDialog}
           />
         </DialogFooter>
@@ -72,7 +77,7 @@ export class EditorError extends React.Component<IEditorErrorProps, {}> {
       return (
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText="Close"
+            okButtonText={translateUI('ui.close.bbfa773')}
             cancelButtonText={`Download ${suggestedExternalEditor.name}`}
             onCancelButtonClick={this.onExternalLink}
           />
@@ -85,8 +90,8 @@ export class EditorError extends React.Component<IEditorErrorProps, {}> {
 
   public render() {
     const title = __DARWIN__
-      ? 'Unable to Open External Editor'
-      : 'Unable to open external editor'
+      ? translateUI('ui.unable-to-open-external-editor.34490c1')
+      : translateUI('ui.unable-to-open-external-editor.99086ab')
 
     return (
       <Dialog

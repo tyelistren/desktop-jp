@@ -1,3 +1,4 @@
+import { translateUIRich } from './lib/translated-text'
 import * as React from 'react'
 
 import { CloningRepository } from '../models/cloning-repository'
@@ -26,7 +27,11 @@ export class CloningRepositoryView extends React.Component<
       <UiView id="cloning-repository-view">
         <div className="title-container">
           <Octicon symbol={octicons.desktopDownload} />
-          <div className="title">Cloning {this.props.repository.name}</div>
+          <div className="title">
+            {translateUIRich('ui.sentence.04de1fd72dd6', {
+              p0: this.props.repository.name,
+            })}
+          </div>
         </div>
         <progress value={progressValue} />
         <TooltippedContent

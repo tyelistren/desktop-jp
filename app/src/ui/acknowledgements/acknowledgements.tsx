@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as Path from 'path'
 import * as Fs from 'fs'
 import * as React from 'react'
@@ -115,21 +117,25 @@ export class Acknowledgements extends React.Component<
     return (
       <Dialog
         id="acknowledgements"
-        title="License and Open Source Notices"
+        title={translateUI('ui.license-and-open-source-notices.77699e8')}
         onSubmit={this.props.onDismissed}
         onDismissed={this.props.onDismissed}
       >
         <DialogContent>
           <p>
-            <LinkButton uri={WebsiteURL}>GitHub Desktop</LinkButton> is an open
-            source project published under the MIT License. You can view the
-            source code and contribute to this project on{' '}
-            <LinkButton uri={RepositoryURL}>GitHub</LinkButton>.
+            {translateUIRich('ui.sentence.aaff14d5bf75', {
+              p0: <LinkButton uri={WebsiteURL}>GitHub Desktop</LinkButton>,
+              p1: <LinkButton uri={RepositoryURL}>GitHub</LinkButton>,
+            })}
           </p>
 
           {desktopLicense}
 
-          <p>GitHub Desktop also distributes these libraries:</p>
+          <p>
+            {translateUI(
+              'ui.github-desktop-also-distributes-these-libraries.3a272a2'
+            )}
+          </p>
 
           {licenses ? this.renderLicenses(licenses) : <Loading />}
         </DialogContent>

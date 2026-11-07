@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { encodePathAsUrl } from '../../lib/path'
@@ -17,17 +19,20 @@ export class TutorialWelcome extends React.Component {
     return (
       <div id="tutorial-welcome">
         <div className="header">
-          <h1>Welcome to GitHub Desktop</h1>
+          <h1>{translateUI('ui.welcome-to-github-desktop.7c415f8')}</h1>
           <p>
-            Use this tutorial to get comfortable with Git, GitHub, and GitHub
-            Desktop.
+            {translateUI(
+              'ui.use-this-tutorial-to-get-comfortable-with-git-gi.2fa699d'
+            )}
           </p>
         </div>
         <ul className="definitions">
           <li>
             <img src={CodeImage} alt="Html syntax icon" />
             <p>
-              <strong>Git</strong> is the version control system.
+              {translateUIRich('ui.sentence.118837477445', {
+                p0: <strong>Git</strong>,
+              })}
             </p>
           </li>
           <li>
@@ -36,15 +41,17 @@ export class TutorialWelcome extends React.Component {
               alt="People with discussion bubbles overhead"
             />
             <p>
-              <strong>GitHub</strong> is where you store your code and
-              collaborate with others.
+              {translateUIRich('ui.sentence.23e9e3660bcf', {
+                p0: <strong>GitHub</strong>,
+              })}
             </p>
           </li>
           <li>
             <img src={CloudServerImage} alt="Server stack with cloud" />
             <p>
-              <strong>GitHub Desktop</strong> helps you work with GitHub
-              locally.
+              {translateUIRich('ui.sentence.896546cc5bf1', {
+                p0: <strong>GitHub Desktop</strong>,
+              })}
             </p>
           </li>
         </ul>

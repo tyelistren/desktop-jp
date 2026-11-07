@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import {
   WorktreeEntry,
@@ -119,13 +120,19 @@ export class WorktreeList extends React.Component<IWorktreeListProps> {
         className="new-worktree-button"
         onClick={this.props.onCreateNewWorktree}
       >
-        {__DARWIN__ ? 'New Worktree' : 'New worktree'}
+        {__DARWIN__
+          ? translateUI('ui.new-worktree.576da1e')
+          : translateUI('ui.new-worktree.ee6b779')}
       </Button>
     )
   }
 
   private onRenderNoItems = () => {
-    return <div className="no-items-found">No worktrees found</div>
+    return (
+      <div className="no-items-found">
+        {translateUI('ui.no-worktrees-found.5ecc63d')}
+      </div>
+    )
   }
 
   private onItemClick = (item: IWorktreeListItem, source: ClickSource) => {

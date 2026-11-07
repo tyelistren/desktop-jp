@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { DialogContent } from '../dialog'
 import { ForkContributionTarget } from '../../models/workflow-preferences'
@@ -35,7 +36,9 @@ export class ForkSettings extends React.Component<IForkSettingsProps, {}> {
 
     return (
       <DialogContent>
-        <h2 id="fork-usage-heading">I'll be using this fork…</h2>
+        <h2 id="fork-usage-heading">
+          {translateUI('ui.i-ll-be-using-this-fork.bce3b4f')}
+        </h2>
 
         <RadioGroup<ForkContributionTarget>
           ariaLabelledBy="fork-usage-heading"

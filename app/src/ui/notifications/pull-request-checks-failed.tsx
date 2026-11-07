@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Row } from '../lib/row'
@@ -104,7 +106,10 @@ export class PullRequestChecksFailed extends React.Component<
         <Octicon symbol={octicons.xCircleFill} />
         <div className="title-container">
           <div className="summary">
-            {failedChecks.length} {pluralChecks} failed in your pull request
+            {translateUIRich('ui.sentence.34ca3163c143', {
+              p0: failedChecks.length,
+              p1: pluralChecks,
+            })}
           </div>
           <span className="pr-title">
             {pullRequest.title}{' '}
@@ -140,7 +145,7 @@ export class PullRequestChecksFailed extends React.Component<
             {this.renderSummary()}
             <OkCancelButtonGroup
               onCancelButtonClick={this.props.onDismissed}
-              cancelButtonText="Dismiss"
+              cancelButtonText={translateUI('ui.dismiss.70afe9e')}
               okButtonText={okButtonTitle}
               okButtonDisabled={this.state.switchingToPullRequest}
               onOkButtonClick={this.onSubmit}
@@ -157,8 +162,7 @@ export class PullRequestChecksFailed extends React.Component<
     return (
       <div className="footer-question">
         <span>
-          Do you want to switch to that Pull Request now and start fixing{' '}
-          {pluralThem}?
+          {translateUIRich('ui.sentence.de471db7aa7e', { p0: pluralThem })}
         </span>
       </div>
     )
@@ -241,8 +245,10 @@ export class PullRequestChecksFailed extends React.Component<
     return (
       <div className="loading-check-runs">
         <img src={BlankSlateImage} className="blankslate-image" alt="" />
-        <div className="title">Stand By</div>
-        <div className="call-to-action">Check run steps incoming!</div>
+        <div className="title">{translateUI('ui.stand-by.62039fb')}</div>
+        <div className="call-to-action">
+          {translateUI('ui.check-run-steps-incoming.9fbbf8c')}
+        </div>
       </div>
     )
   }

@@ -1,3 +1,5 @@
+import { translateUIRich } from '../../lib/translated-text'
+import { t as translateUI } from '../../../lib/localization'
 import React from 'react'
 import { getAheadBehind, revSymmetricDifference } from '../../../lib/git'
 import { determineMergeability } from '../../../lib/git/merge-tree'
@@ -94,7 +96,10 @@ export class MergeChooseBranchDialog extends React.Component<
         : null
     return (
       <>
-        {squashPrefix}Merge into <strong>{truncatedName}</strong>
+        {translateUIRich('ui.sentence.2f913e0a3214', {
+          p0: squashPrefix,
+          p1: <strong>{truncatedName}</strong>,
+        })}
       </>
     )
   }
@@ -172,7 +177,11 @@ export class MergeChooseBranchDialog extends React.Component<
   }
 
   private renderLoadingMergeMessage() {
-    return <>Checking for ability to merge automatically...</>
+    return (
+      <>
+        {translateUI('ui.checking-for-ability-to-merge-automatically.2d625da')}
+      </>
+    )
   }
 
   private renderCleanMergeMessage(
@@ -183,22 +192,26 @@ export class MergeChooseBranchDialog extends React.Component<
     if (commitCount === 0) {
       return (
         <React.Fragment>
-          <strong>{currentBranch.name}</strong>
-          {` `}
-          is already up to date with <strong>{branch.name}</strong>
+          {translateUIRich('ui.sentence.dfe1efef212e', {
+            p0: <strong>{currentBranch.name}</strong>,
+            p1: ` `,
+            p2: <strong>{branch.name}</strong>,
+          })}
         </React.Fragment>
       )
     }
 
-    const pluralized = commitCount === 1 ? 'commit' : 'commits'
+    const pluralized =
+      commitCount === 1
+        ? translateUI('ui.dynamic.commit')
+        : translateUI('ui.dynamic.commits')
     return (
       <React.Fragment>
-        This will merge
-        <strong>{` ${formatNumber(commitCount)} ${pluralized}`}</strong>
-        {` from `}
-        <strong>{branch.name}</strong>
-        {` into `}
-        <strong>{currentBranch.name}</strong>
+        {translateUIRich('ui.sentence.914c43cb5460', {
+          p0: <strong>{` ${formatNumber(commitCount)} ${pluralized}`}</strong>,
+          p1: <strong>{branch.name}</strong>,
+          p2: <strong>{currentBranch.name}</strong>,
+        })}
       </React.Fragment>
     )
   }
@@ -206,7 +219,9 @@ export class MergeChooseBranchDialog extends React.Component<
   private renderInvalidMergeMessage() {
     return (
       <React.Fragment>
-        Unable to merge unrelated histories in this repository
+        {translateUI(
+          'ui.unable-to-merge-unrelated-histories-in-this-repo.c4b2f33'
+        )}
       </React.Fragment>
     )
   }
@@ -219,12 +234,15 @@ export class MergeChooseBranchDialog extends React.Component<
     const pluralized = count === 1 ? 'file' : 'files'
     return (
       <React.Fragment>
-        There will be
-        <strong>{` ${formatNumber(count)} conflicted ${pluralized}`}</strong>
-        {` when merging `}
-        <strong>{branch.name}</strong>
-        {` into `}
-        <strong>{currentBranch.name}</strong>
+        {translateUIRich('ui.sentence.615b5fe1c2da', {
+          p0: (
+            <strong>{` ${formatNumber(
+              count
+            )} conflicted ${pluralized}`}</strong>
+          ),
+          p1: <strong>{branch.name}</strong>,
+          p2: <strong>{currentBranch.name}</strong>,
+        })}
       </React.Fragment>
     )
   }

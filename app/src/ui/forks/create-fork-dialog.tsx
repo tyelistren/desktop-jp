@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import {
   Dialog,
@@ -77,7 +78,7 @@ export class CreateForkDialog extends React.Component<
   public render() {
     return (
       <Dialog
-        title="Do you want to fork this repository?"
+        title={translateUI('ui.do-you-want-to-fork-this-repository.df97916')}
         onDismissed={this.props.onDismissed}
         onSubmit={this.state.error ? undefined : this.onSubmit}
         dismissDisabled={this.state.loading}
@@ -128,7 +129,9 @@ function renderCreateForkDialogContent(
         <OkCancelButtonGroup
           destructive={true}
           okButtonText={
-            __DARWIN__ ? 'Fork This Repository' : 'Fork this repository'
+            __DARWIN__
+              ? translateUI('ui.fork-this-repository.823f665')
+              : translateUI('ui.fork-this-repository.e5800d3')
           }
           okButtonDisabled={loading}
           cancelButtonDisabled={loading}
@@ -149,7 +152,7 @@ function renderCreateForkDialogError(
       <>
         {`You can try `}
         <LinkButton uri={repository.gitHubRepository.htmlURL}>
-          creating the fork manually on GitHub
+          {translateUI('ui.creating-the-fork-manually-on-github.1dd7928')}
         </LinkButton>
         .
       </>
@@ -166,7 +169,7 @@ function renderCreateForkDialogError(
           {suggestion}
         </div>
         <details>
-          <summary>Error details</summary>
+          <summary>{translateUI('ui.error-details.20be860')}</summary>
           <pre className="error">{error.message}</pre>
         </details>
       </DialogContent>

@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
@@ -26,7 +28,11 @@ export class UnknownAuthors extends React.Component<IUnknownAuthorsProps> {
     return (
       <Dialog
         id="unknown-authors"
-        title={__DARWIN__ ? 'Unknown Co-Authors' : 'Unknown co-authors'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.unknown-co-authors.855658a')
+            : translateUI('ui.unknown-co-authors.15a2b43')
+        }
         onDismissed={this.props.onDismissed}
         onSubmit={this.commit}
         type="warning"
@@ -36,7 +42,11 @@ export class UnknownAuthors extends React.Component<IUnknownAuthorsProps> {
         <DialogFooter>
           <OkCancelButtonGroup
             destructive={true}
-            okButtonText={__DARWIN__ ? 'Commit Anyway' : 'Commit anyway'}
+            okButtonText={
+              __DARWIN__
+                ? translateUI('ui.commit-anyway.ced8790')
+                : translateUI('ui.commit-anyway.ce72911')
+            }
           />
         </DialogFooter>
       </Dialog>
@@ -47,16 +57,18 @@ export class UnknownAuthors extends React.Component<IUnknownAuthorsProps> {
     if (this.props.authors.length > MaxAuthorsToList) {
       return (
         <p>
-          {this.props.authors.length} users weren't found and won't be added as
-          co-authors of this commit. Are you sure you want to commit?
+          {translateUIRich('ui.sentence.1de0501c5f21', {
+            p0: this.props.authors.length,
+          })}
         </p>
       )
     } else {
       return (
         <div>
           <p>
-            These users weren't found and won't be added as co-authors of this
-            commit. Are you sure you want to commit?
+            {translateUI(
+              'ui.these-users-weren-t-found-and-won-t-be-added-as-.78e2fc9'
+            )}
           </p>
           <div className="author-list">
             <ul>

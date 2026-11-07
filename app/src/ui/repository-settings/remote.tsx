@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { IRemote } from '../../models/remote'
 import { TextBox } from '../lib/text-box'
@@ -18,7 +19,7 @@ export class Remote extends React.Component<IRemoteProps, {}> {
     return (
       <DialogContent>
         <TextBox
-          placeholder="Remote URL"
+          placeholder={translateUI('ui.remote-url.861ea4e')}
           label={
             __DARWIN__
               ? `Primary Remote Repository (${remote.name}) URL`

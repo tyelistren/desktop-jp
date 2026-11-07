@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dispatcher } from '../dispatcher'
 import { Branch } from '../../models/branch'
@@ -101,11 +103,14 @@ export class PushBranchCommits extends React.Component<
       return (
         <DialogContent>
           <p id="push-branch-commits-title">
-            Your branch must be published before opening a pull request.
+            {translateUI(
+              'ui.your-branch-must-be-published-before-opening-a-p.c216413'
+            )}
           </p>
           <p id="push-branch-commits-message">
-            Would you like to publish <Ref>{this.props.branch.name}</Ref> now
-            and open a pull request?
+            {translateUIRich('ui.sentence.98338244fcbb', {
+              p0: <Ref>{this.props.branch.name}</Ref>,
+            })}
           </p>
         </DialogContent>
       )
@@ -116,11 +121,12 @@ export class PushBranchCommits extends React.Component<
     return (
       <DialogContent>
         <p id="push-branch-commits-title">
-          You have {localCommits} that haven't been pushed to the remote yet.
+          {translateUIRich('ui.sentence.5f06bb8c96cb', { p0: localCommits })}
         </p>
         <p id="push-branch-commits-message">
-          Would you like to push your changes to{' '}
-          <Ref>{this.props.branch.name}</Ref> before creating your pull request?
+          {translateUIRich('ui.sentence.2b655313619f', {
+            p0: <Ref>{this.props.branch.name}</Ref>,
+          })}
         </p>
       </DialogContent>
     )
@@ -138,16 +144,26 @@ export class PushBranchCommits extends React.Component<
     if (renderPublishView(this.props.unPushedCommits)) {
       return (
         <OkCancelButtonGroup
-          okButtonText={__DARWIN__ ? 'Publish Branch' : 'Publish branch'}
+          okButtonText={
+            __DARWIN__
+              ? translateUI('ui.publish-branch.0795c44')
+              : translateUI('ui.publish-branch.9c38e6f')
+          }
         />
       )
     }
 
     return (
       <OkCancelButtonGroup
-        okButtonText={__DARWIN__ ? 'Push Commits' : 'Push commits'}
+        okButtonText={
+          __DARWIN__
+            ? translateUI('ui.push-commits.de7600b')
+            : translateUI('ui.push-commits.d4c956c')
+        }
         cancelButtonText={
-          __DARWIN__ ? 'Create Without Pushing' : 'Create without pushing'
+          __DARWIN__
+            ? translateUI('ui.create-without-pushing.31b5634')
+            : translateUI('ui.create-without-pushing.d4dc869')
         }
         onCancelButtonClick={this.onCreateWithoutPushButtonClick}
       />

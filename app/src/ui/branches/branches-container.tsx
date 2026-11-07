@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { PullRequest } from '../../models/pull-request'
@@ -185,8 +187,10 @@ export class BranchesContainer extends React.Component<
           onClick={this.onMergeClick}
           tooltip={`Choose a branch to merge into ${currentBranch.name}`}
         >
-          <Octicon className="icon" symbol={octicons.gitMerge} />
-          Choose a branch to merge into <strong>{currentBranch.name}</strong>
+          {translateUIRich('ui.sentence.7dc2f19e647e', {
+            p0: <Octicon className="icon" symbol={octicons.gitMerge} />,
+            p1: <strong>{currentBranch.name}</strong>,
+          })}
         </Button>
       </Row>
     )
@@ -213,9 +217,11 @@ export class BranchesContainer extends React.Component<
         selectedIndex={this.props.selectedTab}
         allowDragOverSwitching={true}
       >
-        <span id="branches-tab">Branches</span>
+        <span id="branches-tab">{translateUI('ui.branches.f578227')}</span>
         <span id="pull-requests-tab" className="pull-request-tab">
-          {__DARWIN__ ? 'Pull Requests' : 'Pull requests'}
+          {__DARWIN__
+            ? translateUI('ui.pull-requests.30ab8d0')
+            : translateUI('ui.pull-requests.80302e5')}
           {this.renderOpenPullRequestsBubble()}
         </span>
       </TabBar>
@@ -314,7 +320,9 @@ export class BranchesContainer extends React.Component<
       return null
     }
 
-    const label = __DARWIN__ ? 'New Branch' : 'New branch'
+    const label = __DARWIN__
+      ? translateUI('ui.new-branch.2f5f0a3')
+      : translateUI('ui.new-branch.0f0adf8')
 
     return (
       /**

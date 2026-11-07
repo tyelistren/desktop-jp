@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import classNames from 'classnames'
 
@@ -220,11 +222,17 @@ export class ExpandableCommitSummary extends React.Component<
       <Button
         onClick={isExpanded ? this.onCollapse : this.onExpand}
         className="expander"
-        tooltip={isExpanded ? 'Collapse' : 'Expand'}
+        tooltip={
+          isExpanded
+            ? translateUI('ui.collapse.9cf188d')
+            : translateUI('ui.expand.9869e50')
+        }
         applyTooltipAriaDescribedBy={false}
         ariaExpanded={isExpanded}
         ariaLabel={
-          isExpanded ? 'Collapse commit details' : 'Expand commit details'
+          isExpanded
+            ? translateUI('ui.collapse-commit-details.5eac97e')
+            : translateUI('ui.expand-commit-details.2e64286')
         }
         ariaControls="expandable-commit-summary"
       >
@@ -359,19 +367,28 @@ export class ExpandableCommitSummary extends React.Component<
       return
     }
 
-    const commitsPluralized = excludedCommitsCount > 1 ? 'commits' : 'commit'
+    const commitsPluralized =
+      excludedCommitsCount > 1
+        ? translateUI('ui.dynamic.commits')
+        : translateUI('ui.dynamic.commit')
 
     return (
       <div className="commit-unreachable-info">
-        <Octicon symbol={octicons.info} />
-        <LinkButton
-          onClick={this.showUnreachableCommits}
-          onMouseOver={this.onHighlightShasNotInDiff}
-          onMouseOut={this.onRemoveHighlightOfShas}
-        >
-          {excludedCommitsCount} unreachable {commitsPluralized}
-        </LinkButton>{' '}
-        not included.
+        {translateUIRich('ui.sentence.5fef5e1eadd5', {
+          p0: <Octicon symbol={octicons.info} />,
+          p1: (
+            <LinkButton
+              onClick={this.showUnreachableCommits}
+              onMouseOver={this.onHighlightShasNotInDiff}
+              onMouseOut={this.onRemoveHighlightOfShas}
+            >
+              {translateUIRich('ui.sentence.8f1498541655', {
+                p0: excludedCommitsCount,
+                p1: commitsPluralized,
+              })}
+            </LinkButton>
+          ),
+        })}
       </div>
     )
   }
@@ -443,7 +460,10 @@ export class ExpandableCommitSummary extends React.Component<
       <div className="ecs-meta-item commit-ref">
         <Octicon symbol={octicons.gitCommit} />
         <div className="ref selectable">{isExpanded ? sha : shortSha}</div>
-        <CopyButton ariaLabel="Copy the full SHA" copyContent={sha} />
+        <CopyButton
+          ariaLabel={translateUI('ui.copy-the-full-sha.d678810')}
+          copyContent={sha}
+        />
       </div>
     )
   }
@@ -468,26 +488,31 @@ export class ExpandableCommitSummary extends React.Component<
       shasInDiff
     )
     const numInDiff = selectedCommits.length - commitsNotInDiff
-    const commitsPluralized = numInDiff > 1 ? 'commits' : 'commit'
+    const commitsPluralized =
+      numInDiff > 1
+        ? translateUI('ui.dynamic.commits')
+        : translateUI('ui.dynamic.commit')
 
     return (
       <>
-        Showing changes from{' '}
-        {commitsNotInDiff > 0 ? (
-          <LinkButton
-            className="commits-in-diff"
-            onMouseOver={this.onHighlightShasInDiff}
-            onMouseOut={this.onRemoveHighlightOfShas}
-            onClick={this.showReachableCommits}
-          >
-            {numInDiff} {commitsPluralized}
-          </LinkButton>
-        ) : (
-          <>
-            {' '}
-            {numInDiff} {commitsPluralized}
-          </>
-        )}
+        {translateUIRich('ui.sentence.5f90d7de746e', {
+          p0:
+            commitsNotInDiff > 0 ? (
+              <LinkButton
+                className="commits-in-diff"
+                onMouseOver={this.onHighlightShasInDiff}
+                onMouseOut={this.onRemoveHighlightOfShas}
+                onClick={this.showReachableCommits}
+              >
+                {numInDiff} {commitsPluralized}
+              </LinkButton>
+            ) : (
+              <>
+                {' '}
+                {numInDiff} {commitsPluralized}
+              </>
+            ),
+        })}
       </>
     )
   }
@@ -553,13 +578,23 @@ export class ExpandableCommitSummary extends React.Component<
       <div className="ecs-meta-item lines-added-deleted">
         {isExpanded ? <Octicon symbol={octicons.diff} /> : null}
         <div className="lines-added">
-          {!isExpanded ? <>+{linesAdded}</> : <>{linesAdded} added lines</>}
+          {!isExpanded ? (
+            <>+{linesAdded}</>
+          ) : (
+            <>
+              {translateUIRich('ui.sentence.460e096e6ecd', { p0: linesAdded })}
+            </>
+          )}
         </div>
         <div className="lines-deleted">
           {!isExpanded ? (
             <>-{linesDeleted}</>
           ) : (
-            <>{linesDeleted} removed lines</>
+            <>
+              {translateUIRich('ui.sentence.e927c532379a', {
+                p0: linesDeleted,
+              })}
+            </>
           )}
         </div>
       </div>

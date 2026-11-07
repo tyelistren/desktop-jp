@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { LinkButton } from '../lib/link-button'
 import { Octicon } from '../octicons'
@@ -25,7 +26,11 @@ export class SuccessBanner extends React.Component<ISuccessBannerProps, {}> {
     if (this.props.onUndo === undefined) {
       return
     }
-    return <LinkButton onClick={this.undo}>Undo</LinkButton>
+    return (
+      <LinkButton onClick={this.undo}>
+        {translateUI('ui.undo.39fc721')}
+      </LinkButton>
+    )
   }
 
   public render() {

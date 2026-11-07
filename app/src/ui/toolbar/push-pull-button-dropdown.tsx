@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import React from 'react'
 import { Button } from '../lib/button'
 import { Octicon, syncClockwise } from '../octicons'
@@ -80,18 +82,23 @@ export class PushPullButtonDropDown extends React.Component<IPushPullButtonDropD
         const forcePushWarning = this.props
           .askForConfirmationOnForcePush ? null : (
           <div className="warning">
-            <span className="warning-title">Warning:</span> A force push will
-            rewrite history on the remote. Any collaborators working on this
-            branch will need to reset their own local branch to match the
-            history of the remote.
+            {translateUIRich('ui.sentence.a5ca31f211e5', {
+              p0: (
+                <span className="warning-title">
+                  {translateUI('ui.warning.3217f29')}
+                </span>
+              ),
+            })}
           </div>
         )
         return {
           title: `Force push ${remoteName}`,
           description: (
             <>
-              Overwrite any changes on {remoteName} with your local changes
-              {forcePushWarning}
+              {translateUIRich('ui.sentence.8bde373f3543', {
+                p0: remoteName,
+                p1: forcePushWarning,
+              })}
             </>
           ),
           action: this.props.forcePushWithLease,

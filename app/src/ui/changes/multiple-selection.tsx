@@ -1,3 +1,4 @@
+import { translateUIRich } from '../lib/translated-text'
 import * as React from 'react'
 import { encodePathAsUrl } from '../../lib/path'
 
@@ -19,7 +20,11 @@ export class MultipleSelection extends React.Component<
     return (
       <div className="panel blankslate" id="no-changes">
         <img src={BlankSlateImage} className="blankslate-image" alt="" />
-        <div>{this.props.count} files selected</div>
+        <div>
+          {translateUIRich('ui.sentence.b4f3179a3467', {
+            p0: this.props.count,
+          })}
+        </div>
       </div>
     )
   }

@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { APICheckConclusion } from '../../lib/api'
 import { IRefCheck } from '../../lib/ci-checks/ci-checks'
@@ -28,11 +30,15 @@ export class CICheckReRunButton extends React.PureComponent<ICICheckReRunButtonP
 
     const items: IMenuItem[] = [
       {
-        label: __DARWIN__ ? 'Re-run Failed Checks' : 'Re-run failed checks',
+        label: __DARWIN__
+          ? translateUI('ui.re-run-failed-checks.1b83031')
+          : translateUI('ui.re-run-failed-checks.5930ee7'),
         action: () => this.props.onRerunChecks(true),
       },
       {
-        label: __DARWIN__ ? 'Re-run All Checks' : 'Re-run all checks',
+        label: __DARWIN__
+          ? translateUI('ui.re-run-all-checks.790ef6b')
+          : translateUI('ui.re-run-all-checks.d0a3765'),
         action: () => this.props.onRerunChecks(false),
       },
     ]
@@ -54,7 +60,9 @@ export class CICheckReRunButton extends React.PureComponent<ICICheckReRunButtonP
     const text =
       this.props.canReRunFailed && this.failedChecksExist ? (
         <>
-          Re-run <Octicon symbol={octicons.triangleDown} />
+          {translateUIRich('ui.sentence.c038368821b2', {
+            p0: <Octicon symbol={octicons.triangleDown} />,
+          })}
         </>
       ) : (
         'Re-run Checks'

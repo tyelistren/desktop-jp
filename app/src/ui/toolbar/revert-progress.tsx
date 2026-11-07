@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { IRevertProgress } from '../../models/progress'
 import { ToolbarButton, ToolbarButtonStyle } from './button'
@@ -47,7 +48,7 @@ export class RevertProgress extends React.Component<IRevertProgressProps, {}> {
     if (!enableResizingToolbarButtons()) {
       return (
         <ToolbarButton
-          title="Reverting…"
+          title={translateUI('ui.reverting.a4eeb16')}
           description={title}
           progressValue={progress.value}
           className="revert-progress"
@@ -66,10 +67,10 @@ export class RevertProgress extends React.Component<IRevertProgressProps, {}> {
         onResize={this.onResize}
         maximumWidth={this.props.width.max}
         minimumWidth={this.props.width.min}
-        description="Revert progress button"
+        description={translateUI('ui.revert-progress-button.f5bd226')}
       >
         <ToolbarButton
-          title="Reverting…"
+          title={translateUI('ui.reverting.a4eeb16')}
           description={title}
           progressValue={progress.value}
           className="revert-progress"

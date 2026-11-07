@@ -1,3 +1,5 @@
+import { translateUIRich } from './translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Ref } from './ref'
 import { LinkButton } from './link-button'
@@ -41,17 +43,18 @@ export class ConfigLockFileExists extends React.Component<IConfigLockFileExistsP
     return (
       <div className="config-lock-file-exists-component">
         <p>
-          Failed to update Git configuration file. A lock file already exists at{' '}
-          <Ref>{this.props.lockFilePath}</Ref>.
+          {translateUIRich('ui.sentence.43a9f9eeaa52', {
+            p0: <Ref>{this.props.lockFilePath}</Ref>,
+          })}
         </p>
         <p>
-          This can happen if another tool is currently modifying the Git
-          configuration or if a Git process has terminated earlier without
-          cleaning up the lock file. Do you want to{' '}
-          <LinkButton onClick={this.onDeleteLockFile}>
-            delete the lock file
-          </LinkButton>{' '}
-          and try again?
+          {translateUIRich('ui.sentence.bd8843a093aa', {
+            p0: (
+              <LinkButton onClick={this.onDeleteLockFile}>
+                {translateUI('ui.delete-the-lock-file.b4daa3e')}
+              </LinkButton>
+            ),
+          })}
         </p>
       </div>
     )

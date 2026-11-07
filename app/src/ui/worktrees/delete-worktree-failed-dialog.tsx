@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import * as Path from 'path'
 
@@ -49,7 +51,11 @@ export class DeleteWorktreeFailedDialog extends React.Component<
     return (
       <Dialog
         id="delete-worktree-failed"
-        title={__DARWIN__ ? 'Delete Worktree Failed' : 'Delete worktree failed'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.delete-worktree-failed.55a4218')
+            : translateUI('ui.delete-worktree-failed.b01f91b')
+        }
         type="error"
         onSubmit={this.onSubmit}
         onDismissed={this.onDismissed}
@@ -61,19 +67,22 @@ export class DeleteWorktreeFailedDialog extends React.Component<
         <DialogContent>
           <div id="delete-worktree-failed-message">
             <p>
-              Deleting the worktree <Ref>{name}</Ref> failed.
+              {translateUIRich('ui.sentence.dda4ae046256', {
+                p0: <Ref>{name}</Ref>,
+              })}
             </p>
             {this.renderErrorMessage()}
             <p>
-              Would you like to forcefully delete the worktree <Ref>{name}</Ref>
-              ?
+              {translateUIRich('ui.sentence.ba83208352dc', {
+                p0: <Ref>{name}</Ref>,
+              })}
             </p>
           </div>
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
             destructive={true}
-            okButtonText="Forcefully delete"
+            okButtonText={translateUI('ui.forcefully-delete.b4d0576')}
           />
         </DialogFooter>
       </Dialog>

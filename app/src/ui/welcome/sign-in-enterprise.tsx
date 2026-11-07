@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { WelcomeStep } from './welcome'
 import { Button } from '../lib/button'
@@ -28,10 +29,14 @@ export class SignInEnterprise extends React.Component<
         id="sign-in-enterprise"
         aria-label="Sign in to your GitHub Enterprise"
       >
-        <h1 className="welcome-title">Sign in to your GitHub Enterprise</h1>
+        <h1 className="welcome-title">
+          {translateUI('ui.sign-in-to-your-github-enterprise.e0e216e')}
+        </h1>
 
         <SignIn signInState={state} dispatcher={this.props.dispatcher}>
-          <Button onClick={this.cancel}>Cancel</Button>
+          <Button onClick={this.cancel}>
+            {translateUI('ui.cancel.77dfd21')}
+          </Button>
         </SignIn>
       </section>
     )

@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { getHTMLURL } from '../../lib/api'
 import { lookupPreferredEmail } from '../../lib/email'
@@ -286,7 +287,9 @@ function SnapshotUsageItem({
           {!snapshot.isUnlimitedEntitlement && resetText !== null ? (
             <span className="copilot-snapshot-reset">({resetText})</span>
           ) : showMonthlyResetFallback ? (
-            <span className="copilot-snapshot-reset">(resets monthly)</span>
+            <span className="copilot-snapshot-reset">
+              {translateUI('ui.resets-monthly.91db41a')}
+            </span>
           ) : null}
         </span>
         <TooltippedContent
@@ -336,7 +339,9 @@ export class SnapshotCard extends React.Component<ISnapshotCardProps> {
             </div>
           </div>
           {onConfigureModels !== undefined && (
-            <Button onClick={this.onConfigureModelsClick}>Configure…</Button>
+            <Button onClick={this.onConfigureModelsClick}>
+              {translateUI('ui.configure.d1a6a40')}
+            </Button>
           )}
         </div>
         {snapshots === null
@@ -352,7 +357,11 @@ export class SnapshotCard extends React.Component<ISnapshotCardProps> {
 }
 
 function renderLoadingSnapshots(): JSX.Element {
-  return <p className="copilot-usage-empty">Loading Copilot usage…</p>
+  return (
+    <p className="copilot-usage-empty">
+      {translateUI('ui.loading-copilot-usage.765c47a')}
+    </p>
+  )
 }
 
 function renderSnapshots(snapshots: CopilotQuotaSnapshots): JSX.Element {
@@ -363,7 +372,7 @@ function renderSnapshots(snapshots: CopilotQuotaSnapshots): JSX.Element {
   if (rateLimits.length === 0 && quotas.length === 0) {
     return (
       <p className="copilot-usage-empty">
-        No Copilot usage data available yet.
+        {translateUI('ui.no-copilot-usage-data-available-yet.643780b')}
       </p>
     )
   }

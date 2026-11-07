@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
@@ -41,7 +43,9 @@ export class HookFailed extends React.Component<IHookFailedProps> {
       >
         <DialogContent>
           <p id="hook-failure-message">
-            The {this.props.hookName} hook failed. What would you like to do?
+            {translateUIRich('ui.sentence.e8105511e8a8', {
+              p0: this.props.hookName,
+            })}
           </p>
           <Terminal
             terminalOutput={this.props.terminalOutput}
@@ -53,8 +57,8 @@ export class HookFailed extends React.Component<IHookFailedProps> {
         <DialogFooter>
           <OkCancelButtonGroup
             destructive={true}
-            okButtonText={'Ignore and Continue'}
-            cancelButtonText={'Abort'}
+            okButtonText={translateUI('ui.ignore-and-continue.3d1f969')}
+            cancelButtonText={translateUI('ui.abort.6f3abbe')}
           />
         </DialogFooter>
       </Dialog>

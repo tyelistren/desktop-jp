@@ -1,3 +1,4 @@
+import { translateUIRich } from '../lib/translated-text'
 import * as React from 'react'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { WindowState } from '../../lib/window-state'
@@ -153,8 +154,11 @@ export class FullScreenInfo extends React.Component<
         timeout={toastTransitionTimeout}
       >
         <div key="notification" className="toast-notification">
-          Press <KeyboardShortcut darwinKeys={['^', '⌘', 'F']} keys={['F11']} />{' '}
-          to exit fullscreen
+          {translateUIRich('ui.sentence.893401a78d5e', {
+            p0: (
+              <KeyboardShortcut darwinKeys={['^', '⌘', 'F']} keys={['F11']} />
+            ),
+          })}
         </div>
       </CSSTransition>
     )

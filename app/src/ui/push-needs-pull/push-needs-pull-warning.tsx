@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dispatcher } from '../dispatcher'
 import { DialogFooter, DialogContent, Dialog } from '../dialog'
@@ -31,7 +32,9 @@ export class PushNeedsPullWarning extends React.Component<
     return (
       <Dialog
         title={
-          __DARWIN__ ? 'Newer Commits on Remote' : 'Newer commits on remote'
+          __DARWIN__
+            ? translateUI('ui.newer-commits-on-remote.1aad725')
+            : translateUI('ui.newer-commits-on-remote.5e43630')
         }
         dismissDisabled={this.state.isLoading}
         disabled={this.state.isLoading}
@@ -42,15 +45,14 @@ export class PushNeedsPullWarning extends React.Component<
       >
         <DialogContent>
           <p>
-            GitHub Desktop is unable to push commits to this branch because
-            there are commits on the remote that are not present on your local
-            branch. Fetch these new commits before pushing in order to reconcile
-            them with your local commits.
+            {translateUI(
+              'ui.github-desktop-is-unable-to-push-commits-to-this.107eb4e'
+            )}
           </p>
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText="Fetch"
+            okButtonText={translateUI('ui.fetch.d48aafe')}
             okButtonDisabled={this.state.isLoading}
           />
         </DialogFooter>

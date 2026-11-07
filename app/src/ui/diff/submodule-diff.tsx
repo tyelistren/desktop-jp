@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import React from 'react'
 import { parseRepositoryIdentifier } from '../../lib/remote-parsing'
 import { ISubmoduleDiff } from '../../models/diff'
@@ -54,7 +56,7 @@ export class SubmoduleDiff extends React.Component<ISubmoduleDiffProps> {
         <div className="content">
           <div className="interstitial-header">
             <div className="text">
-              <h1>Submodule changes</h1>
+              <h1>{translateUI('ui.submodule-changes.5d4e25f')}</h1>
             </div>
           </div>
           {this.renderSubmoduleInfo()}
@@ -84,14 +86,16 @@ export class SubmoduleDiff extends React.Component<ISubmoduleDiffProps> {
     return this.renderSubmoduleDiffItem(
       { octicon: octicons.info, className: 'info-icon' },
       <>
-        This is a submodule based on the repository{' '}
-        <LinkButton
-          uri={`https://${repoIdentifier.hostname}/${repoIdentifier.owner}/${repoIdentifier.name}`}
-        >
-          {repoIdentifier.owner}/{repoIdentifier.name}
-          {hostname}
-        </LinkButton>
-        .
+        {translateUIRich('ui.sentence.968cb09f7cf5', {
+          p0: (
+            <LinkButton
+              uri={`https://${repoIdentifier.hostname}/${repoIdentifier.owner}/${repoIdentifier.name}`}
+            >
+              {repoIdentifier.owner}/{repoIdentifier.name}
+              {hostname}
+            </LinkButton>
+          ),
+        })}
       </>
     )
   }
@@ -100,34 +104,42 @@ export class SubmoduleDiff extends React.Component<ISubmoduleDiffProps> {
     const { diff, readOnly } = this.props
     const { oldSHA, newSHA } = diff
 
-    const verb = readOnly ? 'was' : 'has been'
-    const suffix = readOnly
-      ? ''
-      : ' This change can be committed to the parent repository.'
+    const verb = readOnly
+      ? translateUI('ui.detail.was')
+      : translateUI('ui.detail.hasBeen')
+    const suffix = readOnly ? '' : translateUI('ui.detail.parentCommit')
 
     if (oldSHA !== null && newSHA !== null) {
       return this.renderSubmoduleDiffItem(
         { octicon: octicons.diffModified, className: 'modified-icon' },
         <>
-          This submodule changed its commit from{' '}
-          {this.renderCommitSHA(oldSHA, 'previous')} to{' '}
-          {this.renderCommitSHA(newSHA, 'new')}.{suffix}
+          {translateUIRich('ui.sentence.62511c5d8fe0', {
+            p0: this.renderCommitSHA(oldSHA, 'previous'),
+            p1: this.renderCommitSHA(newSHA, 'new'),
+            p2: suffix,
+          })}
         </>
       )
     } else if (oldSHA === null && newSHA !== null) {
       return this.renderSubmoduleDiffItem(
         { octicon: octicons.diffAdded, className: 'added-icon' },
         <>
-          This submodule {verb} added pointing at commit{' '}
-          {this.renderCommitSHA(newSHA)}.{suffix}
+          {translateUIRich('ui.sentence.a1616663e110', {
+            p0: verb,
+            p1: this.renderCommitSHA(newSHA),
+            p2: suffix,
+          })}
         </>
       )
     } else if (oldSHA !== null && newSHA === null) {
       return this.renderSubmoduleDiffItem(
         { octicon: octicons.diffRemoved, className: 'removed-icon' },
         <>
-          This submodule {verb} removed while it was pointing at commit{' '}
-          {this.renderCommitSHA(oldSHA)}.{suffix}
+          {translateUIRich('ui.sentence.cd6f50c8d253', {
+            p0: verb,
+            p1: this.renderCommitSHA(oldSHA),
+            p2: suffix,
+          })}
         </>
       )
     }
@@ -165,11 +177,7 @@ export class SubmoduleDiff extends React.Component<ISubmoduleDiffProps> {
 
     return this.renderSubmoduleDiffItem(
       { octicon: octicons.fileDiff, className: 'untracked-icon' },
-      <>
-        This submodule has {changes} changes. Those changes must be committed
-        inside of the submodule before they can be part of the parent
-        repository.
-      </>
+      <>{translateUIRich('ui.sentence.e9b3766771f1', { p0: changes })}</>
     )
   }
 
@@ -196,9 +204,17 @@ export class SubmoduleDiff extends React.Component<ISubmoduleDiffProps> {
     return (
       <span>
         <SuggestedAction
-          title="Open this submodule on GitHub Desktop"
-          description="You can open this submodule on GitHub Desktop as a normal repository to manage and commit any changes in it."
-          buttonText={__DARWIN__ ? 'Open Repository' : 'Open repository'}
+          title={translateUI(
+            'ui.open-this-submodule-on-github-desktop.7153eb1'
+          )}
+          description={translateUI(
+            'ui.you-can-open-this-submodule-on-github-desktop-as.51af5ce'
+          )}
+          buttonText={
+            __DARWIN__
+              ? translateUI('ui.open-repository.7881001')
+              : translateUI('ui.open-repository.47d70bc')
+          }
           type="primary"
           onClick={this.onOpenSubmoduleClick}
         />

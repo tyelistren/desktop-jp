@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
@@ -163,8 +165,10 @@ export class CICheckRunRerunDialog extends React.Component<
 
     return (
       <div className="re-run-dependents-message">
-        A new attempt of {name} will be started, including all of {dependentAdj}{' '}
-        dependents:
+        {translateUIRich('ui.sentence.9fcf7ae29e4c', {
+          p0: name,
+          p1: dependentAdj,
+        })}
       </div>
     )
   }
@@ -220,9 +224,9 @@ export class CICheckRunRerunDialog extends React.Component<
       return (
         <div className="loading-rerun-checks">
           <img src={BlankSlateImage} className="blankslate-image" alt="" />
-          <div className="title">Please wait</div>
+          <div className="title">{translateUI('ui.please-wait.ee9e888')}</div>
           <div className="call-to-action">
-            Determining which checks can be re-run.
+            {translateUI('ui.determining-which-checks-can-be-re-run.4c9f8e9')}
           </div>
         </div>
       )

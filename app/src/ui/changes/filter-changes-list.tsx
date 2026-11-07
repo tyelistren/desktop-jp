@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import * as Path from 'path'
 
@@ -523,8 +525,8 @@ export class FilterChangesList extends React.Component<
     const label =
       files.length === 1
         ? __DARWIN__
-          ? `Discard Changes`
-          : `Discard changes`
+          ? translateUI('ui.discard-changes.9fb1097')
+          : translateUI('ui.discard-changes.fa8fc04')
         : __DARWIN__
         ? `Discard ${files.length} Selected Changes`
         : `Discard ${files.length} selected changes`
@@ -555,7 +557,9 @@ export class FilterChangesList extends React.Component<
 
     const items: IMenuItem[] = [
       {
-        label: __DARWIN__ ? 'Discard All Changes…' : 'Discard all changes…',
+        label: __DARWIN__
+          ? translateUI('ui.discard-all-changes.4733b0f')
+          : translateUI('ui.discard-all-changes.cf939af'),
         action: this.onDiscardAllChanges,
         enabled: hasLocalChanges,
       },
@@ -699,8 +703,8 @@ export class FilterChangesList extends React.Component<
       const enabled = Path.basename(path) !== GitIgnoreFileName
       items.push({
         label: __DARWIN__
-          ? 'Ignore File (Add to .gitignore)'
-          : 'Ignore file (add to .gitignore)',
+          ? translateUI('ui.ignore-file-add-to-gitignore.d2410d4')
+          : translateUI('ui.ignore-file-add-to-gitignore.0cefa72'),
         action: () => this.props.onIgnoreFile(path),
         enabled,
       })
@@ -721,8 +725,8 @@ export class FilterChangesList extends React.Component<
 
         items.push({
           label: __DARWIN__
-            ? 'Ignore Folder (Add to .gitignore)'
-            : 'Ignore folder (add to .gitignore)',
+            ? translateUI('ui.ignore-folder-add-to-gitignore.e00eda5')
+            : translateUI('ui.ignore-folder-add-to-gitignore.612664b'),
           submenu,
           enabled,
         })
@@ -761,16 +765,16 @@ export class FilterChangesList extends React.Component<
         { type: 'separator' },
         {
           label: __DARWIN__
-            ? 'Include Selected Files'
-            : 'Include selected files',
+            ? translateUI('ui.include-selected-files.4cfe1be')
+            : translateUI('ui.include-selected-files.4ff4df5'),
           action: () => {
             selectedFiles.map(file => this.props.onIncludeChanged(file, true))
           },
         },
         {
           label: __DARWIN__
-            ? 'Exclude Selected Files'
-            : 'Exclude selected files',
+            ? translateUI('ui.exclude-selected-files.43af624')
+            : translateUI('ui.exclude-selected-files.b7c7903'),
           action: () => {
             selectedFiles.map(file => this.props.onIncludeChanged(file, false))
           },
@@ -1123,7 +1127,7 @@ export class FilterChangesList extends React.Component<
         }
       >
         <Octicon className="stack-icon" symbol={StashIcon} />
-        <div className="text">Stashed Changes</div>
+        <div className="text">{translateUI('ui.stashed-changes.4c5b4eb')}</div>
         <Octicon symbol={octicons.chevronRight} />
       </button>
     )
@@ -1303,7 +1307,7 @@ export class FilterChangesList extends React.Component<
         <TextBox
           ref={this.onTextBoxRef}
           displayClearButton={true}
-          placeholder={'Filter'}
+          placeholder={translateUI('ui.filter.d7decf1')}
           className="filter-list-filter-field"
           onValueChanged={this.onFilterTextChanged}
           onKeyDown={this.onFilterKeyDown}
@@ -1411,11 +1415,14 @@ export class FilterChangesList extends React.Component<
     return (
       <div className="hidden-changes-warning" id="hidden-changes-warning">
         <Octicon symbol={octicons.alert} />
-        <span className="sr-only">Warning:</span>
-        <span>Hidden changes will be committed. </span>
+        <span className="sr-only">{translateUI('ui.warning.3217f29')}</span>
+        <span>
+          {translateUI('ui.hidden-changes-will-be-committed.ea804ee')}
+        </span>
         <LinkButton onClick={this.showFilesToBeCommitted}>
-          Adjust the filters to see all {formatNumber(filesSelected.length)}{' '}
-          changes
+          {translateUIRich('ui.sentence.83671c2e17fb', {
+            p0: formatNumber(filesSelected.length),
+          })}
         </LinkButton>
       </div>
     )
@@ -1438,7 +1445,9 @@ export class FilterChangesList extends React.Component<
       <div className="no-changes-filtered">
         <img src={BlankSlateImage} className="blankslate-image" alt="" />
 
-        <div className="title">No files match your current filters</div>
+        <div className="title">
+          {translateUI('ui.no-files-match-your-current-filters.4119456')}
+        </div>
 
         <div className="subtitle">
           {getNoResultsMessage(this.props.fileListFilter)}
@@ -1449,7 +1458,7 @@ export class FilterChangesList extends React.Component<
             className="clear-filters-button"
             onClick={this.onClearAllFilters}
           >
-            Clear filters
+            {translateUI('ui.clear-filters.4122267')}
           </Button>
         )}
       </div>

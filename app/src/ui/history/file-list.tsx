@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { mapStatus } from '../../lib/status'
+import { fileStatusLabel } from '../lib/file-status-label'
 
 import { CommittedFileChange } from '../../models/status'
 import { ClickSource, List } from '../lib/list'
@@ -64,7 +64,7 @@ export class FileList extends React.Component<IFileListProps, IFileListState> {
   private getFileAriaLabel = (row: number) => {
     const file = this.props.files[row]
     const { path, status } = file
-    const fileStatus = mapStatus(status)
+    const fileStatus = fileStatusLabel(status)
     return `${path} ${fileStatus}`
   }
 

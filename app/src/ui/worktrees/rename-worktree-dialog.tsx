@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import * as Path from 'path'
 
@@ -66,14 +67,18 @@ export class RenameWorktreeDialog extends React.Component<
     return (
       <Dialog
         id="rename-worktree"
-        title={__DARWIN__ ? 'Rename Worktree' : 'Rename worktree'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.rename-worktree.c4853f8')
+            : translateUI('ui.rename-worktree.8fd11c3')
+        }
         loading={this.state.renaming}
         onSubmit={this.onSubmit}
         onDismissed={this.props.onDismissed}
       >
         <DialogContent>
           <TextBox
-            label="Name"
+            label={translateUI('ui.name.709a232')}
             value={this.state.newName}
             onValueChanged={this.onNameChanged}
           />

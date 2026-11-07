@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import { t } from '../../lib/localization'
 import * as React from 'react'
 
@@ -172,24 +174,26 @@ export class CreateBranch extends React.Component<
     if (targetCommit !== undefined) {
       return (
         <p>
-          Your new branch will be based on the commit '{targetCommit.summary}' (
-          {targetCommit.sha.substring(0, 7)}) from your repository.
+          {translateUIRich('ui.sentence.3aeff0587cb7', {
+            p0: targetCommit.summary,
+            p1: targetCommit.sha.substring(0, 7),
+          })}
         </p>
       )
     } else if (tip.kind === TipState.Detached) {
       return (
         <p>
-          You do not currently have any branch checked out (your HEAD reference
-          is detached). As such your new branch will be based on your currently
-          checked out commit ({tip.currentSha.substring(0, 7)}
-          ).
+          {translateUIRich('ui.sentence.bcb1d3205479', {
+            p0: tip.currentSha.substring(0, 7),
+          })}
         </p>
       )
     } else if (tip.kind === TipState.Unborn) {
       return (
         <p>
-          Your current branch is unborn (does not contain any commits). Creating
-          a new branch will rename the current branch.
+          {translateUI(
+            'ui.your-current-branch-is-unborn-does-not-contain-a.dcb3fca'
+          )}
         </p>
       )
     } else if (tip.kind === TipState.Valid) {
@@ -430,22 +434,27 @@ export class CreateBranch extends React.Component<
     if (defaultBranch === null || defaultBranch.name === currentBranchName) {
       return (
         <div>
-          Your new branch will be based on your currently checked out branch (
-          <Ref>{currentBranchName}</Ref>){this.renderForkLinkSuffix()}.{' '}
-          {defaultBranch?.name === currentBranchName && (
-            <>
-              <Ref>{currentBranchName}</Ref> is the {defaultBranchLink} for your
-              repository.
-            </>
-          )}
+          {translateUIRich('ui.sentence.df05dab6e946', {
+            p0: <Ref>{currentBranchName}</Ref>,
+            p1: this.renderForkLinkSuffix(),
+            p2: defaultBranch?.name === currentBranchName && (
+              <>
+                {translateUIRich('ui.sentence.763bb12b68af', {
+                  p0: <Ref>{currentBranchName}</Ref>,
+                  p1: defaultBranchLink,
+                })}
+              </>
+            ),
+          })}
         </div>
       )
     } else {
       const items = [
         {
           title: defaultBranch.name,
-          description:
-            "The default branch in your repository. Pick this to start on something new that's not dependent on your current branch.",
+          description: translateUI(
+            'ui.the-default-branch-in-your-repository-pick-this-.ca880ea'
+          ),
           key: StartPoint.DefaultBranch,
         },
         {
@@ -485,19 +494,21 @@ export class CreateBranch extends React.Component<
     if (currentBranchName === upstreamDefaultBranch.nameWithoutRemote) {
       return (
         <div>
-          Your new branch will be based on{' '}
-          <strong>{upstreamRepositoryFullName}</strong>
-          's {defaultBranchLink} (
-          <Ref>{upstreamDefaultBranch.nameWithoutRemote}</Ref>)
-          {this.renderForkLinkSuffix()}.
+          {translateUIRich('ui.sentence.af12bc765a88', {
+            p0: <strong>{upstreamRepositoryFullName}</strong>,
+            p1: defaultBranchLink,
+            p2: <Ref>{upstreamDefaultBranch.nameWithoutRemote}</Ref>,
+            p3: this.renderForkLinkSuffix(),
+          })}
         </div>
       )
     } else {
       const items = [
         {
           title: upstreamDefaultBranch.name,
-          description:
-            "The default branch of the upstream repository. Pick this to start on something new that's not dependent on your current branch.",
+          description: translateUI(
+            'ui.the-default-branch-of-the-upstream-repository-pi.1a9ba59'
+          ),
           key: StartPoint.UpstreamDefaultBranch,
         },
         {
@@ -524,11 +535,13 @@ export class CreateBranch extends React.Component<
     if (isRepositoryWithForkedGitHubRepository(this.props.repository)) {
       return (
         <div className="secondary-text">
-          Your default branch source is determined by your{' '}
-          <LinkButton onClick={this.onForkSettingsClick}>
-            {t('branch.forkSettings')}
-          </LinkButton>
-          .
+          {translateUIRich('ui.sentence.7341388d5658', {
+            p0: (
+              <LinkButton onClick={this.onForkSettingsClick}>
+                {t('branch.forkSettings')}
+              </LinkButton>
+            ),
+          })}
         </div>
       )
     } else {
@@ -540,10 +553,13 @@ export class CreateBranch extends React.Component<
     if (isRepositoryWithForkedGitHubRepository(this.props.repository)) {
       return (
         <span>
-          &nbsp;as determined by your{' '}
-          <LinkButton onClick={this.onForkSettingsClick}>
-            {t('branch.forkSettings')}
-          </LinkButton>
+          {translateUIRich('ui.sentence.0c5fb6115203', {
+            p0: (
+              <LinkButton onClick={this.onForkSettingsClick}>
+                {t('branch.forkSettings')}
+              </LinkButton>
+            ),
+          })}
         </span>
       )
     } else {

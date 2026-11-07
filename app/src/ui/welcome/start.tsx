@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { WelcomeStep } from './welcome'
 import { LinkButton } from '../lib/link-button'
@@ -33,14 +35,16 @@ export class Start extends React.Component<IStartProps, {}> {
       >
         <div className="start-content">
           <h1 className="welcome-title">
-            Welcome to <span>GitHub Desktop</span>
+            {translateUIRich('ui.sentence.084d9cf9702a', {
+              p0: <span>GitHub Desktop</span>,
+            })}
           </h1>
           {!this.props.loadingBrowserAuth ? (
             <>
               <p id="start-description" className="welcome-text">
-                GitHub Desktop is a seamless way to contribute to projects on
-                GitHub and GitHub Enterprise. Sign in below to get started with
-                your existing projects.
+                {translateUI(
+                  'ui.github-desktop-is-a-seamless-way-to-contribute-t.7af0625'
+                )}
               </p>
             </>
           ) : (
@@ -56,51 +60,63 @@ export class Start extends React.Component<IStartProps, {}> {
               autoFocus={true}
               role="link"
             >
-              {this.props.loadingBrowserAuth && <Loading />}
-              Sign in to GitHub.com
-              <Octicon symbol={octicons.linkExternal} />
+              {translateUIRich('ui.sentence.6402f48c890a', {
+                p0: this.props.loadingBrowserAuth && <Loading />,
+                p1: <Octicon symbol={octicons.linkExternal} />,
+              })}
             </Button>
             {this.props.loadingBrowserAuth ? (
-              <Button onClick={this.cancelBrowserAuth}>Cancel</Button>
+              <Button onClick={this.cancelBrowserAuth}>
+                {translateUI('ui.cancel.77dfd21')}
+              </Button>
             ) : (
               <Button onClick={this.signInToEnterprise}>
-                Sign in to GitHub Enterprise
+                {translateUI('ui.sign-in-to-github-enterprise.1bf6c04')}
               </Button>
             )}
           </div>
           <div className="skip-action-container">
             <p className="welcome-text">
-              New to GitHub?{' '}
-              <LinkButton
-                uri={CreateAccountURL}
-                className="create-account-link"
-              >
-                Create your free account.
-              </LinkButton>
+              {translateUIRich('ui.sentence.ac6b03910511', {
+                p0: (
+                  <LinkButton
+                    uri={CreateAccountURL}
+                    className="create-account-link"
+                  >
+                    {translateUI('ui.create-your-free-account.701aa7e')}
+                  </LinkButton>
+                ),
+              })}
             </p>
             <LinkButton className="skip-button" onClick={this.skip}>
-              Skip this step
+              {translateUI('ui.skip-this-step.9278dcf')}
             </LinkButton>
           </div>
         </div>
 
         <div className="start-footer">
           <p>
-            By creating an account, you agree to the{' '}
-            <LinkButton uri={'https://github.com/site/terms'}>
-              Terms of Service
-            </LinkButton>
-            . For more information about GitHub's privacy practices, see the{' '}
-            <LinkButton uri={'https://github.com/site/privacy'}>
-              GitHub Privacy Statement.
-            </LinkButton>
+            {translateUIRich('ui.sentence.274adac1c24f', {
+              p0: (
+                <LinkButton uri={'https://github.com/site/terms'}>
+                  {translateUI('ui.terms-of-service.0c8a9a9')}
+                </LinkButton>
+              ),
+              p1: (
+                <LinkButton uri={'https://github.com/site/privacy'}>
+                  {translateUI('ui.github-privacy-statement.c2e8c1e')}
+                </LinkButton>
+              ),
+            })}
           </p>
           <p>
-            GitHub Desktop sends usage metrics to improve the product and inform
-            feature decisions.{' '}
-            <LinkButton uri={SamplesURL}>
-              Learn more about user metrics.
-            </LinkButton>
+            {translateUIRich('ui.sentence.95577a1065d1', {
+              p0: (
+                <LinkButton uri={SamplesURL}>
+                  {translateUI('ui.learn-more-about-user-metrics.3a7fe18')}
+                </LinkButton>
+              ),
+            })}
           </p>
         </div>
       </section>

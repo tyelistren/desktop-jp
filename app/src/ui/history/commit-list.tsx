@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import { t } from '../../lib/localization'
 import * as React from 'react'
 import memoize from 'memoize-one'
@@ -586,7 +588,7 @@ export class CommitList extends React.Component<
       <div id="commit-list" className={classes} ref={this.containerRef}>
         {this.renderReorderCommitsHint()}
         <List
-          ariaLabel="Commits"
+          ariaLabel={translateUI('ui.commits.74536b5')}
           role={this.props.isInformationalView === true ? 'list' : 'listbox'}
           ref={this.listRef}
           rowCount={commitSHAs.length}
@@ -653,12 +655,15 @@ export class CommitList extends React.Component<
       >
         <h4>{reorderCommitsHintTitle}</h4>
         <p>
-          Use <KeyboardShortcut darwinKeys={['↑']} keys={['↑']} />
-          <KeyboardShortcut darwinKeys={['↓']} keys={['↓']} /> to choose a new
-          location.
+          {translateUIRich('ui.sentence.38009a17cc35', {
+            p0: <KeyboardShortcut darwinKeys={['↑']} keys={['↑']} />,
+            p1: <KeyboardShortcut darwinKeys={['↓']} keys={['↓']} />,
+          })}
         </p>
         <p>
-          Press <KeyboardShortcut darwinKeys={['⏎']} keys={['⏎']} /> to confirm.
+          {translateUIRich('ui.sentence.257d522f84fd', {
+            p0: <KeyboardShortcut darwinKeys={['⏎']} keys={['⏎']} />,
+          })}
         </p>
       </Popover>
     )

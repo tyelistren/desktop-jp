@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import {
   WorktreeEntry,
@@ -46,7 +47,11 @@ export class WorktreeListItem extends React.Component<IWorktreeListItemProps> {
         >
           <HighlightText text={name} highlight={matches.title} />
         </TooltippedContent>
-        {isMissing && <div className="missing-indicator">(missing)</div>}
+        {isMissing && (
+          <div className="missing-indicator">
+            {translateUI('ui.missing.995357d')}
+          </div>
+        )}
         <TooltippedContent
           className="description"
           tooltip={worktree.branch ?? worktree.head}

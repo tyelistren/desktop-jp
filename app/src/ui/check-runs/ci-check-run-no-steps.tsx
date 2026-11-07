@@ -1,3 +1,4 @@
+import { translateUIRich } from '../lib/translated-text'
 import * as React from 'react'
 import { Octicon } from '../octicons'
 import * as octicons from '../octicons/octicons.generated'
@@ -17,15 +18,19 @@ export class CICheckRunNoStepItem extends React.PureComponent<ICICheckRunNoStepP
     return (
       <div className="ci-check-run-no-steps">
         <p>
-          There are no steps to display for this check.
-          <Button
-            className="button-with-icon"
-            onClick={this.props.onViewCheckExternally}
-            role="link"
-          >
-            View check details
-            <Octicon symbol={octicons.linkExternal} />
-          </Button>
+          {translateUIRich('ui.sentence.432c0bbe31d4', {
+            p0: (
+              <Button
+                className="button-with-icon"
+                onClick={this.props.onViewCheckExternally}
+                role="link"
+              >
+                {translateUIRich('ui.sentence.48535b40cd99', {
+                  p0: <Octicon symbol={octicons.linkExternal} />,
+                })}
+              </Button>
+            ),
+          })}
         </p>
 
         <img src={PaperStackImage} alt="" />

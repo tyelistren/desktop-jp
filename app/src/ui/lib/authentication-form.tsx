@@ -1,3 +1,4 @@
+import { translateUIRich } from './translated-text'
 import * as React from 'react'
 import { Octicon } from '../octicons'
 import * as octicons from '../octicons/octicons.generated'
@@ -47,8 +48,9 @@ export class AuthenticationForm extends React.Component<IAuthenticationFormProps
           autoFocus={true}
           role="link"
         >
-          Sign in using your browser
-          <Octicon symbol={octicons.linkExternal} />
+          {translateUIRich('ui.sentence.bc559f9ea609', {
+            p0: <Octicon symbol={octicons.linkExternal} />,
+          })}
         </Button>
         {this.props.additionalButtons}
       </>

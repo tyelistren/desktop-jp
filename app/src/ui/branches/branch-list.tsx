@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { Branch } from '../../models/branch'
@@ -339,12 +340,14 @@ export class BranchList extends React.Component<
     return (
       <div className="branches-list-item-tooltip list-item-tooltip">
         <div>
-          <div className="label">Full Name: </div>
+          <div className="label">{translateUI('ui.full-name.f963fee')}</div>
           {name}
         </div>
         {absoluteDate && (
           <div>
-            <div className="label">Last Modified: </div>
+            <div className="label">
+              {translateUI('ui.last-modified.6978c2a')}
+            </div>
             {absoluteDate}
           </div>
         )}
@@ -410,7 +413,9 @@ export class BranchList extends React.Component<
   private onRenderNewButton = () => {
     return this.props.canCreateNewBranch ? (
       <Button className="new-branch-button" onClick={this.onCreateNewBranch}>
-        {__DARWIN__ ? 'New Branch' : 'New branch'}
+        {__DARWIN__
+          ? translateUI('ui.new-branch.2f5f0a3')
+          : translateUI('ui.new-branch.0f0adf8')}
       </Button>
     ) : null
   }

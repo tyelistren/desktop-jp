@@ -1,3 +1,4 @@
+import { t as translateUI } from '../lib/localization'
 import { t } from '../lib/localization'
 import * as React from 'react'
 import * as Path from 'path'
@@ -2912,7 +2913,9 @@ export class App extends React.Component<IAppProps, IAppState> {
             onAccepted={onAccepted}
             onDismissed={onPopupDismissedFn}
           >
-            Review and edit the generated message carefully before use.
+            {translateUI(
+              'ui.review-and-edit-the-generated-message-carefully-.4a4fd87'
+            )}
           </CopilotDisclaimer>
         )
       }
@@ -2929,8 +2932,9 @@ export class App extends React.Component<IAppProps, IAppState> {
             onAccepted={onAccepted}
             onDismissed={onPopupDismissedFn}
           >
-            Review the suggested resolutions carefully before applying them to
-            your files.
+            {translateUI(
+              'ui.review-the-suggested-resolutions-carefully-befor.a4d6d78'
+            )}
           </CopilotDisclaimer>
         )
       }
@@ -4293,5 +4297,9 @@ export class App extends React.Component<IAppProps, IAppState> {
 }
 
 function NoRepositorySelected() {
-  return <div className="panel blankslate">No repository selected</div>
+  return (
+    <div className="panel blankslate">
+      {translateUI('ui.no-repository-selected.b1b9876')}
+    </div>
+  )
 }

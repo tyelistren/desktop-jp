@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { encodePathAsUrl } from '../../lib/path'
@@ -222,8 +224,10 @@ export class NoChanges extends React.Component<
 
     return (
       <>
-        {parentMenusText} menu or{' '}
-        {this.renderDiscoverabilityKeyboardShortcut(menuItem)}
+        {translateUIRich('ui.sentence.983c7d9b876f', {
+          p0: parentMenusText,
+          p1: this.renderDiscoverabilityKeyboardShortcut(menuItem),
+        })}
       </>
     )
   }
@@ -322,14 +326,21 @@ export class NoChanges extends React.Component<
       return null
     }
 
-    const title = `Open the repository in your external editor`
+    const title = translateUI(
+      'ui.open-the-repository-in-your-external-editor.a34f934'
+    )
 
     const description = (
       <>
-        Select your editor in{' '}
-        <LinkButton onClick={this.openIntegrationPreferences}>
-          {__DARWIN__ ? 'Settings' : 'Options'}
-        </LinkButton>
+        {translateUIRich('ui.sentence.290930cb2a76', {
+          p0: (
+            <LinkButton onClick={this.openIntegrationPreferences}>
+              {__DARWIN__
+                ? translateUI('ui.settings.c7f73bb')
+                : translateUI('ui.options.6bf5da9')}
+            </LinkButton>
+          ),
+        })}
       </>
     )
 
@@ -414,15 +425,13 @@ export class NoChanges extends React.Component<
 
     const numChanges = stashEntry.files.files.length
     const description = (
-      <>
-        You have {numChanges} {numChanges === 1 ? 'change' : 'changes'} in
-        progress that you have not yet committed.
-      </>
+      <>{translateUI('ui.final.uncommitted', { count: numChanges })}</>
     )
     const discoverabilityContent = (
       <>
-        When a stash exists, access it at the bottom of the Changes tab to the
-        left.
+        {translateUI(
+          'ui.when-a-stash-exists-access-it-at-the-bottom-of-t.7be884c'
+        )}
       </>
     )
     const itemId: MenuIDs = 'toggle-stashed-changes'
@@ -435,11 +444,11 @@ export class NoChanges extends React.Component<
     return (
       <MenuBackedSuggestedAction
         key="view-stash-action"
-        title="View your stashed changes"
+        title={translateUI('ui.view-your-stashed-changes.86d2242')}
         menuItemId={itemId}
         description={description}
         discoverabilityContent={discoverabilityContent}
-        buttonText="View stash"
+        buttonText={translateUI('ui.view-stash.0d90c5f')}
         type="primary"
         disabled={menuItem !== null && !menuItem.enabled}
         onClick={this.onViewStashClicked}
@@ -465,18 +474,21 @@ export class NoChanges extends React.Component<
 
     const discoverabilityContent = (
       <>
-        Always available in the toolbar for local repositories or{' '}
-        {this.renderDiscoverabilityKeyboardShortcut(menuItem)}
+        {translateUIRich('ui.sentence.0756fc8ff3aa', {
+          p0: this.renderDiscoverabilityKeyboardShortcut(menuItem),
+        })}
       </>
     )
 
     return (
       <MenuBackedSuggestedAction
         key="publish-repository-action"
-        title="Publish your repository to GitHub"
-        description="This repository is currently only available on your local machine. By publishing it on GitHub you can share it, and collaborate with others."
+        title={translateUI('ui.publish-your-repository-to-github.3e1ad68')}
+        description={translateUI(
+          'ui.this-repository-is-currently-only-available-on-y.0eb25dd'
+        )}
         discoverabilityContent={discoverabilityContent}
-        buttonText="Publish repository"
+        buttonText={translateUI('ui.publish-repository.51ceb83')}
         menuItemId={itemId}
         type="primary"
         disabled={!menuItem.enabled}
@@ -505,28 +517,30 @@ export class NoChanges extends React.Component<
 
     const description = (
       <>
-        The current branch (<Ref>{tip.branch.name}</Ref>) hasn't been published
-        to the remote yet. By publishing it {isGitHub ? 'to GitHub' : ''} you
-        can share it, {isGitHub ? 'open a pull request, ' : ''}
-        and collaborate with others.
+        {translateUIRich('ui.sentence.48544fa06bc4', {
+          p0: <Ref>{tip.branch.name}</Ref>,
+          p1: isGitHub ? 'to GitHub' : '',
+          p2: isGitHub ? 'open a pull request, ' : '',
+        })}
       </>
     )
 
     const discoverabilityContent = (
       <>
-        Always available in the toolbar or{' '}
-        {this.renderDiscoverabilityKeyboardShortcut(menuItem)}
+        {translateUIRich('ui.sentence.ef0a499f65f0', {
+          p0: this.renderDiscoverabilityKeyboardShortcut(menuItem),
+        })}
       </>
     )
 
     return (
       <MenuBackedSuggestedAction
         key="publish-branch-action"
-        title="Publish your branch"
+        title={translateUI('ui.publish-your-branch.276c353')}
         menuItemId={itemId}
         description={description}
         discoverabilityContent={discoverabilityContent}
-        buttonText="Publish branch"
+        buttonText={translateUI('ui.publish-branch.9c38e6f')}
         type="primary"
         disabled={!menuItem.enabled}
         onClick={this.onPublishBranchClicked}
@@ -554,18 +568,19 @@ export class NoChanges extends React.Component<
 
     const description = (
       <>
-        The current branch (<Ref>{tip.branch.name}</Ref>) has{' '}
-        {aheadBehind.behind === 1 ? 'a commit' : 'commits'} on{' '}
-        {isGitHub ? 'GitHub' : 'the remote'} that{' '}
-        {aheadBehind.behind === 1 ? 'does not' : 'do not'} exist on your
-        machine.
+        {translateUI('ui.final.behind', {
+          branch: tip.branch.name,
+          count: aheadBehind.behind,
+          remote: isGitHub ? 'GitHub' : translateUI('ui.final.remote'),
+        })}
       </>
     )
 
     const discoverabilityContent = (
       <>
-        Always available in the toolbar when there are remote changes or{' '}
-        {this.renderDiscoverabilityKeyboardShortcut(menuItem)}
+        {translateUIRich('ui.sentence.440fd6e7fbd4', {
+          p0: this.renderDiscoverabilityKeyboardShortcut(menuItem),
+        })}
       </>
     )
 
@@ -612,8 +627,10 @@ export class NoChanges extends React.Component<
       itemsToPushTypes.push('commits')
       itemsToPushDescriptions.push(
         aheadBehind.ahead === 1
-          ? '1 local commit'
-          : `${formatNumber(aheadBehind.ahead)} local commits`
+          ? translateUI('ui.finish.localCommitOne')
+          : translateUI('ui.finish.localCommitMany', {
+              count: formatNumber(aheadBehind.ahead),
+            })
       )
     }
 
@@ -621,19 +638,25 @@ export class NoChanges extends React.Component<
       itemsToPushTypes.push('tags')
       itemsToPushDescriptions.push(
         tagsToPush.length === 1
-          ? '1 tag'
-          : `${formatNumber(tagsToPush.length)} tags`
+          ? translateUI('ui.finish.tagOne')
+          : translateUI('ui.finish.tagMany', {
+              count: formatNumber(tagsToPush.length),
+            })
       )
     }
 
-    const description = `You have ${itemsToPushDescriptions.join(
-      ' and '
-    )} waiting to be pushed to ${isGitHub ? 'GitHub' : 'the remote'}.`
+    const description = translateUI('ui.finish.pushWaiting', {
+      items: itemsToPushDescriptions.join(
+        ' ' + translateUI('ui.finish.and') + ' '
+      ),
+      remote: isGitHub ? 'GitHub' : translateUI('ui.final.remote'),
+    })
 
     const discoverabilityContent = (
       <>
-        Always available in the toolbar when there are local commits waiting to
-        be pushed or {this.renderDiscoverabilityKeyboardShortcut(menuItem)}
+        {translateUIRich('ui.sentence.2d58b04f8ef3', {
+          p0: this.renderDiscoverabilityKeyboardShortcut(menuItem),
+        })}
       </>
     )
 
@@ -672,14 +695,16 @@ export class NoChanges extends React.Component<
 
     const description = (
       <>
-        The current branch (<Ref>{tip.branch.name}</Ref>) is already published
-        to GitHub. Create a pull request to propose and collaborate on your
-        changes.
+        {translateUIRich('ui.sentence.a2621e154d87', {
+          p0: <Ref>{tip.branch.name}</Ref>,
+        })}
       </>
     )
 
-    const title = `Create a Pull Request from your current branch`
-    const buttonText = `Create Pull Request`
+    const title = translateUI(
+      'ui.create-a-pull-request-from-your-current-branch.f126141'
+    )
+    const buttonText = translateUI('ui.create-pull-request.64c125b')
 
     const previewPullMenuItem = this.getMenuItemInfo('preview-pull-request')
 
@@ -701,13 +726,15 @@ export class NoChanges extends React.Component<
     }
 
     const previewPullRequestAction: IDropdownSuggestedActionOption = {
-      title: `Preview the Pull Request from your current branch`,
-      label: 'Preview Pull Request',
+      title: translateUI(
+        'ui.preview-the-pull-request-from-your-current-branc.b132313'
+      ),
+      label: translateUI('ui.preview-pull-request.d47ddcc'),
       description: (
         <>
-          The current branch (<Ref>{tip.branch.name}</Ref>) is already published
-          to GitHub. Preview the changes this pull request will have before
-          proposing your changes.
+          {translateUIRich('ui.sentence.1880bb2af9f1', {
+            p0: <Ref>{tip.branch.name}</Ref>,
+          })}
         </>
       ),
       id: PullRequestSuggestedNextAction.PreviewPullRequest,
@@ -769,10 +796,11 @@ export class NoChanges extends React.Component<
         <div className="content">
           <div className="interstitial-header">
             <div className="text">
-              <h1>No local changes</h1>
+              <h1>{translateUI('ui.no-local-changes.0ac75b4')}</h1>
               <p>
-                There are no uncommitted changes in this repository. Here are
-                some friendly suggestions for what to do next.
+                {translateUI(
+                  'ui.there-are-no-uncommitted-changes-in-this-reposit.88350d8'
+                )}
               </p>
             </div>
             <img src={PaperStackImage} className="blankslate-image" alt="" />

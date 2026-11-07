@@ -1,3 +1,5 @@
+import { translateUIRich } from './translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Loading } from './loading'
 import { Form } from './form'
@@ -54,7 +56,7 @@ export class EnterpriseServerEntry extends React.Component<
     return (
       <Form onSubmit={this.onSubmit}>
         <TextBox
-          label="Enterprise address"
+          label={translateUI('ui.enterprise-address.cd0d108')}
           autoFocus={true}
           disabled={disableEntry}
           onValueChanged={this.onServerAddressChanged}
@@ -65,7 +67,9 @@ export class EnterpriseServerEntry extends React.Component<
 
         <div className="actions">
           <Button type="submit" disabled={disableSubmission}>
-            {this.props.loading ? <Loading /> : null} Continue
+            {translateUIRich('ui.sentence.6c8653c5f8b8', {
+              p0: this.props.loading ? <Loading /> : null,
+            })}
           </Button>
           {this.props.additionalButtons}
         </div>

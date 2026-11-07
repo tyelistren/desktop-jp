@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter, DialogError } from '../dialog'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
@@ -55,11 +57,11 @@ export class EditCopilotBYOKModelDialog extends React.Component<
     const isEditing = this.props.model !== null
     const title = isEditing
       ? __DARWIN__
-        ? 'Edit Model'
-        : 'Edit model'
+        ? translateUI('ui.edit-model.c1a2355')
+        : translateUI('ui.edit-model.3e5f6c0')
       : __DARWIN__
-      ? 'Add Model'
-      : 'Add model'
+      ? translateUI('ui.add-model.e0f7f21')
+      : translateUI('ui.add-model.b6a86ca')
 
     return (
       <Dialog
@@ -74,37 +76,53 @@ export class EditCopilotBYOKModelDialog extends React.Component<
         <DialogContent>
           <Row className="copilot-byok-field">
             <TextBox
-              label={__DARWIN__ ? 'Display Name' : 'Display name'}
+              label={
+                __DARWIN__
+                  ? translateUI('ui.display-name.8d6b348')
+                  : translateUI('ui.display-name.c7874aa')
+              }
               value={this.state.name}
               onValueChanged={this.onNameChanged}
               placeholder="GPT-4o"
               autoFocus={true}
             />
             <p className="copilot-byok-field-hint">
-              The friendly name shown in the Copilot model picker.
+              {translateUI(
+                'ui.the-friendly-name-shown-in-the-copilot-model-pic.2bb9f5a'
+              )}
             </p>
           </Row>
           <Row className="copilot-byok-field">
             <TextBox
-              label={__DARWIN__ ? 'Model Identifier' : 'Model identifier'}
+              label={
+                __DARWIN__
+                  ? translateUI('ui.model-identifier.26af455')
+                  : translateUI('ui.model-identifier.1f7b6c1')
+              }
               value={this.state.id}
               onValueChanged={this.onIdChanged}
               placeholder="gpt-4o"
               required={true}
             />
             <p className="copilot-byok-field-hint">
-              The exact name your provider expects (e.g. <code>gpt-4o</code>,{' '}
-              <code>llama3</code>).
+              {translateUIRich('ui.sentence.cb8ca58da76f', {
+                p0: <code>gpt-4o</code>,
+                p1: <code>llama3</code>,
+              })}
             </p>
           </Row>
           <Row className="copilot-byok-field">
             <Select
-              label={__DARWIN__ ? 'Reasoning Effort' : 'Reasoning effort'}
+              label={
+                __DARWIN__
+                  ? translateUI('ui.reasoning-effort.5ca4676')
+                  : translateUI('ui.reasoning-effort.cd32c0f')
+              }
               value={this.state.reasoningEffort}
               onChange={this.onReasoningEffortChanged}
             >
               <option value={NoReasoningEffort}>
-                Default (provider's choice)
+                {translateUI('ui.default-provider-s-choice.5f3aab1')}
               </option>
               {ReasoningEffortOrder.map(effort => (
                 <option key={effort} value={effort}>
@@ -113,15 +131,20 @@ export class EditCopilotBYOKModelDialog extends React.Component<
               ))}
             </Select>
             <p className="copilot-byok-field-hint">
-              Reasoning models (o1, o3, GPT-5 reasoning variants, etc.) think
-              before responding. Higher levels are slower but produce better
-              answers on complex tasks. Leave on <em>Default</em> for
-              non-reasoning models or to let the provider pick.
+              {translateUIRich('ui.sentence.f51f75fe8f27', {
+                p0: <em>{translateUI('ui.default.808d7dc')}</em>,
+              })}
             </p>
           </Row>
         </DialogContent>
         <DialogFooter>
-          <OkCancelButtonGroup okButtonText={isEditing ? 'Save' : 'Add'} />
+          <OkCancelButtonGroup
+            okButtonText={
+              isEditing
+                ? translateUI('ui.save.efc007a')
+                : translateUI('ui.add.61cc55a')
+            }
+          />
         </DialogFooter>
       </Dialog>
     )

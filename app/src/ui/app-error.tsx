@@ -1,3 +1,5 @@
+import { translateUIRich } from './lib/translated-text'
+import { t as translateUI } from '../lib/localization'
 import * as React from 'react'
 
 import {
@@ -110,7 +112,7 @@ export class AppError extends React.Component<IAppErrorProps, IAppErrorState> {
           <p>{error.message}</p>
           {files.length > 0 && (
             <>
-              <p>Files that exceed the limit</p>
+              <p>{translateUI('ui.files-that-exceed-the-limit.39990b3')}</p>
               <ul>
                 {files.map(file => (
                   <li key={file}>{file}</li>
@@ -119,9 +121,13 @@ export class AppError extends React.Component<IAppErrorProps, IAppErrorState> {
             </>
           )}
           <p>
-            See{' '}
-            <LinkButton uri="https://gh.io/lfs">https://gh.io/lfs</LinkButton>{' '}
-            for more information on managing large files on GitHub
+            {translateUIRich('ui.sentence.3e04ad6c6f57', {
+              p0: (
+                <LinkButton uri="https://gh.io/lfs">
+                  https://gh.io/lfs
+                </LinkButton>
+              ),
+            })}
           </p>
         </>
       )
@@ -197,7 +203,9 @@ export class AppError extends React.Component<IAppErrorProps, IAppErrorState> {
     if (retryAction && retryAction.type === RetryActionType.Clone) {
       return (
         <p>
-          Would you like to retry cloning <Ref>{retryAction.name}</Ref>?
+          {translateUIRich('ui.sentence.3c9252ac8fe2', {
+            p0: <Ref>{retryAction.name}</Ref>,
+          })}
         </p>
       )
     }
@@ -260,7 +268,11 @@ export class AppError extends React.Component<IAppErrorProps, IAppErrorState> {
     return (
       <DialogFooter>
         <OkCancelButtonGroup
-          okButtonText={__DARWIN__ ? 'Retry Clone' : 'Retry clone'}
+          okButtonText={
+            __DARWIN__
+              ? translateUI('ui.retry-clone.7207c63')
+              : translateUI('ui.retry-clone.4e1c8e5')
+          }
           onOkButtonClick={this.onRetryAction}
           onCancelButtonClick={this.onCloseButtonClick}
         />
@@ -272,9 +284,13 @@ export class AppError extends React.Component<IAppErrorProps, IAppErrorState> {
     return (
       <DialogFooter>
         <OkCancelButtonGroup
-          okButtonText="Close"
+          okButtonText={translateUI('ui.close.bbfa773')}
           onOkButtonClick={this.onCloseButtonClick}
-          cancelButtonText={__DARWIN__ ? 'Open Preferences' : 'Open options'}
+          cancelButtonText={
+            __DARWIN__
+              ? translateUI('ui.open-preferences.6dd67ec')
+              : translateUI('ui.open-options.26daf43')
+          }
           onCancelButtonClick={this.showPreferencesDialog}
         />
       </DialogFooter>

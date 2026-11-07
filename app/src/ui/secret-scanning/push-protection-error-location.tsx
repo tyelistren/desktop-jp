@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Octicon } from '../octicons'
 import * as octicons from '../octicons/octicons.generated'
@@ -44,17 +46,21 @@ export class PushProtectionErrorLocation extends React.Component<
             {location.commitSha.substring(0, 7)}
           </span>
           <CopyButton
-            ariaLabel="Copy the full SHA"
+            ariaLabel={translateUI('ui.copy-the-full-sha.d678810')}
             copyContent={location.commitSha}
           />
         </span>
         <span className="secret-path">
           <span className="ref selectable-text">
-            <PathText
-              path={location.path}
-              availableWidth={isFirst ? 200 : 275}
-            />
-            at line {location.lineNumber}
+            {translateUIRich('ui.sentence.cd253aa59e4c', {
+              p0: (
+                <PathText
+                  path={location.path}
+                  availableWidth={isFirst ? 200 : 275}
+                />
+              ),
+              p1: location.lineNumber,
+            })}
           </span>
         </span>
       </span>

@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import { t } from '../../lib/localization'
 import * as Path from 'path'
 import * as React from 'react'
@@ -527,7 +528,9 @@ export class CloneRepository extends React.Component<
         return (
           <CallToAction actionTitle={signInTitle} onAction={this.signInDotCom}>
             <div>
-              Sign in to your GitHub.com account to access your repositories.
+              {translateUI(
+                'ui.sign-in-to-your-github-com-account-to-access-you.cb515ee'
+              )}
             </div>
           </CallToAction>
         )
@@ -538,8 +541,9 @@ export class CloneRepository extends React.Component<
             onAction={this.signInEnterprise}
           >
             <div>
-              If you are using GitHub Enterprise at work, sign in to it to get
-              access to your repositories.
+              {translateUI(
+                'ui.if-you-are-using-github-enterprise-at-work-sign-.5a9af18'
+              )}
             </div>
           </CallToAction>
         )

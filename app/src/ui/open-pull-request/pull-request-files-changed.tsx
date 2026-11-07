@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import * as Path from 'path'
 import { IDiff, ImageDiffType } from '../../models/diff'
@@ -165,8 +166,8 @@ export class PullRequestFilesChanged extends React.Component<
       showContextualMenu([
         {
           label: __DARWIN__
-            ? 'File Does Not Exist on Disk'
-            : 'File does not exist on disk',
+            ? translateUI('ui.file-does-not-exist-on-disk.fbf33e4')
+            : translateUI('ui.file-does-not-exist-on-disk.0942593'),
           enabled: false,
         },
       ])
@@ -244,7 +245,7 @@ export class PullRequestFilesChanged extends React.Component<
     return (
       <div className="files-changed-header">
         <div className="commits-displayed">
-          Showing changes from all commits
+          {translateUI('ui.showing-changes-from-all-commits.e5ef46a')}
         </div>
         <DiffOptions
           isInteractiveDiff={false}
@@ -268,7 +269,7 @@ export class PullRequestFilesChanged extends React.Component<
         maximumWidth={fileListWidth.max}
         onResize={this.onFileListResize}
         onReset={this.onFileListSizeReset}
-        description="Pull request file list"
+        description={translateUI('ui.pull-request-file-list.204e0ac')}
       >
         <FileList
           files={files}

@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../../lib/localization'
 import { ManualConflictResolution } from '../../../models/manual-conflict-resolution'
 import {
   ConflictedFileStatus,
@@ -12,8 +13,14 @@ export type CopilotFileResolutionChoice = 'copilot' | 'ours' | 'theirs'
 /** Label and icon for each resolution choice. */
 export const resolutionChoices = {
   copilot: { label: 'Copilot', icon: octicons.copilot },
-  ours: { label: 'Current', icon: octicons.chevronLeft },
-  theirs: { label: 'Incoming', icon: octicons.chevronRight },
+  ours: {
+    label: translateUI('ui.dynamic.current'),
+    icon: octicons.chevronLeft,
+  },
+  theirs: {
+    label: translateUI('ui.dynamic.incoming'),
+    icon: octicons.chevronRight,
+  },
 } as const
 
 /**
@@ -78,21 +85,17 @@ export function getDeleteConflictLabels(
 ): { readonly oursLabel: string; readonly theirsLabel: string } {
   const deletedSide = getDeletedSide(status)
 
-  if (deletedSide === 'ours') {
-    const keepSuffix = theirBranch ? ` from ${theirBranch}` : ''
-    const deleteSuffix = ourBranch ? ` on ${ourBranch}` : ''
-    return {
-      oursLabel: `Delete file${deleteSuffix}`,
-      theirsLabel: `Keep file${keepSuffix}`,
-    }
-  }
-
-  const keepSuffix = ourBranch ? ` from ${ourBranch}` : ''
-  const deleteSuffix = theirBranch ? ` on ${theirBranch}` : ''
-  return {
-    oursLabel: `Keep file${keepSuffix}`,
-    theirsLabel: `Delete file${deleteSuffix}`,
-  }
+  const keepBranch = deletedSide === 'ours' ? theirBranch : ourBranch
+  const deleteBranch = deletedSide === 'ours' ? ourBranch : theirBranch
+  const keepLabel = keepBranch
+    ? translateUI('ui.dynamic.keepFileBranch', { branch: keepBranch })
+    : translateUI('ui.dynamic.keepFile')
+  const deleteLabel = deleteBranch
+    ? translateUI('ui.dynamic.deleteFileBranch', { branch: deleteBranch })
+    : translateUI('ui.dynamic.deleteFile')
+  return deletedSide === 'ours'
+    ? { oursLabel: deleteLabel, theirsLabel: keepLabel }
+    : { oursLabel: keepLabel, theirsLabel: deleteLabel }
 }
 
 /**
@@ -110,10 +113,14 @@ export function getDeleteConflictChoiceLabel(
   }
 
   if (deletedSide === 'ours') {
-    return choice === 'ours' ? 'Delete file' : 'Keep file'
+    return choice === 'ours'
+      ? translateUI('ui.dynamic.deleteFile')
+      : translateUI('ui.dynamic.keepFile')
   }
 
-  return choice === 'ours' ? 'Keep file' : 'Delete file'
+  return choice === 'ours'
+    ? translateUI('ui.dynamic.keepFile')
+    : translateUI('ui.dynamic.deleteFile')
 }
 
 /**
@@ -130,10 +137,10 @@ export function getOursTheirsLabels(
   }
 
   const oursLabel = ourBranch
-    ? `Use current file from ${ourBranch}`
-    : 'Use current file'
+    ? translateUI('ui.dynamic.useCurrentBranch', { branch: ourBranch })
+    : translateUI('ui.dynamic.useCurrent')
   const theirsLabel = theirBranch
-    ? `Use incoming file from ${theirBranch}`
-    : 'Use incoming file'
+    ? translateUI('ui.dynamic.useIncomingBranch', { branch: theirBranch })
+    : translateUI('ui.dynamic.useIncoming')
   return { oursLabel, theirsLabel }
 }

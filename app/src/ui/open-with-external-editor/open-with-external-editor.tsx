@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
@@ -105,7 +106,7 @@ export class OpenWithExternalEditor extends React.Component<
 
     return (
       <Select
-        label="Select an editor"
+        label={translateUI('ui.select-an-editor.653f2cb')}
         value={
           this.state.useCustomEditor
             ? CustomIntegrationValue
@@ -121,8 +122,8 @@ export class OpenWithExternalEditor extends React.Component<
         {enableCustomIntegration() && (
           <option key={CustomIntegrationValue} value={CustomIntegrationValue}>
             {__DARWIN__
-              ? 'Configure Custom Editor…'
-              : 'Configure custom editor…'}
+              ? translateUI('ui.configure-custom-editor.757b479')
+              : translateUI('ui.configure-custom-editor.6a711fa')}
           </option>
         )}
       </Select>
@@ -148,7 +149,9 @@ export class OpenWithExternalEditor extends React.Component<
   }
 
   public render() {
-    const title = __DARWIN__ ? 'Open With…' : 'Open with…'
+    const title = __DARWIN__
+      ? translateUI('ui.open-with.a1d3c7a')
+      : translateUI('ui.open-with.aa2a3de')
     const disabled =
       (!this.state.useCustomEditor && this.state.selectedEditor === null) ||
       (this.state.useCustomEditor && !this.state.customEditor.path)
@@ -166,7 +169,7 @@ export class OpenWithExternalEditor extends React.Component<
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText="Open"
+            okButtonText={translateUI('ui.open.cf9b770')}
             okButtonDisabled={disabled}
             onCancelButtonClick={this.props.onDismissed}
           />

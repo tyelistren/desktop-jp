@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { Branch, BranchType } from '../../models/branch'
@@ -151,11 +153,15 @@ export class AddWorktreeDialog extends React.Component<
         <p className="branch-status-hint">
           {branch.type === BranchType.Remote ? (
             <>
-              Will check out remote branch <Ref>{effectiveName}</Ref>.
+              {translateUIRich('ui.sentence.3ae471efd60d', {
+                p0: <Ref>{effectiveName}</Ref>,
+              })}
             </>
           ) : (
             <>
-              Will check out existing branch <Ref>{effectiveName}</Ref>.
+              {translateUIRich('ui.sentence.c3023e62ab11', {
+                p0: <Ref>{effectiveName}</Ref>,
+              })}
             </>
           )}
         </p>
@@ -171,7 +177,9 @@ export class AddWorktreeDialog extends React.Component<
 
     return (
       <div id="add-worktree-path-msg">
-        Worktree will be created at <Ref>{fullPath}</Ref>.
+        {translateUIRich('ui.sentence.5f390c4545db', {
+          p0: <Ref>{fullPath}</Ref>,
+        })}
       </div>
     )
   }
@@ -186,7 +194,11 @@ export class AddWorktreeDialog extends React.Component<
     return (
       <Dialog
         id="add-worktree"
-        title={__DARWIN__ ? 'Add Worktree' : 'Add worktree'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.add-worktree.63765e6')
+            : translateUI('ui.add-worktree.d9dee3a')
+        }
         loading={this.state.creating}
         onSubmit={this.onSubmit}
         onDismissed={this.props.onDismissed}
@@ -205,7 +217,11 @@ export class AddWorktreeDialog extends React.Component<
 
           <Row>
             <RefNameTextBox
-              label={__DARWIN__ ? 'Branch Name' : 'Branch name'}
+              label={
+                __DARWIN__
+                  ? translateUI('ui.branch-name.0e465da')
+                  : translateUI('ui.branch-name.748f3d0')
+              }
               placeholder={branchPlaceholder}
               initialValue={this.state.branchName}
               onValueChange={this.onBranchNameChanged}
@@ -220,7 +236,11 @@ export class AddWorktreeDialog extends React.Component<
         <DialogFooter>
           {this.renderPathMessage()}
           <OkCancelButtonGroup
-            okButtonText={__DARWIN__ ? 'Create Worktree' : 'Create worktree'}
+            okButtonText={
+              __DARWIN__
+                ? translateUI('ui.create-worktree.89f3864')
+                : translateUI('ui.create-worktree.ede34a7')
+            }
             okButtonDisabled={disabled}
           />
         </DialogFooter>

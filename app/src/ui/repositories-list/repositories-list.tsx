@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { commitGrammar, RepositoryListItem } from './repository-list-item'
@@ -207,12 +209,12 @@ export class RepositoriesList extends React.Component<
     return (
       <div className="repository-list-item-tooltip list-item-tooltip">
         <div>
-          <div className="label">Full Name: </div>
+          <div className="label">{translateUI('ui.full-name.f963fee')}</div>
           {realName}
           {alias && <> ({alias})</>}
         </div>
         <div>
-          <div className="label">Path: </div>
+          <div className="label">{translateUI('ui.path.df395b4')}</div>
           {repository.path}
         </div>
         {aheadBehindTooltip && (
@@ -376,8 +378,9 @@ export class RepositoriesList extends React.Component<
         ariaExpanded={this.state.newRepositoryMenuExpanded}
         onKeyDown={this.onNewRepositoryButtonKeyDown}
       >
-        Add
-        <Octicon symbol={octicons.triangleDown} />
+        {translateUIRich('ui.sentence.3bcd7c5777c5', {
+          p0: <Octicon symbol={octicons.triangleDown} />,
+        })}
       </Button>
     )
   }
@@ -394,21 +397,29 @@ export class RepositoriesList extends React.Component<
     return (
       <div className="no-items no-results-found">
         <img src={BlankSlateImage} className="blankslate-image" alt="" />
-        <div className="title">Sorry, I can't find that repository</div>
+        <div className="title">
+          {translateUI('ui.sorry-i-can-t-find-that-repository.bb8832f')}
+        </div>
 
         <div className="protip">
-          ProTip! Press{' '}
-          <div className="kbd-shortcut">
-            <KeyboardShortcut darwinKeys={['⌘', 'O']} keys={['Ctrl', 'O']} />
-          </div>{' '}
-          to quickly add a local repository, and{' '}
-          <div className="kbd-shortcut">
-            <KeyboardShortcut
-              darwinKeys={['⇧', '⌘', 'O']}
-              keys={['Ctrl', 'Shift', 'O']}
-            />
-          </div>{' '}
-          to clone from anywhere within the app
+          {translateUIRich('ui.sentence.561399298a09', {
+            p0: (
+              <div className="kbd-shortcut">
+                <KeyboardShortcut
+                  darwinKeys={['⌘', 'O']}
+                  keys={['Ctrl', 'O']}
+                />
+              </div>
+            ),
+            p1: (
+              <div className="kbd-shortcut">
+                <KeyboardShortcut
+                  darwinKeys={['⇧', '⌘', 'O']}
+                  keys={['Ctrl', 'Shift', 'O']}
+                />
+              </div>
+            ),
+          })}
         </div>
       </div>
     )
@@ -417,17 +428,21 @@ export class RepositoriesList extends React.Component<
   private onNewRepositoryButtonClick = () => {
     const items: IMenuItem[] = [
       {
-        label: __DARWIN__ ? 'Clone Repository…' : 'Clone repository…',
+        label: __DARWIN__
+          ? translateUI('ui.clone-repository.94eb60f')
+          : translateUI('ui.clone-repository.8f56d89'),
         action: this.onCloneRepository,
       },
       {
-        label: __DARWIN__ ? 'Create New Repository…' : 'Create new repository…',
+        label: __DARWIN__
+          ? translateUI('ui.create-new-repository.b44d1fe')
+          : translateUI('ui.create-new-repository.fe83765'),
         action: this.onCreateNewRepository,
       },
       {
         label: __DARWIN__
-          ? 'Add Existing Repository…'
-          : 'Add existing repository…',
+          ? translateUI('ui.add-existing-repository.d0ceb05')
+          : translateUI('ui.add-existing-repository.1b76b49'),
         action: this.onAddExistingRepository,
       },
     ]

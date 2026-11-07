@@ -1,3 +1,5 @@
+import { translateUIRich } from './lib/translated-text'
+import { t as translateUI } from '../lib/localization'
 import * as React from 'react'
 
 import { UiView } from './ui-view'
@@ -80,14 +82,14 @@ export class MissingRepository extends React.Component<
     if (!isPathUnsafe) {
       buttons.push(
         <Button key="locate" onClick={this.locate} type="submit">
-          Locate…
+          {translateUI('ui.locate.a96a0f9')}
         </Button>
       )
 
       if (this.canCloneAgain()) {
         buttons.push(
           <Button key="clone-again" onClick={this.cloneAgain}>
-            Clone Again
+            {translateUI('ui.clone-again.fc70bd1')}
           </Button>
         )
       }
@@ -100,14 +102,16 @@ export class MissingRepository extends React.Component<
           disabled={this.state.isTrustingPath}
         >
           {this.state.isTrustingPath && <Loading />}
-          {__DARWIN__ ? 'Trust Repository' : 'Trust repository'}
+          {__DARWIN__
+            ? translateUI('ui.trust-repository.a390952')
+            : translateUI('ui.trust-repository.e35fff2')}
         </Button>
       )
     }
 
     buttons.push(
       <Button key="remove" onClick={this.remove}>
-        Remove
+        {translateUI('ui.remove.e963907')}
       </Button>
     )
 
@@ -116,17 +120,20 @@ export class MissingRepository extends React.Component<
         <UiView id="missing-repository-view">
           <div className="title-container">
             <div className="title">
-              {this.props.repository.name} is potentially unsafe
+              {translateUIRich('ui.sentence.084c8782c986', {
+                p0: this.props.repository.name,
+              })}
             </div>
             <div className="details">
               <p>
-                The Git repository at <Ref>{unsafePath}</Ref> appears to be
-                owned by another user on your machine. Adding untrusted
-                repositories may automatically execute files in the repository.
+                {translateUIRich('ui.sentence.4bb845de521e', {
+                  p0: <Ref>{unsafePath}</Ref>,
+                })}
               </p>
               <p>
-                If you trust the owner of the directory you can add an exception
-                for this directory in order to continue.
+                {translateUI(
+                  'ui.if-you-trust-the-owner-of-the-directory-you-can-.02131f0'
+                )}
               </p>
             </div>
           </div>
@@ -139,11 +146,20 @@ export class MissingRepository extends React.Component<
     return (
       <UiView id="missing-repository-view">
         <div className="title-container">
-          <div className="title">Can't find "{this.props.repository.name}"</div>
+          <div className="title">
+            {translateUIRich('ui.sentence.375ac01ab9c6', {
+              p0: this.props.repository.name,
+            })}
+          </div>
           <div className="details">
-            It was last seen at{' '}
-            <span className="path">{this.props.repository.path}</span>.{' '}
-            <LinkButton onClick={this.checkAgain}>Check&nbsp;again.</LinkButton>
+            {translateUIRich('ui.sentence.37e418e5872e', {
+              p0: <span className="path">{this.props.repository.path}</span>,
+              p1: (
+                <LinkButton onClick={this.checkAgain}>
+                  {translateUI('ui.check-again.3965174')}
+                </LinkButton>
+              ),
+            })}
           </div>
         </div>
 

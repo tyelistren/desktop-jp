@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Repository } from '../../models/repository'
 import { WorkingDirectoryFileChange } from '../../models/status'
@@ -47,7 +49,7 @@ export class GenerateCommitMessageOverrideWarning extends React.Component<
 
     return (
       <Dialog
-        title="Commit message override"
+        title={translateUI('ui.commit-message-override.24ddf86')}
         id="generate-commit-message-override-warning"
         type="warning"
         onDismissed={this.props.onDismissed}
@@ -57,23 +59,26 @@ export class GenerateCommitMessageOverrideWarning extends React.Component<
       >
         <DialogContent>
           <Row id="generate-commit-message-override-warning-body">
-            The commit message you have entered will be overridden by the
-            generated commit message.
+            {translateUI(
+              'ui.the-commit-message-you-have-entered-will-be-over.3c3f8e0'
+            )}
           </Row>
           {this.props.showCopilotInstructionsTip ? (
             <Row>
               <p id="generate-commit-message-override-warning-tip">
-                Tip: You can use{' '}
-                <LinkButton uri="https://gh.io/desktop-copilot-custom-instructions">
-                  Copilot Instructions
-                </LinkButton>{' '}
-                to customize how commit messages are generated.
+                {translateUIRich('ui.sentence.102e6dc234dd', {
+                  p0: (
+                    <LinkButton uri="https://gh.io/desktop-copilot-custom-instructions">
+                      {translateUI('ui.copilot-instructions.b0d72c8')}
+                    </LinkButton>
+                  ),
+                })}
               </p>
             </Row>
           ) : null}
           <Row>
             <Checkbox
-              label="Do not show this message again"
+              label={translateUI('ui.do-not-show-this-message-again.afe501e')}
               value={
                 this.state.confirmCommitMessageOverride
                   ? CheckboxValue.Off
@@ -84,7 +89,10 @@ export class GenerateCommitMessageOverrideWarning extends React.Component<
           </Row>
         </DialogContent>
         <DialogFooter>
-          <OkCancelButtonGroup destructive={true} okButtonText="Override" />
+          <OkCancelButtonGroup
+            destructive={true}
+            okButtonText={translateUI('ui.override.8421926')}
+          />
         </DialogFooter>
       </Dialog>
     )

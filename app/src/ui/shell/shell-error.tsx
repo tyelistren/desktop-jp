@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import {
@@ -39,7 +40,9 @@ export class ShellError extends React.Component<IShellErrorProps, {}> {
   }
 
   public render() {
-    const title = __DARWIN__ ? 'Unable to Open Shell' : 'Unable to open shell'
+    const title = __DARWIN__
+      ? translateUI('ui.unable-to-open-shell.4c76daa')
+      : translateUI('ui.unable-to-open-shell.a9acbee')
     return (
       <Dialog
         id="shell-error"
@@ -53,8 +56,12 @@ export class ShellError extends React.Component<IShellErrorProps, {}> {
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText="Close"
-            cancelButtonText={__DARWIN__ ? 'Open Preferences' : 'Open options'}
+            okButtonText={translateUI('ui.close.bbfa773')}
+            cancelButtonText={
+              __DARWIN__
+                ? translateUI('ui.open-preferences.6dd67ec')
+                : translateUI('ui.open-options.26daf43')
+            }
             onCancelButtonClick={this.onShowPreferencesDialog}
           />
         </DialogFooter>

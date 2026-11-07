@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { IAutocompletionProvider } from './index'
@@ -157,7 +158,9 @@ export class UserAutocompletionProvider
     ) : (
       <div className="user unknown" key={item.username}>
         <span className="username">{item.username}</span>
-        <span className="description">Search for user</span>
+        <span className="description">
+          {translateUI('ui.search-for-user.16d3fc3')}
+        </span>
       </div>
     )
   }

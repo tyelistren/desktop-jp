@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Octicon } from '../octicons'
 import * as octicons from '../octicons/octicons.generated'
@@ -38,10 +40,13 @@ export class CherryPickConflictsBanner extends React.Component<
         <Octicon className="alert-icon" symbol={octicons.alert} />
         <div className="banner-message">
           <span>
-            Resolve conflicts to continue cherry-picking onto{' '}
-            <strong>{this.props.targetBranchName}</strong>.
+            {translateUIRich('ui.sentence.cb7c747df0ee', {
+              p0: <strong>{this.props.targetBranchName}</strong>,
+            })}
           </span>
-          <LinkButton onClick={this.openDialog}>View conflicts</LinkButton>
+          <LinkButton onClick={this.openDialog}>
+            {translateUI('ui.view-conflicts.29fa950')}
+          </LinkButton>
         </div>
       </Banner>
     )

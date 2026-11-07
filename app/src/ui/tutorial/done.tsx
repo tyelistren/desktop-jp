@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { encodePathAsUrl } from '../../lib/path'
@@ -60,10 +61,11 @@ export class TutorialDone extends React.Component<ITutorialDoneProps, {}> {
         <div className="content">
           <div className="header">
             <div className="text">
-              <h1 ref={this.header}>You're done!</h1>
+              <h1 ref={this.header}>{translateUI('ui.you-re-done.2efcd76')}</h1>
               <p>
-                You’ve learned the basics on how to use GitHub Desktop. Here are
-                some suggestions for what to do next.
+                {translateUI(
+                  'ui.you-ve-learned-the-basics-on-how-to-use-github-d.0a108bc'
+                )}
               </p>
             </div>
             <img
@@ -74,27 +76,43 @@ export class TutorialDone extends React.Component<ITutorialDoneProps, {}> {
           </div>
           <SuggestedActionGroup>
             <SuggestedAction
-              title="Explore projects on GitHub"
-              description="Contribute to a project that interests you"
-              buttonText={__DARWIN__ ? 'Open in Browser' : 'Open in browser'}
+              title={translateUI('ui.explore-projects-on-github.a5aae8a')}
+              description={translateUI(
+                'ui.contribute-to-a-project-that-interests-you.25b894c'
+              )}
+              buttonText={
+                __DARWIN__
+                  ? translateUI('ui.open-in-browser.56c8f9d')
+                  : translateUI('ui.open-in-browser.052269b')
+              }
               onClick={this.openDotcomExplore}
               type="normal"
               image={TelescopeOcticon}
             />
             <SuggestedAction
-              title="Create a new repository"
-              description="Get started on a brand new project"
+              title={translateUI('ui.create-a-new-repository.b69a6f0')}
+              description={translateUI(
+                'ui.get-started-on-a-brand-new-project.ed727cb'
+              )}
               buttonText={
-                __DARWIN__ ? 'Create Repository' : 'Create repository'
+                __DARWIN__
+                  ? translateUI('ui.create-repository.47bfc0a')
+                  : translateUI('ui.create-repository.1c47b45')
               }
               onClick={this.onCreateNewRepository}
               type="normal"
               image={PlusOcticon}
             />
             <SuggestedAction
-              title="Add a local repository"
-              description="Work on an existing project in GitHub Desktop"
-              buttonText={__DARWIN__ ? 'Add Repository' : 'Add repository'}
+              title={translateUI('ui.add-a-local-repository.12409df')}
+              description={translateUI(
+                'ui.work-on-an-existing-project-in-github-desktop.1aad0db'
+              )}
+              buttonText={
+                __DARWIN__
+                  ? translateUI('ui.add-repository.22bd6d9')
+                  : translateUI('ui.add-repository.1b73cda')
+              }
               onClick={this.onAddExistingRepository}
               type="normal"
               image={FileDirectoryOcticon}

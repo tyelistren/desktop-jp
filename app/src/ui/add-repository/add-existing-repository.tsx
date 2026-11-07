@@ -1,3 +1,5 @@
+import { t as translateUI } from '../../lib/localization'
+import { translateUIRich } from '../lib/translated-text'
 import { t } from '../../lib/localization'
 import * as React from 'react'
 import * as Path from 'path'
@@ -150,23 +152,24 @@ export class AddExistingRepository extends React.Component<
     const displayedMessage = (
       <>
         <p>
-          The Git repository
-          {repositoryUnsafePath !== convertedPath && (
-            <>
-              {' at '}
-              <Ref>{repositoryUnsafePath}</Ref>
-            </>
-          )}{' '}
-          appears to be owned by another user on your machine. Adding untrusted
-          repositories may automatically execute files in the repository.
+          {translateUIRich('ui.sentence.0c6612b18586', {
+            p0: repositoryUnsafePath !== convertedPath && (
+              <>
+                {' at '}
+                <Ref>{repositoryUnsafePath}</Ref>
+              </>
+            ),
+          })}
         </p>
         <p>
-          If you trust the owner of the directory you can
-          <LinkButton onClick={this.onTrustDirectory}>
-            {' '}
-            add an exception for this directory
-          </LinkButton>{' '}
-          in order to continue.
+          {translateUIRich('ui.sentence.6d5e184dc638', {
+            p0: (
+              <LinkButton onClick={this.onTrustDirectory}>
+                {' '}
+                {translateUI('ui.detail.addException')}
+              </LinkButton>
+            ),
+          })}
         </p>
       </>
     )

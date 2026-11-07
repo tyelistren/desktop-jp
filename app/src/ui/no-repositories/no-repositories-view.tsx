@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { UiView } from '../ui-view'
 import { Button } from '../lib/button'
@@ -96,8 +98,12 @@ export class NoRepositoriesView extends React.Component<
       <UiView id="no-repositories">
         <section aria-label="Let's get started!">
           <header>
-            <h1>Let's get started!</h1>
-            <p>Add a repository to GitHub Desktop to start collaborating</p>
+            <h1>{translateUI('ui.let-s-get-started.754db38')}</h1>
+            <p>
+              {translateUI(
+                'ui.add-a-repository-to-github-desktop-to-start-coll.93ca7f5'
+              )}
+            </p>
           </header>
 
           <div className="content">
@@ -247,10 +253,13 @@ export class NoRepositoriesView extends React.Component<
         className="clone-selected-repository"
         onClick={this.onCloneSelectedRepository}
       >
-        Clone{' '}
-        <strong>
-          {selectedItem.owner.login}/{selectedItem.name}
-        </strong>
+        {translateUIRich('ui.sentence.8d460fce67dd', {
+          p0: (
+            <strong>
+              {selectedItem.owner.login}/{selectedItem.name}
+            </strong>
+          ),
+        })}
       </Button>
     )
   }
@@ -366,8 +375,9 @@ export class NoRepositoriesView extends React.Component<
         <div className="drag-drop-info">
           <Octicon symbol={octicons.lightBulb} />
           <div>
-            <strong>ProTip!</strong> You can drag &amp; drop an existing
-            repository folder here to add it to Desktop
+            {translateUIRich('ui.sentence.14289f4085d5', {
+              p0: <strong>{translateUI('ui.protip.fc8ed3f')}</strong>,
+            })}
           </div>
         </div>
       </div>

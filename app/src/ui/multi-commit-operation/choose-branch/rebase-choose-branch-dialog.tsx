@@ -1,3 +1,5 @@
+import { translateUIRich } from '../../lib/translated-text'
+import { t as translateUI } from '../../../lib/localization'
 import React from 'react'
 import { Branch } from '../../../models/branch'
 import { ComputedAction } from '../../../models/computed-action'
@@ -108,7 +110,9 @@ export class RebaseChooseBranchDialog extends React.Component<
     )
     return (
       <>
-        Rebase <strong>{truncatedName}</strong>
+        {translateUIRich('ui.sentence.afae2dfeb595', {
+          p0: <strong>{truncatedName}</strong>,
+        })}
       </>
     )
   }
@@ -148,11 +152,21 @@ export class RebaseChooseBranchDialog extends React.Component<
   }
 
   private renderLoadingRebaseMessage() {
-    return <>Checking for ability to rebase automatically…</>
+    return (
+      <>
+        {translateUI('ui.checking-for-ability-to-rebase-automatically.ca6bfb4')}
+      </>
+    )
   }
 
   private renderInvalidRebaseMessage() {
-    return <>Unable to start rebase. Check you have chosen a valid branch.</>
+    return (
+      <>
+        {translateUI(
+          'ui.unable-to-start-rebase-check-you-have-chosen-a-v.5f549e1'
+        )}
+      </>
+    )
   }
 
   private renderCleanRebaseMessage(
@@ -163,27 +177,34 @@ export class RebaseChooseBranchDialog extends React.Component<
   ) {
     // The current branch is behind the base branch
     if (commitsBehindCount > 0 && commitsAheadCount <= 0) {
-      const pluralized = commitsBehindCount === 1 ? 'commit' : 'commits'
+      const pluralized =
+        commitsBehindCount === 1
+          ? translateUI('ui.dynamic.commit')
+          : translateUI('ui.dynamic.commits')
       return (
         <>
-          This will fast-forward <strong>{currentBranch.name}</strong> by
-          <strong>{` ${commitsBehindCount} ${pluralized}`}</strong>
-          {` to match `}
-          <strong>{baseBranch.name}</strong>
+          {translateUIRich('ui.sentence.8d5b48fd8608', {
+            p0: <strong>{currentBranch.name}</strong>,
+            p1: <strong>{` ${commitsBehindCount} ${pluralized}`}</strong>,
+            p2: <strong>{baseBranch.name}</strong>,
+          })}
         </>
       )
     }
 
     // The current branch is behind and ahead of the base branch
     if (commitsBehindCount > 0 && commitsAheadCount > 0) {
-      const pluralized = commitsAheadCount === 1 ? 'commit' : 'commits'
+      const pluralized =
+        commitsAheadCount === 1
+          ? translateUI('ui.dynamic.commit')
+          : translateUI('ui.dynamic.commits')
       return (
         <>
-          This will update <strong>{currentBranch.name}</strong>
-          {` by applying its `}
-          <strong>{` ${commitsAheadCount} ${pluralized}`}</strong>
-          {` on top of `}
-          <strong>{baseBranch.name}</strong>
+          {translateUIRich('ui.sentence.2ab0246aeb97', {
+            p0: <strong>{currentBranch.name}</strong>,
+            p1: <strong>{` ${commitsAheadCount} ${pluralized}`}</strong>,
+            p2: <strong>{baseBranch.name}</strong>,
+          })}
         </>
       )
     }
@@ -192,9 +213,11 @@ export class RebaseChooseBranchDialog extends React.Component<
     // Condition: commitsBehindCount <= 0 && commitsAheadCount >= 0
     return (
       <>
-        <strong>{currentBranch.name}</strong>
-        {` `}
-        is already up to date with <strong>{baseBranch.name}</strong>
+        {translateUIRich('ui.sentence.dfe1efef212e', {
+          p0: <strong>{currentBranch.name}</strong>,
+          p1: ` `,
+          p2: <strong>{baseBranch.name}</strong>,
+        })}
       </>
     )
   }

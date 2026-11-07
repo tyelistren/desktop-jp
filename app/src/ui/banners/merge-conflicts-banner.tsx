@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Octicon } from '../octicons'
 import * as octicons from '../octicons/octicons.generated'
@@ -34,10 +36,13 @@ export class MergeConflictsBanner extends React.Component<
         <Octicon className="alert-icon" symbol={octicons.alert} />
         <div className="banner-message">
           <span>
-            Resolve conflicts and commit to merge into{' '}
-            <strong>{this.props.ourBranch}</strong>.
+            {translateUIRich('ui.sentence.bba17c2db33b', {
+              p0: <strong>{this.props.ourBranch}</strong>,
+            })}
           </span>
-          <LinkButton onClick={this.openDialog}>View conflicts</LinkButton>
+          <LinkButton onClick={this.openDialog}>
+            {translateUI('ui.view-conflicts.29fa950')}
+          </LinkButton>
         </div>
       </Banner>
     )

@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { type CopilotFeature } from '../../lib/stores/copilot-store'
@@ -131,7 +133,11 @@ export class CopilotModelSelectionInfo extends React.Component<
           ) : null}
 
           <div className="copilot-model-picker-cost-details-section">
-            <h4>AI credits per {tokenPriceDetails.batchSize} tokens</h4>
+            <h4>
+              {translateUIRich('ui.sentence.61110fc53042', {
+                p0: tokenPriceDetails.batchSize,
+              })}
+            </h4>
             <dl>
               {this.renderCostDetailsRow('Input', tokenPriceDetails.inputPrice)}
               {this.renderCostDetailsRow(
@@ -163,14 +169,16 @@ export class CopilotModelSelectionInfo extends React.Component<
             ariaControls={costDetailsContentId}
             ariaDescribedBy={costDetailsContentId}
             ariaExpanded={this.state.showCostDetails}
-            ariaLabel="Show Copilot model credit costs"
+            ariaLabel={translateUI(
+              'ui.show-copilot-model-credit-costs.95bc5a4'
+            )}
             className="copilot-model-picker-selection-info-button"
             applyTooltipAriaDescribedBy={false}
             onButtonRef={this.onCostDetailsButtonRef}
             onClick={this.onCostDetailsButtonClick}
             onKeyDown={this.onCostDetailsButtonKeyDown}
             size="small"
-            tooltip="Show credit costs"
+            tooltip={translateUI('ui.show-credit-costs.43403eb')}
           >
             <Octicon symbol={octicons.info} />
           </Button>

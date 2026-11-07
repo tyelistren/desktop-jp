@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { LinkButton } from '../lib/link-button'
@@ -29,31 +31,43 @@ export class OversizedFiles extends React.Component<IOversizedFilesProps> {
     return (
       <Dialog
         id="oversized-files"
-        title={__DARWIN__ ? 'Files Too Large' : 'Files too large'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.files-too-large.1819387')
+            : translateUI('ui.files-too-large.6daf9db')
+        }
         onSubmit={this.onSubmit}
         onDismissed={this.props.onDismissed}
         type="warning"
       >
         <DialogContent>
           <p>
-            The following files are over 100MB.{' '}
-            <strong>
-              If you commit these files, you will no longer be able to push this
-              repository to GitHub.com.
-            </strong>
+            {translateUIRich('ui.sentence.49bd3953e49f', {
+              p0: (
+                <strong>
+                  {translateUI(
+                    'ui.if-you-commit-these-files-you-will-no-longer-be-.c8d2299'
+                  )}
+                </strong>
+              ),
+            })}
           </p>
           {this.renderFileList()}
           <p className="recommendation">
-            We recommend you avoid committing these files or use{' '}
-            <LinkButton uri={GitLFSWebsiteURL}>Git LFS</LinkButton> to store
-            large files on GitHub.
+            {translateUIRich('ui.sentence.38c74a065cd5', {
+              p0: <LinkButton uri={GitLFSWebsiteURL}>Git LFS</LinkButton>,
+            })}
           </p>
         </DialogContent>
 
         <DialogFooter>
           <OkCancelButtonGroup
             destructive={true}
-            okButtonText={__DARWIN__ ? 'Commit Anyway' : 'Commit anyway'}
+            okButtonText={
+              __DARWIN__
+                ? translateUI('ui.commit-anyway.ced8790')
+                : translateUI('ui.commit-anyway.ce72911')
+            }
           />
         </DialogFooter>
       </Dialog>

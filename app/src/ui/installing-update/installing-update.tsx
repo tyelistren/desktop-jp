@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { Row } from '../lib/row'
@@ -65,7 +66,11 @@ export class InstallingUpdate extends React.Component<IInstallingUpdateProps> {
     return (
       <Dialog
         id="installing-update"
-        title={__DARWIN__ ? 'Installing Update…' : 'Installing update…'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.installing-update.b08efbd')
+            : translateUI('ui.installing-update.04856d9')
+        }
         loading={true}
         onSubmit={this.props.onDismissed}
         backdropDismissable={false}
@@ -74,13 +79,18 @@ export class InstallingUpdate extends React.Component<IInstallingUpdateProps> {
       >
         <DialogContent>
           <Row className="updating-message">
-            Do not close GitHub Desktop while the update is in progress. Closing
-            now may break your installation.
+            {translateUI(
+              'ui.do-not-close-github-desktop-while-the-update-is-.af86d41'
+            )}
           </Row>
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText={__DARWIN__ ? 'Quit Anyway' : 'Quit anyway'}
+            okButtonText={
+              __DARWIN__
+                ? translateUI('ui.quit-anyway.124c759')
+                : translateUI('ui.quit-anyway.a36e9b5')
+            }
             onOkButtonClick={this.onQuitAnywayButtonClicked}
             onCancelButtonClick={this.props.onDismissed}
             destructive={true}

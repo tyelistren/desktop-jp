@@ -1,3 +1,4 @@
+import { translateUIRich } from './translated-text'
 import * as React from 'react'
 import { AuthenticationForm } from './authentication-form'
 import { assertNever } from '../../lib/fatal-error'
@@ -37,10 +38,10 @@ export class SignIn extends React.Component<ISignInProps, {}> {
     return (
       <>
         <p className="existing-account-warning">
-          You're already signed in to{' '}
-          <Ref>{new URL(getHTMLURL(state.endpoint)).host}</Ref> with the account{' '}
-          <Ref>{state.existingAccount.login}</Ref>. If you continue, you will
-          first be signed out.
+          {translateUIRich('ui.sentence.91b920bf6ed1', {
+            p0: <Ref>{new URL(getHTMLURL(state.endpoint)).host}</Ref>,
+            p1: <Ref>{state.existingAccount.login}</Ref>,
+          })}
         </p>
         {this.renderAuthenticationStep(state)}
       </>

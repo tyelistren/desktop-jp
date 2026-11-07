@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { Row } from '../lib/row'
@@ -107,7 +109,7 @@ export class About extends React.Component<IAboutProps> {
         return (
           <Row>
             <Button onClick={this.props.onQuitAndInstall}>
-              Quit and Install Update
+              {translateUI('ui.quit-and-install-update.29e3c2d')}
             </Button>
           </Row>
         )
@@ -149,8 +151,9 @@ export class About extends React.Component<IAboutProps> {
     if (!this.canCheckForUpdates) {
       return (
         <p>
-          The application is currently running in development and will not
-          receive any updates.
+          {translateUI(
+            'ui.the-application-is-currently-running-in-developm.9608b53'
+          )}
         </p>
       )
     }
@@ -169,8 +172,9 @@ export class About extends React.Component<IAboutProps> {
 
         const richMessage = (
           <p>
-            You have the latest version (last checked{' '}
-            <RelativeTime date={lastSuccessfulCheck} />)
+            {translateUIRich('ui.sentence.e14897e87c79', {
+              p0: <RelativeTime date={lastSuccessfulCheck} />,
+            })}
           </p>
         )
 
@@ -208,11 +212,13 @@ export class About extends React.Component<IAboutProps> {
     if (isOSNoLongerSupportedByElectron()) {
       return (
         <DialogError>
-          This operating system is no longer supported. Software updates have
-          been disabled.{' '}
-          <LinkButton uri="https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/supported-operating-systems">
-            Supported operating systems
-          </LinkButton>
+          {translateUIRich('ui.sentence.401d2dda16bf', {
+            p0: (
+              <LinkButton uri="https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/supported-operating-systems">
+                {translateUI('ui.supported-operating-systems.f416493')}
+              </LinkButton>
+            ),
+          })}
         </DialogError>
       )
     }
@@ -220,9 +226,9 @@ export class About extends React.Component<IAboutProps> {
     if (!this.props.updateState.lastSuccessfulCheck) {
       return (
         <DialogError>
-          Couldn't determine the last time an update check was performed. You
-          may be running an old version. Please try manually checking for
-          updates and contact GitHub Support if the problem persists
+          {translateUI(
+            'ui.couldn-t-determine-the-last-time-an-update-check.30f660d'
+          )}
         </DialogError>
       )
     }
@@ -237,12 +243,17 @@ export class About extends React.Component<IAboutProps> {
 
     return (
       <div>
-        <p className="no-padding">Looking for the latest features?</p>
         <p className="no-padding">
-          Check out the{' '}
-          <LinkButton uri="https://desktop.github.com/beta">
-            Beta Channel
-          </LinkButton>
+          {translateUI('ui.looking-for-the-latest-features.b572def')}
+        </p>
+        <p className="no-padding">
+          {translateUIRich('ui.sentence.cae4e00827bf', {
+            p0: (
+              <LinkButton uri="https://desktop.github.com/beta">
+                {translateUI('ui.beta-channel.c7dde0b')}
+              </LinkButton>
+            ),
+          })}
         </p>
       </div>
     )
@@ -252,7 +263,9 @@ export class About extends React.Component<IAboutProps> {
     const name = this.props.applicationName
     const version = this.props.applicationVersion
     const releaseNotesLink = (
-      <LinkButton uri={ReleaseNotesUri}>release notes</LinkButton>
+      <LinkButton uri={ReleaseNotesUri}>
+        {translateUI('ui.release-notes.36d60d5')}
+      </LinkButton>
     )
 
     const versionText = __DEV__ ? `Build ${version}` : `Version ${version}`
@@ -275,7 +288,9 @@ export class About extends React.Component<IAboutProps> {
               height="64"
             />
           </Row>
-          <h1 id={titleId}>About {name}</h1>
+          <h1 id={titleId}>
+            {translateUIRich('ui.sentence.91bc7847f0de', { p0: name })}
+          </h1>
           <p className="no-padding">
             <span className="selectable-text">
               {versionText} ({this.props.applicationArchitecture})
@@ -288,17 +303,19 @@ export class About extends React.Component<IAboutProps> {
           <div className="terms-and-license-container">
             <p className="no-padding terms-and-license">
               <LinkButton onClick={this.props.onShowTermsAndConditions}>
-                Terms and Conditions
+                {translateUI('ui.terms-and-conditions.894031e')}
               </LinkButton>
             </p>
             <p className="no-padding terms-and-license">
               <LinkButton onClick={this.props.onShowAcknowledgements}>
-                License and Open Source Notices
+                {translateUI('ui.license-and-open-source-notices.77699e8')}
               </LinkButton>
             </p>
             <p className="terms-and-license">
               <LinkButton uri="https://gh.io/copilot-for-desktop-transparency">
-                Responsible use of Copilot in GitHub Desktop
+                {translateUI(
+                  'ui.responsible-use-of-copilot-in-github-desktop.8a98c73'
+                )}
               </LinkButton>
             </p>
           </div>

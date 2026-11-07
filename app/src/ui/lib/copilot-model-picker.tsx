@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import memoizeOne from 'memoize-one'
 
@@ -428,7 +429,11 @@ export class CopilotModelPicker extends React.Component<
   }
 
   private renderNoItems = () => {
-    return <div className="copilot-model-list-empty">No models found.</div>
+    return (
+      <div className="copilot-model-list-empty">
+        {translateUI('ui.no-models-found.159d889')}
+      </div>
+    )
   }
 
   private getItemAriaLabel = (item: ICopilotModelListItem) => {
@@ -468,7 +473,7 @@ export class CopilotModelPicker extends React.Component<
         contentHeaderAccessory={
           this.props.onConfigureCustomProviders === undefined ? undefined : (
             <LinkButton onClick={this.onConfigureCustomProviders}>
-              Configure custom providers…
+              {translateUI('ui.configure-custom-providers.1b7410f')}
             </LinkButton>
           )
         }

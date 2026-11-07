@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Commit } from '../../models/commit'
 import { lookupPreferredEmail } from '../../lib/email'
@@ -185,7 +186,7 @@ export class ConfigureGitUser extends React.Component<
 
     return (
       <div id="commit-list" className="commit-list-example">
-        <div className="header">Example commit</div>
+        <div className="header">{translateUI('ui.example-commit.181f03f')}</div>
 
         <CommitListItem
           commit={dummyCommit}
@@ -219,7 +220,7 @@ export class ConfigureGitUser extends React.Component<
           autoFocus={true}
         />
         <RadioButton
-          label="Configure manually"
+          label={translateUI('ui.configure-manually.1f110b2')}
           checked={!this.state.useGitHubAuthorInfo}
           onSelected={this.onUseGitConfigInfoSelected}
           value="git-config"
@@ -236,7 +237,7 @@ export class ConfigureGitUser extends React.Component<
     return (
       <>
         <Select
-          label="Email"
+          label={translateUI('ui.email.84add5b')}
           value={this.state.gitHubEmail}
           onChange={this.onSelectedGitHubEmailChange}
         >
@@ -255,7 +256,7 @@ export class ConfigureGitUser extends React.Component<
       <>
         <TextBox
           type="email"
-          label="Email"
+          label={translateUI('ui.email.84add5b')}
           placeholder="your-email@example.com"
           value={this.state.manualEmail}
           onValueChanged={this.onEmailChange}
@@ -276,8 +277,8 @@ export class ConfigureGitUser extends React.Component<
       <Form className="sign-in-form" onSubmit={this.save}>
         <div className="sign-in-form-inputs">
           <TextBox
-            label="Name"
-            placeholder="Your Name"
+            label={translateUI('ui.name.709a232')}
+            placeholder={translateUI('ui.your-name.f48db7e')}
             onValueChanged={this.onNameChange}
             value={
               this.state.useGitHubAuthorInfo

@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import React from 'react'
 import { Select } from '../lib/select'
 import { Button } from '../lib/button'
@@ -243,24 +245,31 @@ export class CommitMessageAvatar extends React.Component<
     const settings = isGitConfigLocal
       ? 'repository settings'
       : `git ${settingsName}`
-    const buttonText = __DARWIN__ ? 'Open Git Settings' : 'Open git settings'
+    const buttonText = __DARWIN__
+      ? translateUI('ui.open-git-settings.b52e8db')
+      : translateUI('ui.open-git-settings.9266703')
 
     return (
       <>
         <p>{user && user.name && `Email: ${user.email}`}</p>
 
         <p>
-          You can update your {location} git configuration {locationDesc} in
-          your {settings}.
+          {translateUIRich('ui.sentence.b296f639774b', {
+            p0: location,
+            p1: locationDesc,
+            p2: settings,
+          })}
         </p>
 
         {!isGitConfigLocal && (
           <p className="secondary-text">
-            You can also set an email local to this repository from the{' '}
-            <LinkButton onClick={this.onRepositorySettingsClick}>
-              repository settings
-            </LinkButton>
-            .
+            {translateUIRich('ui.sentence.125a5eaf80d1', {
+              p0: (
+                <LinkButton onClick={this.onRepositorySettingsClick}>
+                  {translateUI('ui.repository-settings.1b9d672')}
+                </LinkButton>
+              ),
+            })}
           </p>
         )}
         <Row className="button-row">
@@ -281,8 +290,9 @@ export class CommitMessageAvatar extends React.Component<
 
     const sharedHeader = (
       <>
-        The email in your global Git config (
-        <span className="git-email">{this.props.email}</span>)
+        {translateUIRich('ui.sentence.d307a9de95e5', {
+          p0: <span className="git-email">{this.props.email}</span>,
+        })}
       </>
     )
 
@@ -293,7 +303,7 @@ export class CommitMessageAvatar extends React.Component<
         {hasEmails && (
           <Row>
             <Select
-              label="Your Account Emails"
+              label={translateUI('ui.your-account-emails.f391873')}
               value={this.state.accountEmail}
               onChange={this.onSelectedGitHubEmailChange}
             >
@@ -307,17 +317,19 @@ export class CommitMessageAvatar extends React.Component<
         )}
         <Row>
           <div className="secondary-text">
-            You can{hasEmails ? ' also' : ''} choose an email local to this
-            repository from the{' '}
-            <LinkButton onClick={this.onRepositorySettingsClick}>
-              repository settings
-            </LinkButton>
-            .
+            {translateUIRich('ui.sentence.92e60d30471f', {
+              p0: hasEmails ? ' also' : '',
+              p1: (
+                <LinkButton onClick={this.onRepositorySettingsClick}>
+                  {translateUI('ui.repository-settings.1b9d672')}
+                </LinkButton>
+              ),
+            })}
           </div>
         </Row>
         <Row className="button-row">
           <Button onClick={this.onIgnoreClick} type="button">
-            Ignore
+            {translateUI('ui.ignore.98f55db')}
           </Button>
           {hasEmails && (
             <Button onClick={this.onUpdateEmailClick} type="submit">
@@ -342,14 +354,21 @@ export class CommitMessageAvatar extends React.Component<
         <>
           <Row>
             <div>
-              {sharedHeader} doesn't match your GitHub{accountTypeSuffix}{' '}
-              account{userName}.{' '}
-              <LinkButton
-                ariaLabel="Learn more about commit attribution"
-                uri="https://docs.github.com/en/github/committing-changes-to-your-project/why-are-my-commits-linked-to-the-wrong-user"
-              >
-                Learn more
-              </LinkButton>
+              {translateUIRich('ui.sentence.ddb329d582c1', {
+                p0: sharedHeader,
+                p1: accountTypeSuffix,
+                p2: userName,
+                p3: (
+                  <LinkButton
+                    ariaLabel={translateUI(
+                      'ui.learn-more-about-commit-attribution.819a524'
+                    )}
+                    uri="https://docs.github.com/en/github/committing-changes-to-your-project/why-are-my-commits-linked-to-the-wrong-user"
+                  >
+                    {translateUI('ui.learn-more.824d76b')}
+                  </LinkButton>
+                ),
+              })}
             </div>
           </Row>
           {sharedFooter}
@@ -389,12 +408,14 @@ export class CommitMessageAvatar extends React.Component<
     if (name) {
       return (
         <>
-          Committing as <strong>{name}</strong>
+          {translateUIRich('ui.sentence.c5e0c8cd2a26', {
+            p0: <strong>{name}</strong>,
+          })}
         </>
       )
     }
 
-    return <>Committing with {email}</>
+    return <>{translateUIRich('ui.sentence.7f38a611b104', { p0: email })}</>
   }
 
   private renderPopover() {

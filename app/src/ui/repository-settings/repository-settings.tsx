@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { TabBar, TabBarType } from '../tab-bar'
 import { Remote } from './remote'
@@ -170,7 +172,11 @@ export class RepositorySettings extends React.Component<
     return (
       <Dialog
         id="repository-settings"
-        title={__DARWIN__ ? 'Repository Settings' : 'Repository settings'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.repository-settings.96b39c5')
+            : translateUI('ui.repository-settings.a9c0acf')
+        }
         onDismissed={this.props.onDismissed}
         onSubmit={this.onSubmit}
         disabled={this.state.disabled}
@@ -184,21 +190,28 @@ export class RepositorySettings extends React.Component<
             type={TabBarType.Vertical}
           >
             <span>
-              <Octicon className="icon" symbol={octicons.server} />
-              Remote
+              {translateUIRich('ui.sentence.272b5fe1bec3', {
+                p0: <Octicon className="icon" symbol={octicons.server} />,
+              })}
             </span>
             <span>
               <Octicon className="icon" symbol={octicons.file} />
-              {__DARWIN__ ? 'Ignored Files' : 'Ignored files'}
+              {__DARWIN__
+                ? translateUI('ui.ignored-files.21f409e')
+                : translateUI('ui.ignored-files.14c879b')}
             </span>
             <span>
               <Octicon className="icon" symbol={octicons.gitCommit} />
-              {__DARWIN__ ? 'Git Config' : 'Git config'}
+              {__DARWIN__
+                ? translateUI('ui.git-config.8d4be74')
+                : translateUI('ui.git-config.b9c7460')}
             </span>
             {showForkSettings && (
               <span>
                 <Octicon className="icon" symbol={octicons.repoForked} />
-                {__DARWIN__ ? 'Fork Behavior' : 'Fork behavior'}
+                {__DARWIN__
+                  ? translateUI('ui.fork-behavior.fdc07dc')
+                  : translateUI('ui.fork-behavior.a88cf96')}
               </span>
             )}
           </TabBar>
@@ -207,7 +220,7 @@ export class RepositorySettings extends React.Component<
         </div>
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText="Save"
+            okButtonText={translateUI('ui.save.efc007a')}
             okButtonDisabled={this.state.saveDisabled}
           />
         </DialogFooter>

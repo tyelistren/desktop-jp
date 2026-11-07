@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { Commit, CommitOneLine, ICommitContext } from '../../models/commit'
@@ -167,7 +169,7 @@ export class CompareSidebar extends React.Component<
       <div id="compare-view" role="tabpanel" aria-labelledby="history-tab">
         <div className="compare-form">
           <FancyTextBox
-            ariaLabel="Branch filter"
+            ariaLabel={translateUI('ui.branch-filter.b171fff')}
             symbol={octicons.gitBranch}
             displayClearButton={true}
             placeholder={placeholderText}
@@ -227,13 +229,15 @@ export class CompareSidebar extends React.Component<
       emptyListMessage =
         formState.comparisonMode === ComparisonMode.Ahead ? (
           <p>
-            The compared branch (<Ref>{currentlyComparedBranchName}</Ref>) is up
-            to date with your branch
+            {translateUIRich('ui.sentence.c85c5db48945', {
+              p0: <Ref>{currentlyComparedBranchName}</Ref>,
+            })}
           </p>
         ) : (
           <p>
-            Your branch is up to date with the compared branch (
-            <Ref>{currentlyComparedBranchName}</Ref>)
+            {translateUIRich('ui.sentence.22d372065408', {
+              p0: <Ref>{currentlyComparedBranchName}</Ref>,
+            })}
           </p>
         )
     }

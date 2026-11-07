@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { ReleaseNote, ReleaseSummary } from '../../models/release-notes'
 import { updateStore } from '../lib/update-store'
@@ -121,7 +123,7 @@ export class ReleaseNotes extends React.Component<IReleaseNotesProps, {}> {
         emoji={this.props.emoji}
         onMarkdownLinkClicked={this.onMarkdownLinkClicked}
         underlineLinks={this.props.underlineLinks}
-        title="Release notes generated from markdown"
+        title={translateUI('ui.release-notes-generated-from-markdown.b9d74c3')}
       />
     )
   }
@@ -136,7 +138,7 @@ export class ReleaseNotes extends React.Component<IReleaseNotesProps, {}> {
     if (latestVersion === __APP_VERSION__) {
       return (
         <Button type="submit" onClick={this.onDismissed}>
-          Close
+          {translateUI('ui.close.bbfa773')}
         </Button>
       )
     }
@@ -145,9 +147,11 @@ export class ReleaseNotes extends React.Component<IReleaseNotesProps, {}> {
       <OkCancelButtonGroup
         destructive={true}
         okButtonText={
-          __DARWIN__ ? 'Install and Restart' : 'Install and restart'
+          __DARWIN__
+            ? translateUI('ui.install-and-restart.18d8830')
+            : translateUI('ui.install-and-restart.47b1875')
         }
-        cancelButtonText="Close"
+        cancelButtonText={translateUI('ui.close.bbfa773')}
       />
     )
   }
@@ -169,7 +173,9 @@ export class ReleaseNotes extends React.Component<IReleaseNotesProps, {}> {
 
     const dialogHeader = (
       <>
-        <span className="version">Version {latestVersion}</span>
+        <span className="version">
+          {translateUIRich('ui.sentence.5b8a631dda9b', { p0: latestVersion })}
+        </span>
         <span className="date">{datePublished}</span>
       </>
     )
@@ -187,7 +193,7 @@ export class ReleaseNotes extends React.Component<IReleaseNotesProps, {}> {
         </DialogContent>
         <DialogFooter>
           <LinkButton onClick={this.showAllReleaseNotes}>
-            View all release notes
+            {translateUI('ui.view-all-release-notes.d6efd5d')}
           </LinkButton>
           {this.renderButtons()}
         </DialogFooter>

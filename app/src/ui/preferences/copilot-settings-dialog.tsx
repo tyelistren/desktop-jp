@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import type { Model } from '../../lib/copilot/types'
 import type { IBYOKProvider } from '../../lib/copilot/byok'
@@ -37,7 +38,11 @@ export class CopilotSettingsDialog extends React.Component<ICopilotSettingsDialo
       <Dialog
         id="copilot-settings-dialog"
         className="copilot-settings-dialog"
-        title={__DARWIN__ ? 'Copilot Settings' : 'Copilot settings'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.copilot-settings.f1faf30')
+            : translateUI('ui.copilot-settings.f7499dd')
+        }
         onSubmit={this.props.onDismissed}
         onDismissed={this.props.onDismissed}
       >
@@ -63,7 +68,7 @@ export class CopilotSettingsDialog extends React.Component<ICopilotSettingsDialo
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText="Done"
+            okButtonText={translateUI('ui.done.e9b450d')}
             cancelButtonVisible={false}
           />
         </DialogFooter>

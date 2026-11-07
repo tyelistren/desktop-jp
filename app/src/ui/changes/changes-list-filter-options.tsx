@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import {
   Popover,
@@ -159,7 +160,9 @@ export class ChangesListFilterOptions extends React.Component<
         onClickOutside={this.closeFilterOptions}
       >
         <div className="filter-popover-header">
-          <h3 id="filter-options-header">Filter Options</h3>
+          <h3 id="filter-options-header">
+            {translateUI('ui.filter-options.0f93909')}
+          </h3>
           <button
             className="close"
             onClick={this.closeFilterOptions}
@@ -217,7 +220,9 @@ export class ChangesListFilterOptions extends React.Component<
         </div>
         {filtersActive && (
           <div className="filter-options-footer">
-            <Button onClick={this.onClearAllFilters}>Clear filters</Button>
+            <Button onClick={this.onClearAllFilters}>
+              {translateUI('ui.clear-filters.4122267')}
+            </Button>
           </div>
         )}
       </Popover>

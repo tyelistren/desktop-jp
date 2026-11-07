@@ -1,3 +1,4 @@
+import { translateUIRich } from './translated-text'
 import * as React from 'react'
 import { IAvatarUser } from '../../models/avatar'
 
@@ -35,7 +36,11 @@ export class CommitAttribution extends React.Component<
         </span>
       )
     } else {
-      return <span className="authors">{authors.length} people</span>
+      return (
+        <span className="authors">
+          {translateUIRich('ui.sentence.cbad3e9fff38', { p0: authors.length })}
+        </span>
+      )
     }
   }
 

@@ -1,3 +1,4 @@
+import { t as translateUI } from '../lib/localization'
 import { t } from '../lib/localization'
 import * as React from 'react'
 import { Repository } from '../models/repository'
@@ -415,7 +416,7 @@ export class RepositoryView extends React.Component<
           minimumWidth={this.props.sidebarWidth.min}
           onReset={this.handleSidebarWidthReset}
           onResize={this.handleSidebarResize}
-          description="Repository sidebar"
+          description={translateUI('ui.repository-sidebar.64861ed')}
         >
           {this.renderTabs()}
           {this.renderSidebarContents()}

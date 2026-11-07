@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { DialogContent } from '../dialog'
 import { LinkButton } from '../lib/link-button'
@@ -17,10 +19,15 @@ export class NoRemote extends React.Component<INoRemoteProps, {}> {
       <DialogContent>
         <CallToAction actionTitle="Publish" onAction={this.props.onPublish}>
           <div className="no-remote-publish-message">
-            Publish your repository to GitHub. Need help?{' '}
-            <LinkButton uri={HelpURL}>
-              Learn more about remote repositories.
-            </LinkButton>
+            {translateUIRich('ui.sentence.06b0dae1a7da', {
+              p0: (
+                <LinkButton uri={HelpURL}>
+                  {translateUI(
+                    'ui.learn-more-about-remote-repositories.e9fe940'
+                  )}
+                </LinkButton>
+              ),
+            })}
           </div>
         </CallToAction>
       </DialogContent>

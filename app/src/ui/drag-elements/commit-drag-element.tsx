@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import classNames from 'classnames'
 import { Disposable } from 'event-kit'
 import * as React from 'react'
@@ -86,7 +88,9 @@ export class CommitDragElement extends React.Component<
           <>
             {copyToPlus}
             <span>
-              <span className="copy-to">Copy to</span>
+              <span className="copy-to">
+                {translateUI('ui.copy-to.1ec01dc')}
+              </span>
               <span className="branch-name">
                 {currentDropTarget.branchName}
               </span>
@@ -99,7 +103,11 @@ export class CommitDragElement extends React.Component<
         const commitsBeingSquashedCount = this.props.selectedCommits.length + 1
         toolTipContents = (
           <>
-            <span>Squash {commitsBeingSquashedCount} commits</span>
+            <span>
+              {translateUIRich('ui.sentence.6fb42a35e4a9', {
+                p0: commitsBeingSquashedCount,
+              })}
+            </span>
           </>
         )
         break
@@ -107,7 +115,7 @@ export class CommitDragElement extends React.Component<
         if (currentDropTarget.data.type !== DragType.Commit) {
           toolTipContents = (
             <>
-              <span>'Insert here'</span>
+              <span>{translateUI('ui.insert-here.8c187a2')}</span>
             </>
           )
           break

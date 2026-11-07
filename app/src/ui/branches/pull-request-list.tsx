@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import {
   IFilterListGroup,
@@ -323,7 +325,9 @@ export class PullRequestList extends React.Component<
   private renderListHeader = () => {
     return (
       <div className="filter-list-group-header">
-        Pull requests in {this.getRepositoryName()}
+        {translateUIRich('ui.sentence.025976daaa70', {
+          p0: this.getRepositoryName(),
+        })}
       </div>
     )
   }
@@ -333,7 +337,7 @@ export class PullRequestList extends React.Component<
   }
 
   private renderPostFilter = () => {
-    const tooltip = 'Refresh the list of pull requests'
+    const tooltip = translateUI('ui.refresh-the-list-of-pull-requests.5e2967b')
 
     return (
       <Button

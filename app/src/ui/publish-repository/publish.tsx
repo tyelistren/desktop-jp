@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { PublishRepository } from './publish-repository'
 import { Dispatcher } from '../dispatcher'
@@ -143,7 +144,11 @@ export class Publish extends React.Component<IPublishProps, IPublishState> {
     return (
       <Dialog
         id="publish-repository"
-        title={__DARWIN__ ? 'Publish Repository' : 'Publish repository'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.publish-repository.5ebfc7b')
+            : translateUI('ui.publish-repository.51ceb83')
+        }
         onDismissed={this.props.onDismissed}
         onSubmit={this.publishRepository}
         disabled={this.state.publishing}
@@ -277,7 +282,9 @@ export class Publish extends React.Component<IPublishProps, IPublishState> {
         return (
           <CallToAction actionTitle={signInTitle} onAction={this.signInDotCom}>
             <div>
-              Sign in to your GitHub.com account to access your repositories.
+              {translateUI(
+                'ui.sign-in-to-your-github-com-account-to-access-you.cb515ee'
+              )}
             </div>
           </CallToAction>
         )
@@ -288,8 +295,9 @@ export class Publish extends React.Component<IPublishProps, IPublishState> {
             onAction={this.signInEnterprise}
           >
             <div>
-              If you are using GitHub Enterprise at work, sign in to it to get
-              access to your repositories.
+              {translateUI(
+                'ui.if-you-are-using-github-enterprise-at-work-sign-.5a9af18'
+              )}
             </div>
           </CallToAction>
         )
@@ -308,7 +316,9 @@ export class Publish extends React.Component<IPublishProps, IPublishState> {
         <DialogFooter>
           <OkCancelButtonGroup
             okButtonText={
-              __DARWIN__ ? 'Publish Repository' : 'Publish repository'
+              __DARWIN__
+                ? translateUI('ui.publish-repository.5ebfc7b')
+                : translateUI('ui.publish-repository.51ceb83')
             }
             okButtonDisabled={disabled}
           />

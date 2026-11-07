@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import * as Path from 'path'
 import { Dispatcher } from '../dispatcher'
@@ -108,7 +109,9 @@ export class WorktreeDropdown extends React.Component<
     })
 
     const newWorktreeItem: IMenuItem = {
-      label: __DARWIN__ ? 'New Worktree…' : 'New worktree…',
+      label: __DARWIN__
+        ? translateUI('ui.new-worktree.e7aaf85')
+        : translateUI('ui.new-worktree.1a9719b'),
       action: this.onCreateNewWorktree,
     }
 
@@ -156,7 +159,9 @@ export class WorktreeDropdown extends React.Component<
     const title = currentWorktree
       ? Path.basename(currentWorktree.path)
       : this.props.repository.name
-    const description = __DARWIN__ ? 'Current Worktree' : 'Current worktree'
+    const description = __DARWIN__
+      ? translateUI('ui.current-worktree.1ad46b7')
+      : translateUI('ui.current-worktree.e9935a2')
 
     const toolbarDropdown = (
       <ToolbarDropdown
@@ -194,7 +199,7 @@ export class WorktreeDropdown extends React.Component<
         onResize={this.onResize}
         maximumWidth={this.props.worktreeDropdownWidth.max}
         minimumWidth={this.props.worktreeDropdownWidth.min}
-        description="Current worktree dropdown button"
+        description={translateUI('ui.current-worktree-dropdown-button.12c1cab')}
       >
         {toolbarDropdown}
       </Resizable>

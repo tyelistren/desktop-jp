@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Button } from '../lib/button'
 import { Loading } from '../lib/loading'
@@ -33,7 +34,7 @@ export class ContinueRebase extends React.Component<IContinueRebaseProps, {}> {
     const { manualResolutions } = this.props.rebaseConflictState
 
     let canCommit = true
-    let tooltip = 'Continue rebase'
+    let tooltip = translateUI('ui.continue-rebase.8b42d4d')
 
     const conflictedFilesCount = getConflictedFiles(
       this.props.workingDirectory,
@@ -51,7 +52,7 @@ export class ContinueRebase extends React.Component<IContinueRebaseProps, {}> {
 
     const warnAboutUntrackedFiles = this.props.hasUntrackedChanges ? (
       <div className="warning-untracked-files">
-        Untracked files will be excluded
+        {translateUI('ui.untracked-files-will-be-excluded.fc46004')}
       </div>
     ) : undefined
 
@@ -65,7 +66,11 @@ export class ContinueRebase extends React.Component<IContinueRebaseProps, {}> {
           tooltip={tooltip}
         >
           {loading}
-          <span>{loading !== undefined ? 'Rebasing' : 'Continue rebase'}</span>
+          <span>
+            {loading !== undefined
+              ? translateUI('ui.rebasing.3636419')
+              : translateUI('ui.continue-rebase.8b42d4d')}
+          </span>
         </Button>
 
         {warnAboutUntrackedFiles}

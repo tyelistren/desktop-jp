@@ -1,3 +1,5 @@
+import { translateUIRich } from './translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { getHTMLURL } from '../../lib/api'
 import { Ref } from './ref'
@@ -19,18 +21,26 @@ export class EnterpriseServerConfirmation extends React.Component<IEnterpriseSer
         id={enterpriseServerConfirmationDescriptionId}
         className="enterprise-server-confirmation"
       >
-        <p>Git is requesting permission to sign in to this server:</p>
+        <p>
+          {translateUI(
+            'ui.git-is-requesting-permission-to-sign-in-to-this-.485c61d'
+          )}
+        </p>
         <p>
           <Ref>{getHTMLURL(this.props.endpoint)}</Ref>
         </p>
         <div className="enterprise-server-warning">
           <Octicon symbol={octicons.alert} />
           <p>
-            <strong>
-              Only continue if you recognize and trust this server.
-            </strong>{' '}
-            Confirm this address appears in your browser. Otherwise, cancel and
-            contact your repository administrator.
+            {translateUIRich('ui.sentence.399d10a5bf58', {
+              p0: (
+                <strong>
+                  {translateUI(
+                    'ui.only-continue-if-you-recognize-and-trust-this-se.92601e4'
+                  )}
+                </strong>
+              ),
+            })}
           </p>
         </div>
       </div>

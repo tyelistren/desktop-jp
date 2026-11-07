@@ -1,3 +1,4 @@
+import { translateUIRich } from '../lib/translated-text'
 import * as React from 'react'
 import { ForkContributionTarget } from '../../models/workflow-preferences'
 import { RepositoryWithForkedGitHubRepository } from '../../models/repository'
@@ -18,23 +19,29 @@ export function ForkSettingsDescription(props: IForkSettingsDescription) {
   return (
     <ul className="fork-settings-description">
       <li>
-        Pull requests targeting <strong>{targetRepository.fullName}</strong>{' '}
-        will be shown in the pull request list.
+        {translateUIRich('ui.sentence.619746fb789f', {
+          p0: <strong>{targetRepository.fullName}</strong>,
+        })}
       </li>
       <li>
-        Issues will be created in <strong>{targetRepository.fullName}</strong>.
+        {translateUIRich('ui.sentence.ea8f3f5e1ef7', {
+          p0: <strong>{targetRepository.fullName}</strong>,
+        })}
       </li>
       <li>
-        "View on GitHub" will open <strong>{targetRepository.fullName}</strong>{' '}
-        in the browser.
+        {translateUIRich('ui.sentence.02ffd9547a7f', {
+          p0: <strong>{targetRepository.fullName}</strong>,
+        })}
       </li>
       <li>
-        New branches will be based on{' '}
-        <strong>{targetRepository.fullName}</strong>'s default branch.
+        {translateUIRich('ui.sentence.a0f177ccfabd', {
+          p0: <strong>{targetRepository.fullName}</strong>,
+        })}
       </li>
       <li>
-        Autocompletion of user and issues will be based on{' '}
-        <strong>{targetRepository.fullName}</strong>.
+        {translateUIRich('ui.sentence.d8d484552847', {
+          p0: <strong>{targetRepository.fullName}</strong>,
+        })}
       </li>
     </ul>
   )

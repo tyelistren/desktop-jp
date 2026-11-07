@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import * as URL from 'url'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
@@ -37,36 +39,58 @@ export class UntrustedCertificate extends React.Component<
 
     return (
       <Dialog
-        title={__DARWIN__ ? 'Untrusted Server' : 'Untrusted server'}
+        title={
+          __DARWIN__
+            ? translateUI('ui.untrusted-server.a0dc393')
+            : translateUI('ui.untrusted-server.8cd584c')
+        }
         onDismissed={this.props.onDismissed}
         onSubmit={this.onContinue}
         type={__DARWIN__ ? 'warning' : 'error'}
       >
         <DialogContent>
           <p>
-            GitHub Desktop cannot verify the identity of {host}. The certificate
-            ({this.props.certificate.subjectName}) is invalid or untrusted.{' '}
-            <strong>
-              This may indicate attackers are trying to steal your data.
-            </strong>
+            {translateUIRich('ui.sentence.9c9149c06cc3', {
+              p0: host,
+              p1: this.props.certificate.subjectName,
+              p2: (
+                <strong>
+                  {translateUI(
+                    'ui.this-may-indicate-attackers-are-trying-to-steal-.3806999'
+                  )}
+                </strong>
+              ),
+            })}
           </p>
-          <p>In some cases, this may be expected. For example:</p>
+          <p>
+            {translateUI(
+              'ui.in-some-cases-this-may-be-expected-for-example.56797a1'
+            )}
+          </p>
           <ul>
-            <li>If this is a GitHub Enterprise trial.</li>
             <li>
-              If your GitHub Enterprise instance is run on an unusual top-level
-              domain.
+              {translateUI('ui.if-this-is-a-github-enterprise-trial.6bab718')}
+            </li>
+            <li>
+              {translateUI(
+                'ui.if-your-github-enterprise-instance-is-run-on-an-.caf24e1'
+              )}
             </li>
           </ul>
           <p>
-            If you are unsure of what to do, cancel and contact your system
-            administrator.
+            {translateUI(
+              'ui.if-you-are-unsure-of-what-to-do-cancel-and-conta.f406030'
+            )}
           </p>
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
             destructive={true}
-            okButtonText={__DARWIN__ ? 'View Certificate' : 'Add certificate'}
+            okButtonText={
+              __DARWIN__
+                ? translateUI('ui.view-certificate.b97fcb6')
+                : translateUI('ui.add-certificate.631b330')
+            }
           />
         </DialogFooter>
       </Dialog>

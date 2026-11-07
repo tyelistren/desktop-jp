@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 
 import { Dispatcher } from '../dispatcher'
@@ -42,18 +44,22 @@ export class ChangeRepositoryAlias extends React.Component<
       >
         <DialogContent>
           <p id="change-repository-alias-description">
-            Choose a new alias for the repository "{nameOf(repository)}".{' '}
+            {translateUIRich('ui.sentence.bf70a7594cde', {
+              p0: nameOf(repository),
+            })}
           </p>
           <p>
             <TextBox
-              ariaLabel="Alias"
+              ariaLabel={translateUI('ui.alias.0425981')}
               value={this.state.newAlias}
               onValueChanged={this.onNameChanged}
             />
           </p>
           {repository.gitHubRepository !== null && (
             <p className="description">
-              This will not affect the original repository name on GitHub.
+              {translateUI(
+                'ui.this-will-not-affect-the-original-repository-nam.486087f'
+              )}
             </p>
           )}
         </DialogContent>

@@ -1,3 +1,4 @@
+import { translateUIRich } from './translated-text'
 import * as React from 'react'
 import { Branch, BranchType } from '../../models/branch'
 
@@ -12,8 +13,9 @@ export function renderBranchHasRemoteWarning(branch: Branch) {
       <Row className="warning-helper-text">
         <Octicon symbol={octicons.alert} />
         <p>
-          This branch is tracking <Ref>{branch.upstream}</Ref> and renaming this
-          branch will not change the branch name on the remote.
+          {translateUIRich('ui.sentence.ae6779860513', {
+            p0: <Ref>{branch.upstream}</Ref>,
+          })}
         </p>
       </Row>
     )
@@ -39,7 +41,9 @@ export function renderBranchNameExistsOnRemoteWarning(
     <Row className="warning-helper-text">
       <Octicon symbol={octicons.alert} />
       <p>
-        A branch named <Ref>{sanitizedName}</Ref> already exists on the remote.
+        {translateUIRich('ui.sentence.d1f611f8c4da', {
+          p0: <Ref>{sanitizedName}</Ref>,
+        })}
       </p>
     </Row>
   )

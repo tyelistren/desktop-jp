@@ -1,3 +1,4 @@
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Dispatcher } from '../dispatcher'
@@ -63,22 +64,29 @@ export class CommitConflictsWarning extends React.Component<
         id="commit-conflict-markers-warning"
         onDismissed={this.onCancel}
         onSubmit={this.onSubmit}
-        title={'Confirm committing conflicted files'}
+        title={translateUI('ui.confirm-committing-conflicted-files.a4acf16')}
         type={'warning'}
       >
         <DialogContent>
           <p>
-            If you choose to commit, you’ll be committing the following
-            conflicted files into your repository:
+            {translateUI(
+              'ui.if-you-choose-to-commit-you-ll-be-committing-the.9cb4cd2'
+            )}
           </p>
           {this.renderFiles(this.props.files)}
-          <p>Are you sure you want to commit these conflicted files?</p>
+          <p>
+            {translateUI(
+              'ui.are-you-sure-you-want-to-commit-these-conflicted.2ca4a71'
+            )}
+          </p>
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
             destructive={true}
             okButtonText={
-              __DARWIN__ ? 'Yes, Commit Files' : 'Yes, commit files'
+              __DARWIN__
+                ? translateUI('ui.yes-commit-files.017649a')
+                : translateUI('ui.yes-commit-files.c2b70a6')
             }
           />
         </DialogFooter>

@@ -1,3 +1,5 @@
+import { translateUIRich } from '../lib/translated-text'
+import { t as translateUI } from '../../lib/localization'
 import * as React from 'react'
 import { Dispatcher } from '../dispatcher'
 import {
@@ -32,17 +34,13 @@ interface ISignInState {
   readonly endpoint: string
 }
 
-const SignInWithBrowserTitle = __DARWIN__
-  ? 'Sign in Using Your Browser'
-  : 'Sign in using your browser'
+const SignInWithBrowserTitle = translateUI('ui.finish.browserSignIn')
 
-const DefaultTitle = 'Sign in'
+const DefaultTitle = translateUI('ui.finish.signIn')
 
 const browserSignInInfoContent = (
   <p>
-    Your browser will redirect you back to GitHub Desktop once you've signed in.
-    If your browser asks for your permission to launch GitHub Desktop, please
-    allow it.
+    {translateUI('ui.your-browser-will-redirect-you-back-to-github-de.718d078')}
   </p>
 )
 
@@ -159,10 +157,10 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
     return (
       <DialogContent>
         <p className="existing-account-warning">
-          You're already signed in to{' '}
-          <Ref>{new URL(getHTMLURL(state.endpoint)).host}</Ref> with the account{' '}
-          <Ref>{state.existingAccount.login}</Ref>. If you continue, you will
-          first be signed out.
+          {translateUIRich('ui.sentence.91b920bf6ed1', {
+            p0: <Ref>{new URL(getHTMLURL(state.endpoint)).host}</Ref>,
+            p1: <Ref>{state.existingAccount.login}</Ref>,
+          })}
         </p>
         {browserSignInInfoContent}
       </DialogContent>
@@ -174,7 +172,7 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
       <DialogContent>
         <Row>
           <TextBox
-            label="Enterprise address"
+            label={translateUI('ui.enterprise-address.cd0d108')}
             value={this.state.endpoint}
             onValueChanged={this.onEndpointChanged}
             placeholder="https://example.ghe.com"
@@ -197,8 +195,9 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
     const credentialHelperInfo =
       this.props.isCredentialHelperSignIn && this.props.credentialHelperUrl ? (
         <p>
-          Git requesting credentials to access{' '}
-          <Ref>{this.props.credentialHelperUrl}</Ref>.
+          {translateUIRich('ui.sentence.a9fdcc081a46', {
+            p0: <Ref>{this.props.credentialHelperUrl}</Ref>,
+          })}
         </p>
       ) : undefined
 
