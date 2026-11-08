@@ -1488,5 +1488,14 @@
   "graph.filter.unmerged": "未マージのブランチ",
   "graph.filter.merged": "マージ済みブランチ（過去の経路）",
   "graph.filter.deleted": "名前不明の履歴行（削除済みブランチを含む）",
-  "graph.filter.dormant": "休止中のブランチ"
+  "graph.filter.dormant": "休止中のブランチ",
+  "graph.maxBranches": "最大表示ブランチ数（2～20本）",
+  "graph.filter.hideMerged": "合流済みの作業ブランチを省略",
+  "graph.filter.upstream": "upstreamのブランチを含める",
+  "graph.compactHelp": "初期表示は3ブランチ・コミット点10個程度です。分岐・合流・先端の維持が必要な場合は点数を増やします。個別指定は自動省略より優先しますが、最大本数内で現在のブランチが最優先です。省略した履歴は合流済みの省略をOFFにするか、個別に履歴行を選択して確認できます。",
+  "graph.hiddenConnection": "非表示のブランチ・履歴行に接続",
+  "graph.outsideConnection": "親コミットが取得範囲外",
+  "graph.skippedCommits": "実際の親子経路上の途中コミット{count}件を省略",
+  "graph.compactLegend": "● 通常コミット・▲ 分岐・◆ 合流・■ 先端・▣ Stash・◇ 非表示先への接続・… 取得範囲外・長い破線：途中の履歴を省略。位置は親子関係順で、時間間隔は等比例ではありません。",
+  "graph.compactCount": "{branches}ブランチ／{commits}点（途中{omitted}点を省略）"
 }

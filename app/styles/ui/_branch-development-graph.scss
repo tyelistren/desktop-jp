@@ -1,4 +1,9 @@
 .branch-development-graph {
+  --graph-color-0: #2879d0;
+  --graph-color-1: #258447;
+  --graph-color-2: #b96b0b;
+  --graph-color-3: #626970;
+  --graph-color-4: #8a929a;
   flex: 0 0 auto;
   min-height: 0;
   max-height: 60vh;
@@ -54,11 +59,10 @@
     top: 0;
   }
   .graph-current-edge {
-    stroke: var(--link-color) !important;
     stroke-width: 3 !important;
   }
   .graph-edge {
-    stroke: var(--text-secondary-color);
+    stroke: currentColor;
     stroke-width: 1.5;
     fill: none;
   }
@@ -71,15 +75,33 @@
     cursor: pointer;
   }
   .graph-commit {
-    fill: var(--text-color);
+    fill: currentColor;
+    stroke: currentColor;
     cursor: pointer;
   }
   .graph-current {
-    color: var(--link-color);
     font-weight: bold;
   }
-  .graph-current .graph-commit {
-    fill: var(--link-color);
+  .graph-current .graph-ref-line,
+  .graph-current .graph-alias {
+    stroke-width: 4;
+  }
+  .graph-current button:first-child {
+    font-weight: bold;
+  }
+  .graph-compressed-edge {
+    stroke-dasharray: 8 3;
+  }
+  .graph-boundary {
+    fill: currentColor;
+    font-size: 13px;
+  }
+  .graph-settings input[type='number'] {
+    width: 60px;
+  }
+  .graph-commit:focus {
+    stroke: var(--text-color);
+    stroke-width: 3;
   }
   .graph-muted {
     opacity: 0.6;
@@ -170,4 +192,12 @@
   .graph-resizer:focus {
     outline: 2px solid var(--link-color);
   }
+}
+
+body.theme-dark .branch-development-graph {
+  --graph-color-0: #58a6ff;
+  --graph-color-1: #56c778;
+  --graph-color-2: #e6a34c;
+  --graph-color-3: #a1a8b0;
+  --graph-color-4: #8b949e;
 }

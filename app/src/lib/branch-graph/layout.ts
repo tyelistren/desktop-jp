@@ -102,6 +102,10 @@ export function buildGraph(
 }
 
 export interface IGraphSettings {
+  readonly maxBranches: number
+  readonly hideMerged: boolean
+  readonly upstream: boolean
+  readonly colorSlots: Readonly<Record<string, number>>
   readonly collapsed: boolean
   readonly height: number
   readonly main: boolean
@@ -115,6 +119,10 @@ export interface IGraphSettings {
 }
 
 export const defaultGraphSettings: IGraphSettings = {
+  maxBranches: 3,
+  hideMerged: true,
+  upstream: false,
+  colorSlots: {},
   collapsed: false,
   height: 220,
   main: true,
@@ -148,7 +156,29 @@ export function parseGraphSettings(raw: string | null): IGraphSettings {
         }
       })
     }
+    const max: unknown = Reflect.get(value, 'maxBranches')
+    const colors: unknown = Reflect.get(value, 'colorSlots')
+    const colorSlots: Record<string, number> = Object.create(null)
+    if (colors !== null && typeof colors === 'object') {
+      Object.entries(colors).forEach(([key, slot]) => {
+        if (
+          typeof slot === 'number' &&
+          Number.isInteger(slot) &&
+          slot >= 0 &&
+          slot < 20
+        ) {
+          colorSlots[key] = slot
+        }
+      })
+    }
     return {
+      maxBranches:
+        typeof max === 'number' && Number.isFinite(max)
+          ? Math.max(2, Math.min(20, Math.round(max)))
+          : 3,
+      hideMerged: readBoolean('hideMerged', true),
+      upstream: readBoolean('upstream', false),
+      colorSlots,
       collapsed: readBoolean('collapsed', false),
       height:
         typeof h === 'number' && Number.isFinite(h)
