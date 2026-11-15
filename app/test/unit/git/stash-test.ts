@@ -259,7 +259,7 @@ describe('git/stash', () => {
     })
 
     describe('when there are (resolvable) conflicts', () => {
-      it('restores changes and drops stash', async t => {
+      it('restores conflicted changes and retains the original stash', async t => {
         const repository = await setup(t)
 
         await generateTestStashEntry(repository, 'master', true)
@@ -283,7 +283,11 @@ describe('git/stash', () => {
         assert.equal(files.length, 1)
 
         const stashAfter = await getStashes(repository)
-        assert(!stashAfter.desktopEntries.includes(entryToApply))
+        assert(
+          stashAfter.desktopEntries.some(
+            e => e.stashSha === entryToApply.stashSha
+          )
+        )
       })
     })
 

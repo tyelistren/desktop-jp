@@ -448,6 +448,7 @@ export class RepositoryView extends React.Component<
       return (
         <StashDiffViewer
           stashEntry={stashEntry}
+          stashEntries={changesState.stashEntries}
           selectedStashedFile={selection.selectedStashedFile}
           stashedFileDiff={selection.selectedStashedFileDiff}
           imageDiffType={this.props.imageDiffType}

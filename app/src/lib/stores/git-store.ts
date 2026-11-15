@@ -155,6 +155,9 @@ export class GitStore extends BaseStore {
 
   private _desktopStashEntries = new Map<string, IStashEntry>()
 
+  private _allDesktopStashEntries: ReadonlyArray<IStashEntry> = []
+  private readonly selectedStashByBranch = new Map<string, string>()
+
   private _stashEntryCount = 0
 
   public constructor(
@@ -1196,7 +1199,18 @@ export class GitStore extends BaseStore {
     const map = new Map<string, IStashEntry>()
     const stash = await getStashes(this.repository)
 
+    this._allDesktopStashEntries = stash.desktopEntries
     for (const entry of stash.desktopEntries) {
+      const preferred = this.selectedStashByBranch.get(entry.branchName)
+      if (
+        preferred !== undefined &&
+        preferred !== entry.stashSha &&
+        stash.desktopEntries.some(
+          e => e.branchName === entry.branchName && e.stashSha === preferred
+        )
+      ) {
+        continue
+      }
       // we only want the first entry we find for each branch,
       // so we skip all subsequent ones
       if (!map.has(entry.branchName)) {
@@ -1217,7 +1231,7 @@ export class GitStore extends BaseStore {
     this._stashEntryCount = stash.stashEntryCount
     this.emitUpdate()
 
-    this.loadFilesForCurrentStashEntry()
+    await this.loadFilesForCurrentStashEntry()
   }
 
   /**
@@ -1228,6 +1242,33 @@ export class GitStore extends BaseStore {
     return this._tip && this._tip.kind === TipState.Valid
       ? this._desktopStashEntries.get(this._tip.branch.name) || null
       : null
+  }
+
+  /** All saved entries for the checked-out branch, newest first. */
+  public get currentBranchStashEntries(): ReadonlyArray<IStashEntry> {
+    const tip = this._tip
+    return tip.kind === TipState.Valid
+      ? this._allDesktopStashEntries.filter(
+          e => e.branchName === tip.branch.name
+        )
+      : []
+  }
+
+  /** Select the newest entry on the next refresh after saving. */
+  public resetStashSelection(branchName: string) {
+    this.selectedStashByBranch.delete(branchName)
+  }
+
+  /** Select an existing entry without allowing selection across branches. */
+  public async selectBranchStash(sha: string): Promise<void> {
+    const entry = this.currentBranchStashEntries.find(e => e.stashSha === sha)
+    if (entry === undefined) {
+      return
+    }
+    this.selectedStashByBranch.set(entry.branchName, sha)
+    this._desktopStashEntries.set(entry.branchName, entry)
+    this.emitUpdate()
+    await this.loadFilesForCurrentStashEntry()
   }
 
   public get desktopStashEntries(): ReadonlyMap<string, IStashEntry> {
@@ -1241,11 +1282,11 @@ export class GitStore extends BaseStore {
 
   /** The number of stash entries created by Desktop */
   public get desktopStashEntryCount(): number {
-    return this._desktopStashEntries.size
+    return this._allDesktopStashEntries.length
   }
 
   /**
-   * Updates the latest stash entry with a list of files that it changes
+   * Updates the selected stash entry with a list of files that it changes
    */
   private async loadFilesForCurrentStashEntry() {
     const stashEntry = this.currentBranchStashEntry

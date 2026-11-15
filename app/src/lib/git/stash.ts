@@ -1,3 +1,4 @@
+import { t } from '../localization'
 import { GitError as DugiteError } from 'dugite'
 import { git, GitError } from './core'
 import { Repository } from '../../models/repository'
@@ -14,7 +15,6 @@ import { parseRawLogWithNumstat } from './log'
 import { stageFiles } from './update-index'
 import { Branch } from '../../models/branch'
 import { createLogParser } from './git-delimiter-parser'
-import { coerceToString } from './coerce-to-string'
 
 export const DesktopStashEntryMarker = '!!GitHub_Desktop'
 
@@ -84,7 +84,7 @@ export async function getStashes(repository: Repository): Promise<StashResult> {
     }
   }
 
-  return { desktopEntries, stashEntryCount: entries.length - 1 }
+  return { desktopEntries, stashEntryCount: entries.length }
 }
 
 /**
@@ -158,45 +158,9 @@ export async function createDesktopStashEntry(
   const message = createDesktopStashMessage(branchName)
   const args = ['stash', 'push', '-m', message]
 
-  const result = await git(args, repository.path, 'createStashEntry').catch(
-    e => {
-      // Note: 2024: Here be dragons. As I converted this code to get rid of the
-      // successExitCode use I got curious about the assumptions made in the
-      // following logic. It assumes that as long as the exit code for `git
-      // stash push` is 1 and there are no lines beginning with "error: " then
-      // a stash was created. That didn't hold up to a quick read of the stash
-      // code. For example, running git stash push in an unborn repository will
-      // get you an exit code of 1 but no stash was created:
-      //
-      // % git stash push -m foo ; echo $?
-      // You do not have the initial commit yet
-      // 1
-      //
-      // I'm not going to mess with this now but I felt the need to document
-      // my findings should I or any other brave soul choose to tackle this in
-      // the future.
-      if (e instanceof GitError && e.result.exitCode === 1) {
-        // search for any line starting with `error:` -  /m here to ensure this is
-        // applied to each line, without needing to split the text
-        const errorPrefixRe = /^error: /m
-
-        const matches = errorPrefixRe.exec(coerceToString(e.result.stderr))
-        if (matches !== null && matches.length > 0) {
-          // rethrow, because these messages should prevent the stash from being created
-          return Promise.reject(e)
-        }
-
-        // if no error messages were emitted by Git, we should log but continue because
-        // a valid stash was created and this should not interfere with the checkout
-
-        log.info(
-          `[createDesktopStashEntry] a stash was created successfully but exit code ${result.exitCode} reported. stderr: ${result.stderr}`
-        )
-        return e.result
-      }
-      return Promise.reject(e)
-    }
-  )
+  // A nonzero exit may leave a saved stash but an uncleared working directory.
+  // Propagate it so callers do not continue switching branches.
+  const result = await git(args, repository.path, 'createStashEntry')
 
   // Stash doesn't consider it an error that there aren't any local changes to save.
   if (result.stdout === 'No local changes to save\n') {
@@ -245,28 +209,42 @@ export async function popStashEntry(
   const stashToPop = await getStashEntryMatchingSha(repository, stashSha)
 
   if (stashToPop !== null) {
-    const args = ['stash', 'pop', '--quiet', `${stashToPop.name}`]
-    await git(args, repository.path, 'popStashEntry', {
-      expectedErrors,
-    }).catch(e => {
-      // popping a stashes that create conflicts in the working directory
-      // report an exit code of `1` and are not dropped after being applied.
-      // so, we check for this case and drop them manually unless there's
-      // anything in stderr as that could have prevented the stash from being
-      // popped. Not the greatest approach but stash isn't very communicative
-      if (
-        e instanceof GitError &&
-        e.result.exitCode === 1 &&
-        e.result.stderr.length === 0
-      ) {
-        log.info(
-          `[popStashEntry] a stash was popped successfully but exit code ${e.result.exitCode} reported.`
+    // Resolve the branch again at the mutation boundary: the UI may be stale.
+    const head = await git(
+      ['symbolic-ref', '--quiet', '--short', 'HEAD'],
+      repository.path,
+      'checkStashBranch',
+      { successExitCodes: new Set([0, 1]) }
+    )
+    if (head.exitCode !== 0 || head.stdout.trim() !== stashToPop.branchName) {
+      throw new Error(t('stash.stack.wrongBranch'))
+    }
+
+    // Apply by immutable SHA, then resolve the reflog index again before dropping.
+    // Conflicts and failures must leave the original stash available for recovery.
+    const result = await git(
+      ['stash', 'apply', '--quiet', stashSha],
+      repository.path,
+      'popStashEntry',
+      { expectedErrors }
+    ).catch(async error => {
+      // Quiet Git versions may report conflicts with no diagnostic text.
+      // Verify the unmerged index rather than assuming exit 1 means success.
+      if (error instanceof GitError && error.result.exitCode === 1) {
+        const unmerged = await git(
+          ['ls-files', '--unmerged', '-z'],
+          repository.path,
+          'checkStashConflicts'
         )
-        // bye bye
-        return dropDesktopStashEntry(repository, stashSha)
+        if (unmerged.stdout.length > 0) {
+          return error.result
+        }
       }
-      return Promise.reject(e)
+      throw error
     })
+    if (result.exitCode === 0) {
+      await dropDesktopStashEntry(repository, stashSha)
+    }
   }
 }
 
