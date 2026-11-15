@@ -842,10 +842,13 @@ export interface IChangesState {
   readonly conflictState: ConflictState | null
 
   /**
-   * The latest GitHub Desktop stash entry for the current branch, or `null`
+   * The selected GitHub Desktop stash entry for the current branch, or `null`
    * if no stash exists for the current branch.
    */
   readonly stashEntry: IStashEntry | null
+
+  /** All Desktop stashes belonging to the current branch, newest first. */
+  readonly stashEntries?: ReadonlyArray<IStashEntry>
 
   /**
    * The current selection state in the Changes view. Can be either

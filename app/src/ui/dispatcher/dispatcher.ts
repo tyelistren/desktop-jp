@@ -2873,12 +2873,11 @@ export class Dispatcher {
   }
 
   /**
-   * Creates a stash for the current branch. Note that this will
-   * override any stash that already exists for the current branch.
+   * Creates an additional stash for the current branch, preserving older entries.
    *
    * @param repository
-   * @param showConfirmationDialog  Whether to show a confirmation dialog if an
-   *                                existing stash exists (defaults to true).
+   * @param showConfirmationDialog Legacy argument retained for existing callers.
+   *                               Saving now appends without replacing a stash.
    */
   public createStashForCurrentBranch(
     repository: Repository,
@@ -2888,6 +2887,10 @@ export class Dispatcher {
       repository,
       showConfirmationDialog
     )
+  }
+
+  public selectBranchStash(repository: Repository, sha: string) {
+    return this.appStore._selectBranchStash(repository, sha)
   }
 
   /** Drops the given stash in the given repository */

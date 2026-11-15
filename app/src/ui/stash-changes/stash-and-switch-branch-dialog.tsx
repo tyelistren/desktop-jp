@@ -7,9 +7,6 @@ import { VerticalSegmentedControl } from '../lib/vertical-segmented-control'
 import { Row } from '../lib/row'
 import { Branch } from '../../models/branch'
 import { UncommittedChangesStrategy } from '../../models/uncommitted-changes-strategy'
-import { Octicon } from '../octicons'
-import * as octicons from '../octicons/octicons.generated'
-import { PopupType } from '../../models/popup'
 import { startTimer } from '../lib/timing'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
@@ -68,7 +65,7 @@ export class StashAndSwitchBranch extends React.Component<
       >
         <DialogContent>
           {this.renderStashActions()}
-          {this.renderStashOverwriteWarning()}
+          {this.renderStashPreservationNote()}
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
@@ -82,7 +79,7 @@ export class StashAndSwitchBranch extends React.Component<
     )
   }
 
-  private renderStashOverwriteWarning() {
+  private renderStashPreservationNote() {
     if (
       !this.props.hasAssociatedStash ||
       this.state.selectedStashAction !== StashAction.StashOnCurrentBranch
@@ -90,11 +87,7 @@ export class StashAndSwitchBranch extends React.Component<
       return null
     }
 
-    return (
-      <Row>
-        <Octicon symbol={octicons.alert} /> {t('stash.replaceWarning')}
-      </Row>
-    )
+    return <Row>{t('stash.stack.preserve')}</Row>
   }
 
   private renderStashActions() {
@@ -129,21 +122,8 @@ export class StashAndSwitchBranch extends React.Component<
   }
 
   private onSubmit = async () => {
-    const { repository, branchToCheckout, dispatcher, hasAssociatedStash } =
-      this.props
+    const { repository, branchToCheckout, dispatcher } = this.props
     const { selectedStashAction } = this.state
-
-    if (
-      selectedStashAction === StashAction.StashOnCurrentBranch &&
-      hasAssociatedStash
-    ) {
-      dispatcher.showPopup({
-        type: PopupType.ConfirmOverwriteStash,
-        repository,
-        branchToCheckout,
-      })
-      return
-    }
 
     this.setState({ isStashingChanges: true })
 

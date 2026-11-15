@@ -14,6 +14,7 @@ import { clamp } from '../../lib/clamp'
 
 interface IStashDiffViewerProps {
   /** The stash in question. */
+  readonly stashEntries?: ReadonlyArray<IStashEntry>
   readonly stashEntry: IStashEntry
 
   /** Currently selected file in the list */
@@ -130,6 +131,7 @@ export class StashDiffViewer extends React.PureComponent<IStashDiffViewerProps> 
       <section id={StashDiffViewerId}>
         <StashDiffHeader
           stashEntry={stashEntry}
+          stashEntries={this.props.stashEntries}
           repository={repository}
           dispatcher={dispatcher}
           askForConfirmationOnDiscardStash={

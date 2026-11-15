@@ -1497,5 +1497,10 @@
   "graph.outsideConnection": "Parent is outside the loaded history",
   "graph.skippedCommits": "{count} intermediate commits omitted along this actual parent path",
   "graph.compactLegend": "● commit · ▲ fork · ◆ merge · ■ tip · ▣ stash · ◇ hidden connection · … outside history · long dashes: condensed history. Positions preserve ancestry, not elapsed time.",
-  "graph.compactCount": "{branches} branches / {commits} points ({omitted} intermediate points omitted)"
+  "graph.compactCount": "{branches} branches / {commits} points ({omitted} intermediate points omitted)",
+  "stash.stack.preserve": "Existing stashes will be kept. These changes will be saved as another stash on this branch.",
+  "stash.stack.select": "Stashes on {branch} (newest first)",
+  "stash.stack.entry": "{number}: {sha}",
+  "stash.stack.saveFailed": "Could not save changes to a stash. Branch switching was stopped.",
+  "stash.stack.wrongBranch": "Switch to the branch associated with this stash before restoring it."
 }
